@@ -33,12 +33,15 @@ dependencies {
     implementation "com.hwangjr.rxbus:rxbus:$rootProject.rxbus"
     implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.adapterRxjava"
     //Fresco,无论使用哪个模块的功能,都必须要添加的基础依赖
-    implementation 'com.facebook.fresco:fresco:1.11.0'
+    implementation 'com.facebook.fresco:fresco:0.14.1'
+    // 在 API < 14 上的机器支持 WebP 时，需要添加
+    implementation 'com.facebook.fresco:animated-base-support:0.14.1'
     // 支持 GIF 动图，需要添加
-    implementation 'com.facebook.fresco:animated-gif:1.11.0'
-    implementation 'com.facebook.fresco:webpsupport:1.11.0'
+    implementation 'com.facebook.fresco:animated-gif:0.14.1'
+    implementation 'com.facebook.fresco:webpsupport:0.14.1'
     // 支持 WebP 静态图及 WebP 动图，需要添加
-    implementation 'com.facebook.fresco:animated-webp:1.11.0'
+    implementation 'com.facebook.fresco:animated-webp:0.14.1'
     //如果项目中使用了OkHttp需要进行替换(因为Fresco底层网络用的是okhttp,不做修改会出现jar包冲突)
-    implementation 'com.facebook.fresco:imagepipeline-okhttp3:1.11.0'
+    implementation 'com.facebook.fresco:imagepipeline-okhttp3:0.14.1'
+
 }
