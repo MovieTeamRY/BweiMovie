@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_bg"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff"
+    android:minHeight="60dp"
+    android:minWidth="150dp"
+    android:orientation="horizontal" >
+    <com.bw.movie.view.LoadingView
+        android:id="@+id/load_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_20" />
+    <TextView
+        android:id="@+id/point_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_toRightOf="@+id/load_iv"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:textSize="16sp" />
+</RelativeLayout>
