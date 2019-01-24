@@ -36,7 +36,7 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         //动态网络权限
         stateNetWork();
@@ -64,12 +64,12 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         if(map==null){
             map=new HashMap<>();
         }
-        loadDialog = CircularLoading.showLoadDialog(this, "加载中。。。", true);
+        loadDialog = CircularLoading.showLoadDialog(this, true);
         ipresenter.onPostStart(url,map,clas);
     }
 
     protected void onGetRequest(String url,Class clas){
-        loadDialog = CircularLoading.showLoadDialog(this, "加载中。。。", true);
+        loadDialog = CircularLoading.showLoadDialog(this,  true);
         ipresenter.onGetStart(url,clas);
     }
 

@@ -19,6 +19,7 @@ import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
 import com.bw.movie.base.MyApplication;
+import com.bw.movie.sign.SignActivity;
 import com.bw.movie.home.activity.HomeActivity;
 import com.bw.movie.utils.EncryptUtil;
 import com.bw.movie.utils.IntentUtils;
@@ -31,6 +32,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * @author YU
@@ -60,6 +62,7 @@ public class LoginActivity extends BaseActivty {
     private SharedPreferences preferences;
     private SharedPreferences.Editor edit;
     private Map<String, String> map;
+    private Unbinder bind;
 
     @Override
     protected void onNetSuccess(Object data) {
@@ -68,10 +71,8 @@ public class LoginActivity extends BaseActivty {
             if (loginBean.isSuccess()&&loginBean!=null){
                 //登录成功后将账号和密码存入
                 if (loginCheckRem.isChecked()) {
-                    preferences = MyApplication.getApplication().getSharedPreferences("User", Context.MODE_PRIVATE);
-                    edit = preferences.edit();
                     edit.putString("phone", phone);
-                    edit.putString("phone", pwd);
+                    edit.putString("pwd", pwd);
                     edit.putBoolean("isCheck",true);
                     edit.commit();
                 }else{
@@ -100,6 +101,8 @@ public class LoginActivity extends BaseActivty {
 
     @Override
     protected void initData() {
+        preferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        edit = preferences.edit();
         //判断记住密码是否勾选
         boolean isCheck = preferences.getBoolean("isCheck", false);
         if (isCheck){
@@ -132,7 +135,7 @@ public class LoginActivity extends BaseActivty {
     @Override
     protected void initView(Bundle savedInstanceState) {
         /**绑定ButterKnife*/
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         //创建map集合，存放请求参数
         map = new HashMap<>();
         //显示与隐藏密码
@@ -147,6 +150,7 @@ public class LoginActivity extends BaseActivty {
                 return false;
             }
         });
+
     }
 
 
@@ -160,6 +164,8 @@ public class LoginActivity extends BaseActivty {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_text_sign:
+                Intent intent=new Intent(this,SignActivity.class);
+                startActivity(intent);
                 break;
             case R.id.login_but:
                 //获取输入框的值
@@ -185,4 +191,5 @@ public class LoginActivity extends BaseActivty {
                 break;
         }
     }
+
 }
