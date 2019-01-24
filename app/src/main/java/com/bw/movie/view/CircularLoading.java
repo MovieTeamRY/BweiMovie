@@ -49,7 +49,7 @@ public class CircularLoading {
         window.setGravity(Gravity.CENTER);
         window.setAttributes(lp);
         window.setWindowAnimations(R.style.PopWindowAnimStyle);
-        loadingDialog.show();
+       // loadingDialog.show();
         return loadingDialog;
     }
     public static Dialog showFailDialog(Context context, String msg, boolean isCancelable) {
