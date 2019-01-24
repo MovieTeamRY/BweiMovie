@@ -20,7 +20,6 @@ import com.bw.movie.view.CircularLoading;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public abstract class BaseActivty extends AppCompatActivity implements Iview {
 
     private IpresenterImpl ipresenter;
