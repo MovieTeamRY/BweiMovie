@@ -55,16 +55,13 @@ public class CircularLoading {
     public static Dialog showFailDialog(Context context, String msg, boolean isCancelable) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.fail_loading_view, null);
-        RelativeLayout layout =v.findViewById(R.id.dialog_bg);
+        RelativeLayout layout =v.findViewById(R.id.fail_layout);
 
         // main.xml中的ImageView
         ImageView failImage =v.findViewById(R.id.fail_image);
         TextView fail_text =v.findViewById(R.id.fail_text);
-        // 加载动画
-        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(context, R.anim.rotating_animation);
-        // 使用ImageView显示动画
-        failImage.startAnimation(hyperspaceJumpAnimation);
         fail_text.setText(msg);
+        failImage.setImageResource(R.mipmap.network_img);
         Dialog loadingDialog = new Dialog(context, R.style.TransDialogStyle);
         loadingDialog.setContentView(layout);
         loadingDialog.setCancelable(isCancelable);

@@ -56,6 +56,8 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         if(ipresenter!=null){
             ipresenter.onDetach();
         }
+        CircularLoading.closeDialog(loadDialog);
+        CircularLoading.closeDialog(failDialog);
     }
 
     protected void onPostRequest(String url, Map<String,String> map,Class clas){
