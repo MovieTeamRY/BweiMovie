@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.utils.Base64;
+import com.bw.movie.utils.EncryptUtil;
 import com.bw.movie.utils.RegularUtils;
 import com.bw.movie.utils.ToastUtil;
 
@@ -47,17 +49,12 @@ public class LoginActivity extends BaseActivty {
 
     @Override
     protected void onNetSuccess(Object data) {
-
-    }
-
-    @Override
-    protected void onNetFail(String error) {
-
-    }
-
-    @Override
-    protected void onNetSuccess(Object data) {
-
+        if (data instanceof LoginBean){
+            LoginBean loginBean = (LoginBean) data;
+             if (loginBean!=null&&loginBean.isSuccess()){
+                 ToastUtil.showToast(loginBean.getMessage());
+             }
+        }
     }
 
     @Override
@@ -95,13 +92,19 @@ public class LoginActivity extends BaseActivty {
                 if (phone.equals("")||pwd.equals("")){
                     ToastUtil.showToast("账号或密码不能为空");
                 }else {
-                    if (RegularUtils.IsHandset(phone)&&RegularUtils.IsPassword(pwd)){
-                        Map<String, String> map = new HashMap<>();
-                        map.put("phone", phone);
-                        map.put("pwd", pwd);
-                        onPostRequest(Apis.URL_LOGIN_POST, map, LoginBean.class);
+                    //判断手机号格式是否正确
+                    if (RegularUtils.isMobile(phone)){
+                        //判断密码格式是否正确
+                        if (RegularUtils.isPassword(pwd)){
+                            Map<String, String> map = new HashMap<>();
+                            map.put("phone", phone);
+                            map.put("pwd", EncryptUtil.encrypt(pwd));
+                            onPostRequest(Apis.URL_LOGIN_POST, map, LoginBean.class);
+                        }else{
+                            ToastUtil.showToast("密码格式不正确");
+                        }
                     }else{
-                        ToastUtil.showToast("手机号格式不正确或密码格式不正确");
+                        ToastUtil.showToast("手机号格式不正确");
                     }
 
                 }

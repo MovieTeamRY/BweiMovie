@@ -56,6 +56,8 @@ public class RetrofitManager {
                 String sessionId = preferences.getString("SessionId", "");
                 Request.Builder builder1 = request.newBuilder();
                 builder1.method(request.method(),request.body());
+                builder1.addHeader("ak","0110010010000");
+                builder1.addHeader("Content-Type","application/x-www-form-urlencoded");
                 if(!TextUtils.isEmpty(userId)&&!TextUtils.isEmpty(sessionId)){
                     builder1.addHeader("userId",userId);
                     builder1.addHeader("sessionId",sessionId);

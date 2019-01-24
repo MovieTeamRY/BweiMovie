@@ -42,23 +42,12 @@ public class SignActivity extends BaseActivty {
     }
 
     @Override
-    protected void onNetSuccess(Object data) {
-
-    }
-
-    @Override
-    protected void onNetFail(String error) {
-
-    }
-
-    @Override
     protected void initData() {
 
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 
