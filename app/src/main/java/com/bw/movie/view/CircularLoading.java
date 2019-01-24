@@ -44,8 +44,8 @@ public class CircularLoading {
 
         Window window = loadingDialog.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setGravity(Gravity.CENTER);
         window.setAttributes(lp);
         window.setWindowAnimations(R.style.PopWindowAnimStyle);
@@ -70,8 +70,8 @@ public class CircularLoading {
 
         Window window = loadingDialog.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setGravity(Gravity.CENTER);
         window.setAttributes(lp);
         window.setWindowAnimations(R.style.PopWindowAnimStyle);
