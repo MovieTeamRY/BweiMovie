@@ -16,6 +16,7 @@ import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
 import com.bw.movie.base.MyApplication;
+import com.bw.movie.sign.SignActivity;
 import com.bw.movie.utils.EncryptUtil;
 import com.bw.movie.utils.RegularUtils;
 import com.bw.movie.utils.ToastUtil;
@@ -26,6 +27,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * @author YU
@@ -54,6 +56,7 @@ public class LoginActivity extends BaseActivty {
     private String pwd;
     private SharedPreferences preferences;
     private SharedPreferences.Editor edit;
+    private Unbinder bind;
 
     @Override
     protected void onNetSuccess(Object data) {
@@ -62,10 +65,8 @@ public class LoginActivity extends BaseActivty {
             if (loginBean.isSuccess()&&loginBean!=null){
                 //登录成功后将账号和密码存入
                 if (loginCheckRem.isChecked()) {
-                    preferences = MyApplication.getApplication().getSharedPreferences("User", Context.MODE_PRIVATE);
-                    edit = preferences.edit();
                     edit.putString("phone", phone);
-                    edit.putString("phone", pwd);
+                    edit.putString("pwd", pwd);
                     edit.putBoolean("isCheck",true);
                     edit.commit();
                 }else{
@@ -90,6 +91,8 @@ public class LoginActivity extends BaseActivty {
 
     @Override
     protected void initData() {
+        preferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        edit = preferences.edit();
         //判断记住密码是否勾选
         boolean isCheck = preferences.getBoolean("isCheck", false);
         if (isCheck){
@@ -101,7 +104,8 @@ public class LoginActivity extends BaseActivty {
         boolean auto_isCheck = preferences.getBoolean("auto_isCheck", false);
         if (auto_isCheck) {
             ToastUtil.showToast("自动登录成功");
-           /* Intent intent = new  Intent(LoginActivity.this, HomeActivity.class);
+            loginCheckAuto.setChecked(auto_isCheck);
+            /*Intent intent = new  Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             //销毁
             finish();*/
@@ -122,7 +126,7 @@ public class LoginActivity extends BaseActivty {
     @Override
     protected void initView(Bundle savedInstanceState) {
         /**绑定ButterKnife*/
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
     }
 
 
@@ -136,6 +140,8 @@ public class LoginActivity extends BaseActivty {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_text_sign:
+                Intent intent=new Intent(this,SignActivity.class);
+                startActivity(intent);
                 break;
             case R.id.login_but:
                 //获取输入框的值
@@ -162,4 +168,5 @@ public class LoginActivity extends BaseActivty {
                 break;
         }
     }
+
 }

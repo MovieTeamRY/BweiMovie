@@ -23,7 +23,7 @@ public class CircularLoading {
          * @param isCancelable 是否可以点击取消
          * @return
          */
-        public static Dialog showLoadDialog(Context context, String msg, boolean isCancelable) {
+        public static Dialog showLoadDialog(Context context, boolean isCancelable) {
             LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.loading_view, null);
         RelativeLayout layout =v.findViewById(R.id.dialog_bg);

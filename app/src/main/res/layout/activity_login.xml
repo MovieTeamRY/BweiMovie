@@ -58,6 +58,7 @@
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_toLeftOf="@id/login_image_eye"
         android:hint="登录密码"
+        android:inputType="textPassword"
         android:maxLength="20"
         android:textSize="@dimen/sp_18"
         android:textColor="#eeeeee"
