@@ -45,8 +45,6 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         //添加数据
         initData();
     }
-
-
     /**
      * 注销页面 解绑
      */
