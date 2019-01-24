@@ -6,10 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bw.movie.R;
 import com.bw.movie.guide.bean.GuideBean;
-import com.bw.movie.guide.view.GuideCustomView;
-import com.bw.movie.login.LoginActivity;
 
 import java.util.List;
 
@@ -18,9 +19,18 @@ public class GuideAdapter extends PagerAdapter {
     private List<GuideBean> list;
     private Context context;
 
+    public GuideAdapter(List<GuideBean> list, Context context) {
+        this.list = list;
+        this.context = context;
+    }
+
     @Override
     public int getCount() {
-        return list.size();
+        if(list!=null) {
+            return list.size() + 1;
+        }else{
+            return 0;
+        }
     }
 
     @Override
@@ -31,14 +41,19 @@ public class GuideAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        GuideCustomView guideCustomView=new GuideCustomView(context);
-        guideCustomView.setData(list.get(position).getImage(),list.get(position).getText(),list.get(position).getDescirbe());
-        container.addView(guideCustomView);
-        if(position==list.size()-1){
-            Intent intent=new Intent(context,LoginActivity.class);
-            context.startActivity(intent);
+        if(position<list.size()){
+            View view=View.inflate(context, R.layout.guide_custom_view,null);
+            ImageView imageView=view.findViewById(R.id.guide_custom_image);
+            imageView.setImageResource(list.get(position).getImage());
+            TextView textView=view.findViewById(R.id.guide_custom_text);
+            textView.setText(list.get(position).getText());
+            TextView describe=view.findViewById(R.id.guide_custom_descirbe);
+            describe.setText(list.get(position).getDescirbe());
+            container.addView(view);
+            return view;
+        }else{
+            return null;
         }
-        return guideCustomView;
     }
 
     @Override

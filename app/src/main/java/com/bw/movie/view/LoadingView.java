@@ -41,6 +41,7 @@ public class LoadingView extends LinearLayout {
         layoutParams.setMargins(0, 10, 0, 0);
         tv.setLayoutParams(layoutParams);
         tv.setGravity(Gravity.CENTER);
+        tv.setTextSize(16);
         tv.setTextColor(Color.WHITE);
         addView(tv);
     }

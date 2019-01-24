@@ -78,7 +78,6 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
      */
     @Override
     public void onSuccess(Object data) {
-
         onNetSuccess(data);
         CircularLoading.closeDialog(loadDialog);
         CircularLoading.closeDialog(failDialog);
