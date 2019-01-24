@@ -22,10 +22,4 @@ public interface BaseApis {
 
     @POST
     Observable<ResponseBody> postFile(@Url String url,@Body MultipartBody multipartBody);
-
-    @PUT
-    Observable<ResponseBody> put(@Url String url, @QueryMap Map<String, String> map);
-
-    @DELETE
-    Observable<ResponseBody> delete(@Url String url);
 }

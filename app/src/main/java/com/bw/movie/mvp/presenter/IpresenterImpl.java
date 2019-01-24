@@ -46,33 +46,12 @@ public class IpresenterImpl implements Ipresenter{
         });
     }
 
-    @Override
-    public void onPutStart(String url, Map<String, String> map, Class clas) {
-        imodelmpl.onPutRequest(url, map, clas, new MyCallBack() {
-            @Override
-            public void onSuccess(Object data) {
-                iview.onSuccess(data);
-            }
-
-            @Override
-            public void onFail(String error) {
-                iview.onFail(error);
-            }
-        });
-    }
-
-    @Override
-    public void onDeleteStart(String url, Class clas) {
-        imodelmpl.onDeleteRequest(url, clas, new MyCallBack() {
-            @Override
-            public void onSuccess(Object data) {
-                iview.onSuccess(data);
-            }
-
-            @Override
-            public void onFail(String error) {
-                iview.onFail(error);
-            }
-        });
+    public void onDetach(){
+        if(imodelmpl!=null){
+            imodelmpl=null;
+        }
+        if(iview!=null){
+            iview=null;
+        }
     }
 }

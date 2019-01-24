@@ -10,7 +10,6 @@ import com.bw.movie.base.MyApplication;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -102,29 +101,6 @@ public class RetrofitManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver(listener));
     }
-    /**
-     * put请求
-     */
-    public void put(String url, Map<String, String> map, HttpListener listener) {
-        if (map == null) {
-            map = new HashMap<>();
-        }
-        mBaseApis.put(url, map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getObserver(listener));
-    }
-
-    /**
-     * delete请求
-     */
-    public void delete(String url,HttpListener listener){
-        mBaseApis.delete(url)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getObserver(listener));
-    }
-
     /**
      * 上传头像 文件
      */
