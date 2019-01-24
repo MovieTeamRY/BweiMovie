@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,11 +14,13 @@
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_30"
         android:layout_marginTop="@dimen/dp_130"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:background="@mipmap/log_icon_phone_default"
         />
     <EditText
         android:id="@+id/login_text_phone"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/dp_30"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_130"
@@ -29,27 +31,29 @@
         android:textColorHint="#eeeeee"
         android:inputType="number"
         android:background="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/login_image_phone"
         android:layout_toRightOf="@+id/login_image_phone"
-        />
+        app:layout_constraintRight_toRightOf="parent"/>
     <View
         android:alpha="0.9"
         android:id="@+id/login_view_phone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_2"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/login_image_phone"
-        android:layout_marginBottom="@dimen/dp_30"
+        app:layout_constraintTop_toBottomOf="@id/login_image_phone"
         android:background="#10ffffff"/>
     <ImageView
         android:id="@+id/login_image_lock"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_30"
         android:background="@mipmap/log_icon_lock_default"
-        android:layout_below="@id/login_view_phone"
+       app:layout_constraintTop_toBottomOf="@id/login_view_phone"
         />
     <EditText
         android:id="@+id/login_text_pwd"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="@dimen/dp_30"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_toLeftOf="@id/login_image_eye"
@@ -59,30 +63,31 @@
         android:textColor="#eeeeee"
         android:textColorHint="#eeeeee"
         android:background="@null"
-        android:layout_below="@id/login_view_phone"
-        android:layout_toRightOf="@+id/login_image_lock"
-        />
+        android:layout_marginTop="@dimen/dp_30"
+        app:layout_constraintTop_toBottomOf="@id/login_view_phone"
+        app:layout_constraintLeft_toRightOf="@id/login_image_lock"
+        app:layout_constraintRight_toRightOf="parent"/>
     <ImageView
         android:id="@+id/login_image_eye"
         android:layout_width="@dimen/dp_30"
         android:layout_height="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_alignTop="@id/login_text_pwd"
-        android:layout_alignParentRight="true"
+        app:layout_constraintTop_toTopOf="@id/login_text_pwd"
+        app:layout_constraintBottom_toBottomOf="@id/login_text_pwd"
+        app:layout_constraintRight_toRightOf="@id/login_text_pwd"
         android:background="@mipmap/log_icon_eye_default"
         />
     <View
         android:alpha="0.9"
         android:id="@+id/login_view_pwd"
-        android:layout_width="@dimen/dp_312"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_2"
         android:background="#10ffffff"
-        android:layout_marginBottom="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_10"
-        android:layout_below="@+id/login_image_lock"
+       app:layout_constraintTop_toBottomOf="@id/login_image_lock"
         />
     <CheckBox
-        android:layout_below="@id/login_view_pwd"
         android:id="@+id/login_check_rem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,48 +96,52 @@
         android:layout_marginRight="@dimen/dp_10"
         android:textSize="@dimen/sp_14"
         android:textColor="#fff"
+        android:layout_marginTop="@dimen/dp_15"
+        app:layout_constraintTop_toBottomOf="@id/login_view_pwd"
         />
     <CheckBox
         android:id="@+id/login_check_auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_view_pwd"
-        android:layout_toRightOf="@id/login_check_rem"
         android:buttonTint="#fff"
         android:text="自动登录"
         android:textSize="@dimen/sp_14"
         android:textColor="#fff"
-        />
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginLeft="@dimen/dp_10"
+        app:layout_constraintTop_toBottomOf="@id/login_view_pwd"
+        app:layout_constraintLeft_toRightOf="@id/login_check_rem"/>
     <TextView
         android:id="@+id/login_text_sign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#fff"
         android:textSize="@dimen/sp_14"
-        android:gravity="center"
-        android:layout_below="@id/login_view_pwd"
-        android:layout_alignRight="@id/login_view_pwd"
-        android:layout_alignTop="@id/login_check_rem"
-        android:layout_alignBottom="@id/login_check_rem"
         android:text="快速注册"
+        app:layout_constraintTop_toTopOf="@id/login_check_rem"
+        app:layout_constraintBottom_toBottomOf="@id/login_check_rem"
+        app:layout_constraintRight_toRightOf="parent"
         />
     <Button
         android:id="@+id/login_but"
-        android:layout_width="@dimen/dp_312"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_80"
-        android:layout_below="@id/login_check_rem"
         android:text="登录"
+        android:textSize="@dimen/sp_18"
         android:textColor="#fff"
         android:background="@drawable/login_but_bg"
+        app:layout_constraintTop_toBottomOf="@id/login_check_rem"
     />
     <LinearLayout
         android:id="@+id/linear_third"
-        android:layout_width="@dimen/dp_312"
+        android:layout_width="match_parent"
         android:layout_below="@+id/login_but"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_40"
         android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/login_but"
         >
         <View
             android:background="#80ffffff"
@@ -158,12 +167,13 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/login_weixin"
-        android:layout_below="@+id/linear_third"
         android:layout_height="@dimen/dp_30"
         android:layout_width="@dimen/dp_30"
         android:layout_marginTop="@dimen/dp_16"
-        android:layout_centerHorizontal="true"
+        app:layout_constraintTop_toBottomOf="@+id/linear_third"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:background="@mipmap/log_icon_weixin_default"
         />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
