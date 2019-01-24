@@ -14,6 +14,16 @@ import com.bw.movie.base.BaseActivty;
 public class LoginActivity extends BaseActivty {
 
     @Override
+    protected void onNetSuccess(Object data) {
+
+    }
+
+    @Override
+    protected void onNetFail(String error) {
+
+    }
+
+    @Override
     protected void initData() {
 
     }
