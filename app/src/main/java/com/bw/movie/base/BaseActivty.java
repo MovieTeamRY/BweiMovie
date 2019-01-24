@@ -79,8 +79,7 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
     @Override
     public void onSuccess(Object data) {
         onNetSuccess(data);
-        CircularLoading.closeDialog(loadDialog);
-        CircularLoading.closeDialog(failDialog);
+
     }
 
     protected abstract void onNetSuccess(Object data);
@@ -91,6 +90,8 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
      */
     @Override
     public void onFail(String error) {
+        CircularLoading.closeDialog(loadDialog);
+        CircularLoading.closeDialog(failDialog);
         if(error.equals("当前网络不可用，请检查网络状态")){
             failDialog = CircularLoading.showFailDialog(this, "糟糕，网络不给力呀！", true);
         }else{
