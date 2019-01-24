@@ -20,10 +20,6 @@ import com.bw.movie.view.CircularLoading;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
-
 public abstract class BaseActivty extends AppCompatActivity implements Iview {
 
 
@@ -61,7 +57,11 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
             ipresenter.onDetach();
         }
     }
-
+    /**
+     *post请求
+     *@author Administrator
+     *@time 2019/1/24 0024 10:10
+     */
     protected void onPostRequest(String url, Map<String,String> map, Class clas){
         if(map==null){
             map=new HashMap<>();
@@ -69,7 +69,11 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         loadDialog = CircularLoading.showLoadDialog(MyApplication.getContext(), "加载中。。。", true);
         ipresenter.onPostStart(url,map,clas);
     }
-
+    /**
+     *get请求方式
+     *@author Administrator
+     *@time 2019/1/24 0024 10:22
+     */
     protected void onGetRequest(String url,Class clas){
         loadDialog = CircularLoading.showLoadDialog(MyApplication.getContext(), "加载中。。。", true);
         ipresenter.onGetStart(url,clas);
