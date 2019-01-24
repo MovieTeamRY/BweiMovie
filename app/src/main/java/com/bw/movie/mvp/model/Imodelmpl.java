@@ -62,7 +62,7 @@ public class Imodelmpl implements Imodel{
     }
 
     public static boolean isNetWork(){
-        ConnectivityManager cm = (ConnectivityManager) MyApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) MyApplication.getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
         return activeNetworkInfo!=null && activeNetworkInfo.isAvailable();
     }

@@ -68,12 +68,12 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         if(map==null){
             map=new HashMap<>();
         }
-        loadDialog = CircularLoading.showLoadDialog(MyApplication.getContext(), "加载中。。。", true);
+        loadDialog = CircularLoading.showLoadDialog(this, "加载中。。。", true);
         ipresenter.onPostStart(url,map,clas);
     }
 
     protected void onGetRequest(String url,Class clas){
-        loadDialog = CircularLoading.showLoadDialog(MyApplication.getContext(), "加载中。。。", true);
+        loadDialog = CircularLoading.showLoadDialog(this, "加载中。。。", true);
         ipresenter.onGetStart(url,clas);
     }
 
@@ -97,7 +97,7 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
     @Override
     public void onFail(String error) {
         if(error.equals("当前网络不可用，请检查网络状态")){
-            failDialog = CircularLoading.showFailDialog(MyApplication.getContext(), "糟糕，网络不给力呀！", true);
+            failDialog = CircularLoading.showFailDialog(this, "糟糕，网络不给力呀！", true);
         }else{
             onNetFail(error);
         }

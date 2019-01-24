@@ -51,7 +51,7 @@ public class RetrofitManager {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
-                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                SharedPreferences preferences = MyApplication.getApplication().getSharedPreferences("User", Context.MODE_PRIVATE);
                 String userId = preferences.getString("UserId", "");
                 String sessionId = preferences.getString("SessionId", "");
                 Request.Builder builder1 = request.newBuilder();

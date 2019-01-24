@@ -30,7 +30,4 @@ public class MyApplication extends Application {
                 .build();
         Fresco.initialize(this,config);
     }
-    public static Context getContext(){
-        return context;
-    }
 }
