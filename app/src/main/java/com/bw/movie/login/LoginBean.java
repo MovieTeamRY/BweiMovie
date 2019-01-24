@@ -68,15 +68,6 @@ public class LoginBean {
         }
 
         public static class UserInfoBean {
-            /**
-             * birthday : 320256000000
-             * id : 3
-             * lastLoginTime : 1532059192000
-             * nickName : 你的益达
-             * phone : 18600151568
-             * sex : 1
-             * headPic : http://172.17.8.100/images/head_pic/bwjy.jpg
-             */
 
             private long birthday;
             private int id;

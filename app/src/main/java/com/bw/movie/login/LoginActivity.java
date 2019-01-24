@@ -1,9 +1,13 @@
 package com.bw.movie.login;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +15,8 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.base.MyApplication;
+import com.bw.movie.utils.EncryptUtil;
 import com.bw.movie.utils.RegularUtils;
 import com.bw.movie.utils.ToastUtil;
 
@@ -44,17 +50,39 @@ public class LoginActivity extends BaseActivty {
     Button loginBut;
     @BindView(R.id.login_weixin)
     ImageView loginWeixin;
+    private String phone;
+    private String pwd;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor edit;
 
     @Override
     protected void onNetSuccess(Object data) {
         if (data instanceof LoginBean){
             LoginBean loginBean = (LoginBean) data;
             if (loginBean.isSuccess()&&loginBean!=null){
+                //登录成功后将账号和密码存入
+                if (loginCheckRem.isChecked()) {
+                    preferences = MyApplication.getApplication().getSharedPreferences("User", Context.MODE_PRIVATE);
+                    edit = preferences.edit();
+                    edit.putString("phone", phone);
+                    edit.putString("phone", pwd);
+                    edit.putBoolean("isCheck",true);
+                    edit.commit();
+                }else{
+                    edit.clear();
+                    edit.commit();
+                }
+                //判断自动登录是否勾选
+                if (loginCheckAuto.isChecked()) {
+                    edit.putBoolean("auto_isCheck", true);
+                    //提交
+                    edit.commit();
+                }
                 ToastUtil.showToast(loginBean.getMessage());
             }
+            ToastUtil.showToast(loginBean.getMessage());
         }
     }
-
     @Override
     protected void onNetFail(String error) {
         ToastUtil.showToast(error);
@@ -62,7 +90,33 @@ public class LoginActivity extends BaseActivty {
 
     @Override
     protected void initData() {
-
+        //判断记住密码是否勾选
+        boolean isCheck = preferences.getBoolean("isCheck", false);
+        if (isCheck){
+            loginCheckRem.setChecked(true);
+            loginTextPhone.setText(preferences.getString("phone",null));
+            loginTextPwd.setText(preferences.getString("pwd",null));
+        }
+        //取出自动登录的状态值
+        boolean auto_isCheck = preferences.getBoolean("auto_isCheck", false);
+        if (auto_isCheck) {
+            ToastUtil.showToast("自动登录成功");
+           /* Intent intent = new  Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            //销毁
+            finish();*/
+        }
+        //点击自动登录监听
+        loginCheckAuto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    loginCheckRem.setChecked(true);
+                }else{
+                    loginCheckRem.setChecked(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -85,16 +139,16 @@ public class LoginActivity extends BaseActivty {
                 break;
             case R.id.login_but:
                 //获取输入框的值
-                String phone = loginTextPhone.getText().toString().trim();
-                String pwd = loginTextPwd.getText().toString().trim();
-                if (phone.equals("")||pwd.equals("")){
+                phone = loginTextPhone.getText().toString().trim();
+                pwd = loginTextPwd.getText().toString().trim();
+                if (phone.equals("")|| pwd.equals("")){
                     ToastUtil.showToast("账号或密码不能为空");
                 }else {
                     if (RegularUtils.isMobile(phone)){
                         if (RegularUtils.isPassword(pwd)){
                             Map<String, String> map = new HashMap<>();
                             map.put("phone", phone);
-                            map.put("pwd", pwd);
+                            map.put("pwd", EncryptUtil.encrypt(pwd));
                             onPostRequest(Apis.URL_LOGIN_POST, map, LoginBean.class);
                         }else{
                             ToastUtil.showToast("密码格式不正确");
