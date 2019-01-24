@@ -43,6 +43,9 @@ dependencies {
     implementation 'com.facebook.fresco:animated-webp:0.14.1'
     //如果项目中使用了OkHttp需要进行替换(因为Fresco底层网络用的是okhttp,不做修改会出现jar包冲突)
     implementation 'com.facebook.fresco:imagepipeline-okhttp3:0.14.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
 
 
 }
