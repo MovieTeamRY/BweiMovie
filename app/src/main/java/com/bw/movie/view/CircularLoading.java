@@ -27,15 +27,6 @@ public class CircularLoading {
             LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.loading_view, null);
         RelativeLayout layout =v.findViewById(R.id.dialog_bg);
-
-        // main.xml中的ImageView
-        LoadingView loadImage =v.findViewById(R.id.load_iv);
-        TextView pointTextView =v.findViewById(R.id.point_tv);
-        // 加载动画
-        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(context, R.anim.rotating_animation);
-        // 使用ImageView显示动画
-        loadImage.startAnimation(hyperspaceJumpAnimation);
-        pointTextView.setText(msg);
         Dialog loadingDialog = new Dialog(context, R.style.TransDialogStyle);
         loadingDialog.setContentView(layout);
         loadingDialog.setCancelable(isCancelable);
@@ -49,7 +40,7 @@ public class CircularLoading {
         window.setGravity(Gravity.CENTER);
         window.setAttributes(lp);
         window.setWindowAnimations(R.style.PopWindowAnimStyle);
-       // loadingDialog.show();
+        loadingDialog.show();
         return loadingDialog;
     }
     public static Dialog showFailDialog(Context context, String msg, boolean isCancelable) {
@@ -67,8 +58,7 @@ public class CircularLoading {
         loadingDialog.setCancelable(isCancelable);
         loadingDialog.setCanceledOnTouchOutside(false);
 
-
-        Window window = loadingDialog.getWindow();
+        final Window window = loadingDialog.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
@@ -76,6 +66,13 @@ public class CircularLoading {
         window.setAttributes(lp);
         window.setWindowAnimations(R.style.PopWindowAnimStyle);
         loadingDialog.show();
+        layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //window.location.reload();
+                return true;
+            }
+        });
         return loadingDialog;
     }
 

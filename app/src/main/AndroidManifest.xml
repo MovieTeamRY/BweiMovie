@@ -17,14 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".login.LoginActivity">
+
+        </activity>
+        <activity android:name=".sign.SignActivity" />
+        <activity android:name=".guide.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".sign.SignActivity" />
-        <activity android:name=".guide.GuideActivity"></activity>
     </application>
 
 </manifest>

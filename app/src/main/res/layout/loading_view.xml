@@ -3,7 +3,6 @@
     android:id="@+id/dialog_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
     android:minHeight="60dp"
     android:minWidth="150dp"
     android:orientation="horizontal" >
@@ -11,19 +10,7 @@
         android:id="@+id/load_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginStart="@dimen/dp_20" />
-    <TextView
-        android:id="@+id/point_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="0dp"
-        android:layout_toRightOf="@+id/load_iv"
-        android:ellipsize="middle"
-        android:singleLine="true"
-        android:textSize="16sp" />
+        android:layout_centerHorizontal="true"
+        />
 </RelativeLayout>
