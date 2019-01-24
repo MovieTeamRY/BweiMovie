@@ -1,6 +1,5 @@
 package com.bw.movie.utils;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

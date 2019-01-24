@@ -48,7 +48,6 @@ public class SignActivity extends BaseActivty {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 
