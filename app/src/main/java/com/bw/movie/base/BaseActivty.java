@@ -12,8 +12,10 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.bw.movie.mvp.view.Iview;
 
-public abstract class BaseActivty extends AppCompatActivity {
+
+public abstract class BaseActivty extends AppCompatActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

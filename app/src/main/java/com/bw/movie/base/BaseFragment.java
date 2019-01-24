@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bw.movie.mvp.view.Iview;
+
 /**
  * @author Administrator
  * @time 2019/01/23 14:04
