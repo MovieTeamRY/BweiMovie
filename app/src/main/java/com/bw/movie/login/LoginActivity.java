@@ -47,12 +47,17 @@ public class LoginActivity extends BaseActivty {
 
     @Override
     protected void onNetSuccess(Object data) {
-
+        if (data instanceof LoginBean){
+            LoginBean loginBean = (LoginBean) data;
+            if (loginBean.isSuccess()&&loginBean!=null){
+                ToastUtil.showToast(loginBean.getMessage());
+            }
+        }
     }
 
     @Override
     protected void onNetFail(String error) {
-
+        ToastUtil.showToast(error);
     }
 
     @Override
@@ -85,15 +90,18 @@ public class LoginActivity extends BaseActivty {
                 if (phone.equals("")||pwd.equals("")){
                     ToastUtil.showToast("账号或密码不能为空");
                 }else {
-                    if (RegularUtils.isMobile(phone)&&RegularUtils.isPassword(pwd)){
-                        Map<String, String> map = new HashMap<>();
-                        map.put("phone", phone);
-                        map.put("pwd", pwd);
-                        onPostRequest(Apis.URL_LOGIN_POST, map, LoginBean.class);
+                    if (RegularUtils.isMobile(phone)){
+                        if (RegularUtils.isPassword(pwd)){
+                            Map<String, String> map = new HashMap<>();
+                            map.put("phone", phone);
+                            map.put("pwd", pwd);
+                            onPostRequest(Apis.URL_LOGIN_POST, map, LoginBean.class);
+                        }else{
+                            ToastUtil.showToast("密码格式不正确");
+                        }
                     }else{
-                        ToastUtil.showToast("手机号格式不正确或密码格式不正确");
+                        ToastUtil.showToast("手机号格式不正确");
                     }
-
                 }
                 break;
             case R.id.login_weixin:
