@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
-import com.bw.movie.base.MyApplication;
 import com.bw.movie.home.activity.HomeActivity;
 import com.bw.movie.sign.SignActivity;
 import com.bw.movie.utils.EncryptUtil;

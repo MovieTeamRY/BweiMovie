@@ -24,8 +24,6 @@ import java.util.Map;
 
 public abstract class BaseActivty extends AppCompatActivity implements Iview {
 
-
-    //jgjhgjhghjghjgjgjhgjhg
     private IpresenterImpl ipresenter;
     private Dialog loadDialog,failDialog;
 
@@ -61,6 +59,13 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         CircularLoading.closeDialog(failDialog);
     }
 
+
+    /**
+     * post请求数据
+     * @param url  请求数据的路径
+     * @param map  请求的参数
+     * @param clas  转换数据的类
+     */
     protected void onPostRequest(String url, Map<String,String> map, Class clas){
         if(map==null){
             map=new HashMap<>();
@@ -69,6 +74,11 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         ipresenter.onPostStart(url,map,clas);
     }
 
+    /**
+     * get请求数据
+     * @param url  请求数据的路径
+     * @param clas 转换数据的类
+     */
     protected void onGetRequest(String url,Class clas){
         loadDialog = CircularLoading.showLoadDialog(this,  true);
         ipresenter.onGetStart(url,clas);
@@ -79,11 +89,14 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
      */
     @Override
     public void onSuccess(Object data) {
+        if(loadDialog!=null){
+            CircularLoading.closeDialog(loadDialog);
+        }
+        if(failDialog!=null){
+            CircularLoading.closeDialog(failDialog);
+        }
         onNetSuccess(data);
-
     }
-
-    protected abstract void onNetSuccess(Object data);
 
     /**
      * 加载数据失败  或是没有网络
@@ -91,26 +104,23 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
      */
     @Override
     public void onFail(String error) {
-        CircularLoading.closeDialog(loadDialog);
-        CircularLoading.closeDialog(failDialog);
+        if(loadDialog!=null){
+            CircularLoading.closeDialog(loadDialog);
+        }
+        if(failDialog!=null){
+            CircularLoading.closeDialog(failDialog);
+        }
         if(error.equals("当前网络不可用，请检查网络状态")){
             failDialog = CircularLoading.showFailDialog(this, "糟糕，网络不给力呀！", true);
         }else{
             onNetFail(error);
         }
     }
-
     /**
-     * 请求网络失败
-     * @param error  失败信息
+     * 加载视图
+     * @return
      */
-    protected abstract void onNetFail(String error);
-
-    /**
-     * 加载数据
-     */
-    protected abstract void initData();
-
+    protected abstract int getLayoutResId();
     /**
      * 加载视图
      * @param savedInstanceState
@@ -118,10 +128,18 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
     protected abstract void initView(Bundle savedInstanceState);
 
     /**
-     * 加载视图
-     * @return
+     * 加载数据
      */
-    protected abstract int getLayoutResId();
+    protected abstract void initData();
+
+    protected abstract void onNetSuccess(Object data);
+    /**
+     * 请求网络失败
+     * @param error  失败信息
+     */
+    protected abstract void onNetFail(String error);
+
+
     /**
      *添加动态网络权限
      *@author Administrator

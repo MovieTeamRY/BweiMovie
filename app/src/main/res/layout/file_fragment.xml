@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_186"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@mipmap/homt_film_back_image"
+        />
+    <recycler.coverflow.RecyclerCoverFlow
+        android:id="@+id/recycler_flow"
+        android:layout_width="@dimen/dp_312"
+        android:layout_height="@dimen/dp_180"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_85"
+        >
+    </recycler.coverflow.RecyclerCoverFlow>
+
+</android.support.constraint.ConstraintLayout>
