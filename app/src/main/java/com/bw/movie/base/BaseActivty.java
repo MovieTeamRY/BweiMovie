@@ -25,6 +25,7 @@ import java.util.Map;
 public abstract class BaseActivty extends AppCompatActivity implements Iview {
 
 
+    //
     private IpresenterImpl ipresenter;
     private Dialog loadDialog,failDialog;
 
