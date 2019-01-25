@@ -85,7 +85,7 @@
         app:layout_constraintRight_toLeftOf="@+id/sign_text_date"
         android:background="@mipmap/register_icon_date_default"
         />
-    <EditText
+    <TextView
         android:id="@+id/sign_text_date"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"

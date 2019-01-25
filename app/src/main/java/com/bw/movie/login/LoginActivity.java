@@ -184,6 +184,7 @@ public class LoginActivity extends BaseActivty {
                 }
                 break;
             case R.id.login_weixin:
+                
                 break;
         }
     }
