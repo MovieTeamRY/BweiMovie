@@ -6,11 +6,10 @@ import com.bw.movie.base.MyApplication;
 
 
 /**
-  * @作者 GXY
-  * @创建日期 2019/1/24 9:07
-  * @描述 吐司提示工具类
-  *
-  */
+ * 吐司提示工具类
+ *@author Administrator
+ *@time 2019/1/24 0024 18:54
+ */
 public class ToastUtil {
     private static Toast toast;
     /**

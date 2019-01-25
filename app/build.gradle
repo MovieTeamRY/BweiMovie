@@ -45,6 +45,8 @@ dependencies {
     implementation 'com.facebook.fresco:imagepipeline-okhttp3:0.14.1'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //日期选择
+    implementation'com.contrarywind:Android-PickerView:3.2.6'
 
 
 }

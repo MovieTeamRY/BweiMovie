@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import android.view.WindowManager;
@@ -15,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.bw.movie.mvp.presenter.IpresenterImpl;
 import com.bw.movie.mvp.view.Iview;
+import com.bw.movie.utils.ToastUtil;
 import com.bw.movie.view.CircularLoading;
 
 import java.util.HashMap;
@@ -45,8 +47,6 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         //添加数据
         initData();
     }
-
-
     /**
      * 注销页面 解绑
      */
@@ -175,6 +175,22 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
             }
         }
         return super.onTouchEvent(event);
+    }
+    //监听返回键
+    private long exitTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                ToastUtil.showToast("再按一次退出程序");
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }
