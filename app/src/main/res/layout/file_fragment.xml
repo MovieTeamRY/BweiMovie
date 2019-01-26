@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <ImageView
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_186"
@@ -12,6 +11,71 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@mipmap/homt_film_back_image"
         />
+    <ImageButton
+        android:id="@+id/image_loc"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_28"
+        android:layout_marginLeft="@dimen/dp_10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@mipmap/com_icon_loc_white_default"
+        />
+    <TextView
+        android:id="@+id/text_loc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:textSize="@dimen/sp_14"
+        android:text="1232131"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginLeft="@dimen/dp_6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/image_loc"
+        />
+    <LinearLayout
+        android:id="@+id/film_search_linear"
+        android:layout_width="@dimen/dp_220"
+        android:layout_height="@dimen/dp_24"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_30"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="@dimen/dp_310"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/home_film_search_bg"
+        >
+        <ImageButton
+            android:id="@+id/image_search"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:background="@mipmap/com_icon_search_default"
+            android:layout_gravity="center_vertical"
+            />
+        <EditText
+            android:id="@+id/edit_search"
+            android:layout_width="@dimen/dp_128"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textColorHint="#f2f2f2"
+            android:textColor="#f2f2f2"
+            android:textSize="@dimen/dp_12"
+            android:hint="铁血战士"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/dp_12"
+            />
+        <TextView
+            android:id="@+id/text_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="搜索"
+            android:visibility="gone"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#fff"
+            android:gravity="center_vertical"
+            />
+    </LinearLayout>
     <recycler.coverflow.RecyclerCoverFlow
         android:id="@+id/recycler_flow"
         android:layout_width="@dimen/dp_312"
