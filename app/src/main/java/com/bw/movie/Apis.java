@@ -101,13 +101,13 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findMoviesById
      * 请求方式：GET
      * */
-    public static final String URL_FIND_MOVIE_BY_ID_GET= "movie/v1/findMoviesById";
+    public static final String URL_FIND_MOVIE_BY_ID_GET= "movie/v1/findMoviesById?movieId=%d";
     /**
      * 5查看电影详情
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findMoviesDetail
      * 请求方式：GET
      * */
-    public static final String URL_FIND_MOVIE_DETAIL_GET = "movie/v1/findMoviesDetail";
+    public static final String URL_FIND_MOVIE_DETAIL_GET = "movie/v1/findMoviesDetail?movieId=%d";
     /**
      * 6.查询用户关注的影片列表
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/verify/findMoviePageList
