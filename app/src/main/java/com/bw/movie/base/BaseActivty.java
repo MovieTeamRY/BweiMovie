@@ -70,7 +70,9 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         if(map==null){
             map=new HashMap<>();
         }
-        loadDialog = CircularLoading.showLoadDialog(this, true);
+        if(loadDialog==null){
+            loadDialog = CircularLoading.showLoadDialog(this, true);
+        }
         ipresenter.onPostStart(url,map,clas);
     }
 
@@ -80,7 +82,9 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
      * @param clas 转换数据的类
      */
     protected void onGetRequest(String url,Class clas){
-        loadDialog = CircularLoading.showLoadDialog(this,  true);
+        if(loadDialog==null){
+            loadDialog = CircularLoading.showLoadDialog(this,  true);
+        }
         ipresenter.onGetStart(url,clas);
     }
 
@@ -89,12 +93,8 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
      */
     @Override
     public void onSuccess(Object data) {
-        if(loadDialog!=null){
-            CircularLoading.closeDialog(loadDialog);
-        }
-        if(failDialog!=null){
-            CircularLoading.closeDialog(failDialog);
-        }
+        CircularLoading.closeDialog(loadDialog);
+        CircularLoading.closeDialog(failDialog);
         onNetSuccess(data);
     }
 
@@ -195,21 +195,6 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         }
         return super.onTouchEvent(event);
     }
-    //监听返回键
-    private long exitTime = 0;
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            if((System.currentTimeMillis()-exitTime) > 2000){
-                ToastUtil.showToast("再按一次退出程序");
-                exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-                System.exit(0);
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+
 
 }

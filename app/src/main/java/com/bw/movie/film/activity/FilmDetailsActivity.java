@@ -74,6 +74,7 @@ public class FilmDetailsActivity extends BaseActivty {
      */
     private void getDetailsView() {
         View view = View.inflate(this,R.layout.film_pop_details_view,null);
+        //获取控件id
         class_name = view.findViewById(R.id.class_name);
         director_name = view.findViewById(R.id.director_name);
         data_name = view.findViewById(R.id.data_name);
@@ -82,7 +83,7 @@ public class FilmDetailsActivity extends BaseActivty {
         image_detail_three = view.findViewById(R.id.image_detail_three);
         detail_down = view.findViewById(R.id.detail_down);
 
-        mPop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        mPop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
         //设置焦点
         mPop.setFocusable(true);
         //设置是否可以触摸
@@ -151,10 +152,10 @@ public class FilmDetailsActivity extends BaseActivty {
             //TODO 设置值详细
             Uri uri = Uri.parse(filmDetailsBean.getResult().getImageUrl());
             image_detail_three.setImageURI(uri);
-            class_name.setText(filmDetailsBean.getResult().getMovieTypes());
-            director_name.setText(filmDetailsBean.getResult().getDirector());
-            data_name.setText(filmDetailsBean.getResult().getDuration());
-            address_name.setText(filmDetailsBean.getResult().getPlaceOrigin());
+            class_name.setText("类型："+filmDetailsBean.getResult().getMovieTypes());
+            director_name.setText("导演："+filmDetailsBean.getResult().getDirector());
+            data_name.setText("时长："+filmDetailsBean.getResult().getDuration());
+            address_name.setText("产地："+filmDetailsBean.getResult().getPlaceOrigin());
             plot_name_text.setText(filmDetailsBean.getResult().getSummary());
         }
         ToastUtil.showToast(filmDetailsBean.getMessage());
@@ -176,7 +177,7 @@ public class FilmDetailsActivity extends BaseActivty {
                 changeWindowAlfa(0.6f);
                 mPop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 mPop.update();
-                mPop.showAsDropDown(view, Gravity.BOTTOM,0 ,0 );
+                //mPop.showAsDropDown(view, Gravity.BOTTOM,0 ,0 );
                 break;
             case R.id.notice:
                 break;
@@ -185,6 +186,7 @@ public class FilmDetailsActivity extends BaseActivty {
             case R.id.film_review:
                 break;
             case R.id.return_image:
+                finish();
                 break;
             case R.id.but_purchase:
                 break;

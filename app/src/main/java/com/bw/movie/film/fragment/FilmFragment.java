@@ -133,7 +133,7 @@ public class FilmFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.image_loc:
-                //点击定位
+                //TODO 点击定位
                 break;
             case R.id.image_search:
                 //点击搜索框实现动画

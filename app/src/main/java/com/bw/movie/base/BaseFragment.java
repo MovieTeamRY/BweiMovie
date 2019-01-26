@@ -99,6 +99,18 @@ public abstract class BaseFragment extends Fragment implements Iview{
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ipresenter.onDetach();
+        if(loadDialog!=null){
+            CircularLoading.closeDialog(loadDialog);
+        }
+        if(failDialog!=null){
+            CircularLoading.closeDialog(failDialog);
+        }
+    }
+
     protected abstract int getLayoutResId();
 
     protected abstract View getLayoutView();
