@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_118"
     android:layout_height="@dimen/dp_180"
+    android:id="@+id/film_relative"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/home_recycler_simple_bg">
 

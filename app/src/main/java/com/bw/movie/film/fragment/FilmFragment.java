@@ -1,11 +1,11 @@
 package com.bw.movie.film.fragment;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bw.movie.Apis;
@@ -26,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import recycler.coverflow.CoverFlowLayoutManger;
 import recycler.coverflow.RecyclerCoverFlow;
 
 public class FilmFragment extends BaseFragment {
@@ -44,13 +47,30 @@ public class FilmFragment extends BaseFragment {
     TextView textSearch;
     @BindView(R.id.film_search_linear)
     LinearLayout searchLinear;
+    @BindView(R.id.film_group)
+    RadioGroup filmGroup;
+    //热门电影
+    @BindView(R.id.hot_film_more)
+    ImageButton hotFilmMore;
+    @BindView(R.id.hot_film_recycler)
+    RecyclerView hotFilmRecycler;
+    //正在上映
+    @BindView(R.id.relaese_film_more)
+    ImageButton relaeseFilmMore;
+    @BindView(R.id.relaese_film_recycler)
+    RecyclerView relaeseFilmRecycler;
+    //即将上映
+    @BindView(R.id.screen_film_more)
+    ImageButton screenFilmMore;
+    @BindView(R.id.screen_film_recycler)
+    RecyclerView screenFilmRecycler;
     private int current;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            /*recyclerFlow.scrollToPosition(current);
+            recyclerFlow.smoothScrollToPosition(current);
             current++;
-            handler.sendEmptyMessageDelayed(0,2000);*/
+            handler.sendEmptyMessageDelayed(0, 2000);
         }
     };
 
@@ -67,16 +87,18 @@ public class FilmFragment extends BaseFragment {
     @Override
     protected void initData() {
         onGetRequest(String.format(Apis.URL_FIND_RELEASE_MOVIE_LIST_GET, 1), RelaeseBean.class);
-        /*recyclerFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
+        recyclerFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
             //滑动监听
             @Override
             public void onItemSelected(int position) {
-
+                RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % 10);
+                childAt.setChecked(true);
+                current = position;
             }
-        });*/
+        });
     }
 
-    @OnClick({R.id.image_loc, R.id.image_search, R.id.text_search})
+    @OnClick({R.id.image_loc, R.id.image_search, R.id.text_search,R.id.hot_film_more,R.id.relaese_film_more,R.id.screen_film_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.image_loc:
@@ -94,6 +116,7 @@ public class FilmFragment extends BaseFragment {
                 break;
         }
     }
+
     @Override
     protected void initView(View view) {
         unbinder = ButterKnife.bind(this, view);
@@ -142,8 +165,8 @@ public class FilmFragment extends BaseFragment {
             if (relaeseBean.getMessage().equals("查询成功")) {
                 if (relaeseBean.getResult().size() > 0) {
                     recyclerFlow.setAdapter(new RelaeseAdapter(relaeseBean.getResult(), getContext()));
-                    current = 99990 * 100000;
-                    //handler.sendEmptyMessage(0);
+                    current = 5;
+                    handler.sendEmptyMessage(0);
                 }
             }
         }
@@ -160,5 +183,4 @@ public class FilmFragment extends BaseFragment {
         unbinder.unbind();
         handler.removeMessages(0);
     }
-
 }
