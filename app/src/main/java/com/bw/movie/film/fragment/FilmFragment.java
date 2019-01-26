@@ -5,7 +5,10 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +23,13 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.film.adapter.HotFilmAdapter;
 import com.bw.movie.film.adapter.RelaeseAdapter;
+import com.bw.movie.film.adapter.RelaeseFilmAdapter;
+import com.bw.movie.film.adapter.ScreenFilmAdapter;
+import com.bw.movie.film.bean.HotFilmBean;
 import com.bw.movie.film.bean.RelaeseBean;
+import com.bw.movie.film.bean.ScreenFilmBean;
 import com.bw.movie.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -73,6 +81,9 @@ public class FilmFragment extends BaseFragment {
             handler.sendEmptyMessageDelayed(0, 2000);
         }
     };
+    private HotFilmAdapter filmAdapter;
+    private RelaeseFilmAdapter relaeseFilmAdapter;
+    private ScreenFilmAdapter screenFilmAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -86,7 +97,27 @@ public class FilmFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        LinearLayoutManager hotFilmManager=new LinearLayoutManager(getContext());
+        hotFilmManager.setOrientation(OrientationHelper.HORIZONTAL);
+        hotFilmRecycler.setLayoutManager(hotFilmManager);
+        filmAdapter = new HotFilmAdapter(getContext());
+        hotFilmRecycler.setAdapter(filmAdapter);
+
+        LinearLayoutManager relaeseFilmManager=new LinearLayoutManager(getContext());
+        relaeseFilmManager.setOrientation(OrientationHelper.HORIZONTAL);
+        relaeseFilmRecycler.setLayoutManager(relaeseFilmManager);
+        relaeseFilmAdapter = new RelaeseFilmAdapter(getContext());
+        relaeseFilmRecycler.setAdapter(relaeseFilmAdapter);
+
+        LinearLayoutManager screenFilmManager=new LinearLayoutManager(getContext());
+        screenFilmManager.setOrientation(OrientationHelper.HORIZONTAL);
+        screenFilmRecycler.setLayoutManager(screenFilmManager);
+        screenFilmAdapter = new ScreenFilmAdapter(getContext());
+        screenFilmRecycler.setAdapter(screenFilmAdapter);
+
+        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET,1),HotFilmBean.class);
         onGetRequest(String.format(Apis.URL_FIND_RELEASE_MOVIE_LIST_GET, 1), RelaeseBean.class);
+        onGetRequest(String.format(Apis.URL_FIND_COMING_SOON_MOVIE_LIST_GET,1),ScreenFilmBean.class);
         recyclerFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
             //滑动监听
             @Override
@@ -114,6 +145,7 @@ public class FilmFragment extends BaseFragment {
                 //点击搜索影片 判断输入框的内容不能为空
                 setCutAnimator(searchLinear);
                 break;
+            default:break;
         }
     }
 
@@ -164,9 +196,24 @@ public class FilmFragment extends BaseFragment {
             RelaeseBean relaeseBean = (RelaeseBean) data;
             if (relaeseBean.getMessage().equals("查询成功")) {
                 if (relaeseBean.getResult().size() > 0) {
+                    relaeseFilmAdapter.setList(relaeseBean.getResult());
                     recyclerFlow.setAdapter(new RelaeseAdapter(relaeseBean.getResult(), getContext()));
                     current = 5;
                     handler.sendEmptyMessage(0);
+                }
+            }
+        }else if(data instanceof HotFilmBean){
+            HotFilmBean hotFilmBean= (HotFilmBean) data;
+            if(hotFilmBean.getMessage().equals("查询成功")){
+                if(hotFilmBean.getResult().size()>0){
+                    filmAdapter.setList(hotFilmBean.getResult());
+                }
+            }
+        }else if(data instanceof ScreenFilmBean){
+            ScreenFilmBean screenFilmBean= (ScreenFilmBean) data;
+            if(screenFilmBean.getMessage().equals("查询成功")){
+                if(screenFilmBean.getResult().size()>0){
+                    screenFilmAdapter.setList(screenFilmBean.getResult());
                 }
             }
         }
@@ -174,6 +221,7 @@ public class FilmFragment extends BaseFragment {
 
     @Override
     protected void onNetFail(String error) {
+        Log.i("TAG",error);
         ToastUtil.showToast(error);
     }
 

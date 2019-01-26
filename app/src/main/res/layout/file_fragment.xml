@@ -2,10 +2,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/dp_90"
         >
 
         <ImageView
@@ -204,8 +206,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/hot_film_recycler"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_165"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_height="@dimen/dp_185"
+            android:layout_marginTop="@dimen/dp_10"
             android:overScrollMode="never"
             android:paddingLeft="@dimen/dp_24"
             app:layout_constraintTop_toBottomOf="@+id/hot_film_text" />
@@ -213,7 +215,7 @@
             android:id="@+id/relaese_film_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
             android:text="正在热映"
             android:textColor="#333333"
             android:textSize="@dimen/sp_16"
@@ -223,7 +225,7 @@
         <View
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_3"
-            android:layout_marginTop="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_38"
             android:background="@drawable/divide_checked"
             app:layout_constraintLeft_toLeftOf="@id/recycler_flow"
             app:layout_constraintTop_toBottomOf="@id/hot_film_recycler" />
@@ -232,7 +234,7 @@
             android:id="@+id/relaese_film_more"
             android:layout_width="@dimen/dp_21"
             android:layout_height="@dimen/dp_28"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
             android:background="@mipmap/com_icon_next_default"
             app:layout_constraintRight_toRightOf="@id/recycler_flow"
             app:layout_constraintTop_toBottomOf="@id/hot_film_recycler" />
@@ -240,26 +242,26 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/relaese_film_recycler"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_165"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_height="@dimen/dp_185"
+            android:layout_marginTop="@dimen/dp_10"
             android:overScrollMode="never"
             android:paddingLeft="@dimen/dp_24"
-            app:layout_constraintTop_toBottomOf="@+id/hot_film_text" />
+            app:layout_constraintTop_toBottomOf="@+id/relaese_film_text" />
         <TextView
             android:id="@+id/screen_film_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
             android:text="即将上映"
             android:textColor="#333333"
             android:textSize="@dimen/sp_16"
             app:layout_constraintLeft_toLeftOf="@id/recycler_flow"
-            app:layout_constraintTop_toBottomOf="@id/hot_film_recycler" />
+            app:layout_constraintTop_toBottomOf="@id/relaese_film_recycler" />
 
         <View
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_3"
-            android:layout_marginTop="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_38"
             android:background="@drawable/divide_checked"
             app:layout_constraintLeft_toLeftOf="@id/recycler_flow"
             app:layout_constraintTop_toBottomOf="@id/relaese_film_recycler" />
@@ -268,7 +270,7 @@
             android:id="@+id/screen_film_more"
             android:layout_width="@dimen/dp_21"
             android:layout_height="@dimen/dp_28"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
             android:background="@mipmap/com_icon_next_default"
             app:layout_constraintRight_toRightOf="@id/recycler_flow"
             app:layout_constraintTop_toBottomOf="@id/relaese_film_recycler" />
@@ -276,11 +278,11 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/screen_film_recycler"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_165"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_height="@dimen/dp_185"
+            android:layout_marginTop="@dimen/dp_10"
             android:overScrollMode="never"
             android:paddingLeft="@dimen/dp_24"
-            app:layout_constraintTop_toBottomOf="@+id/relaese_film_text" />
+            app:layout_constraintTop_toBottomOf="@+id/screen_film_text" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

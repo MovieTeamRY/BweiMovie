@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_126"
+    android:layout_height="@dimen/dp_164"
+    android:layout_margin="@dimen/dp_10"
+    android:id="@+id/film_relative"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/home_recycler_simple_bg">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/image_simple"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/home_recycler_simple_bg"
+        fresco:roundedCornerRadius="@dimen/dp_8"
+        />
+    <TextView
+        android:id="@+id/film_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#fff"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dp_23"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/home_recycler_flow_text_bg"
+        />
+    <View
+        android:layout_width="@dimen/dp_3"
+        android:layout_height="@dimen/dp_18"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_11"
+        android:background="@drawable/film_recycler_left_bg"
+        />
+</RelativeLayout>
