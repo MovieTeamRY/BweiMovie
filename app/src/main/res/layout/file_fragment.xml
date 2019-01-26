@@ -9,7 +9,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@mipmap/homt_film_back_image"
+        android:background="@mipmap/home_film_back_image"
         />
     <ImageButton
         android:id="@+id/image_loc"
@@ -86,5 +86,15 @@
         android:layout_marginTop="@dimen/dp_85"
         >
     </recycler.coverflow.RecyclerCoverFlow>
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_312"
+        android:layout_height="3dp"
+        android:background="@drawable/film_linear_divide_bg"
+        app:layout_constraintTop_toBottomOf="@id/recycler_flow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="@dimen/dp_20"
+        />
 
 </android.support.constraint.ConstraintLayout>
