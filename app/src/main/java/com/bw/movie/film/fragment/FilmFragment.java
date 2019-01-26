@@ -1,5 +1,6 @@
 package com.bw.movie.film.fragment;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
@@ -104,11 +105,34 @@ public class FilmFragment extends BaseFragment {
         translationX.setDuration(2000);
         translationX.start();
     }
+
     private void setCutAnimator(View view) {
         ObjectAnimator translationX = ObjectAnimator.ofFloat(view, "translationX", 0f);
         translationX.setInterpolator(new AccelerateInterpolator());
         translationX.setDuration(2000);
         translationX.start();
+        translationX.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                editSearch.setVisibility(View.GONE);
+                textSearch.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     @Override
