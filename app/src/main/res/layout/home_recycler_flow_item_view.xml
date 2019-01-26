@@ -9,6 +9,7 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/film_simple"
         android:layout_width="@dimen/dp_118"
+        fresco:placeholderImage="@mipmap/login"
         android:layout_height="match_parent"
         android:background="@drawable/home_recycler_simple_bg"
         fresco:roundedCornerRadius="@dimen/dp_8"

@@ -31,8 +31,11 @@ public class RelaeseFilmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         list=new ArrayList<>();
     }
 
-    public void setList(List<RelaeseBean.ResultBean> list) {
-        this.list = list;
+    public void setList(List<RelaeseBean.ResultBean> data) {
+        list.clear();
+        if (data!=null) {
+            list=data;
+        }
         notifyDataSetChanged();
     }
 

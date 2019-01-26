@@ -161,6 +161,7 @@ public class LoginActivity extends BaseActivty {
         switch (view.getId()) {
             case R.id.login_text_sign:
                 IntentUtils.getInstence().intent(LoginActivity.this,SignActivity.class);
+                finish();
                 break;
             case R.id.login_but:
                 //获取输入框的值

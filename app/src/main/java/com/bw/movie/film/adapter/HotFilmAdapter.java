@@ -30,8 +30,11 @@ public class HotFilmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         list=new ArrayList<>();
     }
 
-    public void setList(List<HotFilmBean.ResultBean> list) {
-        this.list = list;
+    public void setList(List<HotFilmBean.ResultBean> data) {
+        list.clear();
+        if (data!=null) {
+            list=data;
+        }
         notifyDataSetChanged();
     }
 

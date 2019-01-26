@@ -64,6 +64,7 @@ public class FilmDetailsActivity extends BaseActivty {
     protected void initView(Bundle savedInstanceState) {
         //绑定控件
         ButterKnife.bind(this);
+        //bgImageDetail.getBackground().setAlpha(10);
         //加载详情的布局
         getDetailsView();
     }

@@ -31,8 +31,11 @@ public class ScreenFilmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         list=new ArrayList<>();
     }
 
-    public void setList(List<ScreenFilmBean.ResultBean> list) {
-        this.list = list;
+    public void setList(List<ScreenFilmBean.ResultBean> data) {
+        list.clear();
+        if (data!=null) {
+            list=data;
+        }
         notifyDataSetChanged();
     }
 
