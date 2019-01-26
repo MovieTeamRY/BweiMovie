@@ -52,9 +52,7 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(ipresenter!=null){
-            ipresenter.onDetach();
-        }
+        ipresenter.onDetach();
         CircularLoading.closeDialog(loadDialog);
         CircularLoading.closeDialog(failDialog);
     }
