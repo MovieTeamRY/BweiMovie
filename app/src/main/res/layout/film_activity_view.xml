@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/home_film_detail_back_image"
@@ -44,13 +45,14 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/dp_30"
         android:layout_marginRight="@dimen/dp_24"/>
+
     <TextView
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/sp_20"
-        android:textColor="#ffffff"
         android:text="铁血战士"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_20"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -58,11 +60,11 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/bg_image_detail_name"
         android:layout_width="@dimen/dp_259"
-        android:layout_height="@dimen/dp_360"
+        android:layout_height="@dimen/dp_340"
         app:layout_constraintTop_toBottomOf="@id/text_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/dp_30"/>
+        android:layout_marginTop="@dimen/dp_25"/>
     <TextView
         android:id="@+id/detail"
         android:layout_width="@dimen/dp_58"
@@ -76,7 +78,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/notice"
         android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_40"/>
+        android:layout_marginTop="@dimen/dp_25"/>
     <TextView
         android:id="@+id/notice"
         android:layout_width="@dimen/dp_58"
@@ -89,7 +91,7 @@
         app:layout_constraintTop_toBottomOf="@id/bg_image_detail_name"
         app:layout_constraintLeft_toRightOf="@id/detail"
         app:layout_constraintRight_toLeftOf="@id/stills"
-        android:layout_marginTop="@dimen/dp_40"/>
+        android:layout_marginTop="@dimen/dp_25"/>
     <TextView
         android:id="@+id/stills"
         android:layout_width="@dimen/dp_58"
@@ -102,7 +104,7 @@
         app:layout_constraintTop_toBottomOf="@id/bg_image_detail_name"
         app:layout_constraintRight_toLeftOf="@id/film_review"
         app:layout_constraintLeft_toRightOf="@id/notice"
-        android:layout_marginTop="@dimen/dp_40"/>
+        android:layout_marginTop="@dimen/dp_25"/>
     <TextView
         android:id="@+id/film_review"
         android:layout_width="@dimen/dp_58"
@@ -116,7 +118,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/stills"
         android:layout_marginRight="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_40"/>
+        android:layout_marginTop="@dimen/dp_25"/>
     <ImageView
         android:id="@+id/return_image"
         android:layout_width="@dimen/dp_60"
