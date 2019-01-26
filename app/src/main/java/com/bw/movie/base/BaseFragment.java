@@ -60,7 +60,9 @@ public abstract class BaseFragment extends Fragment implements Iview{
         if(map==null){
             map=new HashMap<>();
         }
-        loadDialog = CircularLoading.showLoadDialog(getContext(), true);
+        if(loadDialog==null){
+            loadDialog = CircularLoading.showLoadDialog(getContext(),  true);
+        }
         ipresenter.onPostStart(url,map,clas);
     }
     /**
@@ -69,18 +71,16 @@ public abstract class BaseFragment extends Fragment implements Iview{
      * @param clas 转换数据的类
      */
     protected void onGetRequest(String url,Class clas){
-        loadDialog = CircularLoading.showLoadDialog(getContext(),  true);
+        if(loadDialog==null){
+            loadDialog = CircularLoading.showLoadDialog(getContext(),  true);
+        }
         ipresenter.onGetStart(url,clas);
     }
 
     @Override
     public void onSuccess(Object data) {
-        if(loadDialog!=null){
-            CircularLoading.closeDialog(loadDialog);
-        }
-        if(failDialog!=null){
-            CircularLoading.closeDialog(failDialog);
-        }
+        CircularLoading.closeDialog(loadDialog);
+        CircularLoading.closeDialog(failDialog);
         onNetSuccess(data);
     }
 

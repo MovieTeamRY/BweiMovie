@@ -4,8 +4,11 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -22,8 +25,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class HomeActivity extends BaseActivty {
-    @BindView(R.id.home_viewpager)
-    CustomViewpager homeViewpager;
+    @BindView(R.id.home_frame)
+    FrameLayout homeFrame;
     @BindView(R.id.home_film)
     RadioButton homeFilm;
     @BindView(R.id.home_cinema)
@@ -33,6 +36,7 @@ public class HomeActivity extends BaseActivty {
     @BindView(R.id.home_group)
     RadioGroup homeGroup;
     private Unbinder bind;
+    private FilmFragment filmFragment;
 
     @Override
     protected void onNetSuccess(Object data) {
@@ -46,28 +50,13 @@ public class HomeActivity extends BaseActivty {
 
     @Override
     protected void initData() {
-        homeViewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int i) {
-                switch (i) {
-                    case 0:
-                        return new FilmFragment();
-                    case 1:
-                        return new CinemaFragment();
-                    case 2:
-                        return new MineFragment();
-                    default:
-                        return null;
-                }
-            }
+        filmFragment = new FilmFragment();
 
-            @Override
-            public int getCount() {
-                return 3;
-            }
-        });
-        homeViewpager.setCurrentItem(0);
-        homeGroup.check(R.id.home_film);
+        //fragment管理器
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.home_frame, filmFragment);
+        transaction.commit();
     }
 
     @Override
@@ -110,19 +99,30 @@ public class HomeActivity extends BaseActivty {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.home_film:
-                homeViewpager.setCurrentItem(0);
+                FragmentManager manager1 = getSupportFragmentManager();
+                FragmentTransaction transaction1 = manager1.beginTransaction();
+                transaction1.replace(R.id.home_frame, filmFragment);
+                transaction1.commit();
                 setAddAnimator(view);
                 setCutAnimator(homeCinema);
                 setCutAnimator(homeMy);
                 break;
             case R.id.home_cinema:
-                homeViewpager.setCurrentItem(1);
+                CinemaFragment cinemaFragment = new CinemaFragment();
+                FragmentManager manager2 = getSupportFragmentManager();
+                FragmentTransaction transaction2 = manager2.beginTransaction();
+                transaction2.replace(R.id.home_frame, cinemaFragment);
+                transaction2.commit();
                 setAddAnimator(view);
                 setCutAnimator(homeFilm);
                 setCutAnimator(homeMy);
                 break;
             case R.id.home_my:
-                homeViewpager.setCurrentItem(2);
+                MineFragment mineFragment = new MineFragment();
+                FragmentManager manager3 = getSupportFragmentManager();
+                FragmentTransaction transaction3 = manager3.beginTransaction();
+                transaction3.replace(R.id.home_frame, mineFragment);
+                transaction3.commit();
                 setAddAnimator(view);
                 setCutAnimator(homeCinema);
                 setCutAnimator(homeFilm);

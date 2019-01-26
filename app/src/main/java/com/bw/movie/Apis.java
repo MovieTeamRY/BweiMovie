@@ -83,7 +83,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findHotMovieList
      * 请求方式：GET
      * */
-    public static final String URL_FIND_HOT_MOVIE_LIST_GET="movie/v1/findHotMovieList";
+    public static final String URL_FIND_HOT_MOVIE_LIST_GET="movie/v1/findHotMovieList?page=%d&count=10";
     /**
      * 2查询正在上映电影列表
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findReleaseMovieList
@@ -95,7 +95,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findComingSoonMovieList
      * 请求方式：GET
      * */
-    public static final String URL_FIND_COMING_SOON_MOVIE_LIST_GET = "movie/v1/findComingSoonMovieList";
+    public static final String URL_FIND_COMING_SOON_MOVIE_LIST_GET = "movie/v1/findComingSoonMovieList?page=%d&count=10";
     /**
      * 4根据电影ID查询电影信息
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findMoviesById
