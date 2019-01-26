@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.activity.HomeActivity"></activity>
+        <activity android:name=".film.activity.FilmDetailsActivity"/>
     </application>
 
 </manifest>
