@@ -82,6 +82,8 @@ public class LoginActivity extends BaseActivty {
                     //提交
                     edit.commit();
                 }
+                //存入状态值
+                edit.putString("UserId",String.valueOf(loginBean.getResult().getUserId())).putString("SessionId",loginBean.getResult().getSessionId()).commit();
                 //登录成功后跳转首页
                 IntentUtils.getInstence().intent(LoginActivity.this,HomeActivity.class);
                 //销毁

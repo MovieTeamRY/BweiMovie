@@ -119,19 +119,19 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/verify/followMovie
      * 请求方式：GET
      * */
-    public static final String URL_FOLLOW_MOVIE_GET = "movie/v1/verify/followMovie";
+    public static final String URL_FOLLOW_MOVIE_GET = "movie/v1/verify/followMovie?movieId=%d";
     /**
      * 8.取消关注电影
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/verify/cancelFollowMovie
      * 请求方式：GET
      * */
-    public static final String URL_CANCEL_FOLLOW_MOVIE_GET = "movie/v1/verify/cancelFollowMovie";
+    public static final String URL_CANCEL_FOLLOW_MOVIE_GET = "movie/v1/verify/cancelFollowMovie?movieId=%d";
     /**
      * 9.查询影片评论
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findAllMovieComment
      * 请求方式：GET
      * */
-    public static final String URL_FIND_MOVIE_COMMENT_GET = "movie/v1/findAllMovieComment";
+    public static final String URL_FIND_MOVIE_COMMENT_GET = "movie/v1/findAllMovieComment?movieId=%d&page=%d&count=%d";
     /**
      * 10.添加用户对影片的评论
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/verify/movieComment
@@ -143,7 +143,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findCommentReply
      * 请求方式：GET
      * */
-    public static final String URL_FIND_COMMENT_REPLY_GET ="movie/v1/findCommentReply";
+    public static final String URL_FIND_COMMENT_REPLY_GET ="movie/v1/findCommentReply?commentId=%d&page=%d&count=%d";
     /**
      * 12.添加用户对评论的回复
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/verify/commentReply

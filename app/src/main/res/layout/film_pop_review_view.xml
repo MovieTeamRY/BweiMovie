@@ -42,7 +42,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="@dimen/dp_24"
             android:layout_marginTop="@dimen/dp_20"/>
-        <android.support.v7.widget.RecyclerView
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
             android:id="@+id/film_recyclerview"
             android:layout_width="@dimen/dp_0"
             android:layout_height="@dimen/dp_0"

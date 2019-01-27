@@ -2,7 +2,9 @@ package com.bw.movie.film.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,14 +22,24 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.film.adapter.FilmCommentAdapter;
 import com.bw.movie.film.adapter.NoticeAdapter;
+import com.bw.movie.film.adapter.RevirwAdapter;
 import com.bw.movie.film.adapter.StillsAdapter;
+import com.bw.movie.film.bean.CancalFollowMovieBean;
 import com.bw.movie.film.bean.DetailsBean;
+import com.bw.movie.film.bean.FilmCommentBean;
 import com.bw.movie.film.bean.FilmDetailsBean;
+import com.bw.movie.film.bean.FollowMovieBean;
+import com.bw.movie.film.bean.PraiseBean;
+import com.bw.movie.film.bean.RevirwBean;
 import com.bw.movie.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +67,9 @@ public class FilmDetailsActivity extends BaseActivty {
     @BindView(R.id.but_purchase)
     TextView butPurchase;
     private PopupWindow mPop;
+    private PopupWindow nopicePop;
+    private PopupWindow stillsPop;
+    private PopupWindow reviewPop;
     private TextView class_name;
     private TextView director_name;
     private TextView data_name;
@@ -70,6 +85,17 @@ public class FilmDetailsActivity extends BaseActivty {
     private View notice_view;
     private View detail_view;
     private StillsAdapter stillsAdapter;
+    private int mpage;
+    private final int COUNT=5;
+    private RevirwAdapter revirwAdapter;
+    private XRecyclerView film_recyclerview;
+    private int i;
+    private FilmDetailsBean filmDetailsBean;
+    private FilmDetailsBean.ResultBean result;
+    private XRecyclerView film_comment_recycler;
+    private FilmCommentAdapter filmCommentAdapter;
+    private boolean bool=true;
+    private TextView write;
 
     @Override
     protected int getLayoutResId() {
@@ -81,32 +107,115 @@ public class FilmDetailsActivity extends BaseActivty {
         //绑定控件
         ButterKnife.bind(this);
         //加载详情的布局
-
+        getDetailsView();
+        getNoticeView();
+        getStillsView();
+        getRevirwView();
     }
-
+    /**
+     *评论布局
+     *@author Administrator
+     *@time 2019/1/27 0027 11:45
+     */
     private void getRevirwView() {
         review_view = View.inflate(this,R.layout.film_pop_review_view,null);
         detail_down= review_view.findViewById(R.id.film_down);
-        RecyclerView film_recyclerview= review_view.findViewById(R.id.film_recyclerview);
+        film_recyclerview = review_view.findViewById(R.id.film_recyclerview);
+        write = review_view.findViewById(R.id.write);
+        getReviewPopView(review_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        film_recyclerview.setLayoutManager(linearLayoutManager);
+        film_recyclerview.setPullRefreshEnabled(true);
+        film_recyclerview.setLoadingMoreEnabled(true);
+        film_recyclerview.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                mpage=1;
+                init();
+            }
+            @Override
+            public void onLoadMore() {
+                init();
+            }
+        });
         //TODO 创建适配器
-        getPopView(review_view);
+        revirwAdapter = new RevirwAdapter(this);
+        film_recyclerview.setAdapter(revirwAdapter);
+        //点赞
+        revirwAdapter.setLucky(new RevirwAdapter.Lucky() {
+            @Override
+            public void onLucky(int commentId,int position) {
+                i=position;
+                Map<String,String> map = new HashMap<>();
+                map.put("commentId",String.valueOf(commentId));
+                onPostRequest(Apis.URL_MOVIE_COMMENT_GREAT_POST,map,PraiseBean.class);
+            }
+        });
+        //点击查看评论回复
+        revirwAdapter.setClick(new RevirwAdapter.Click() {
+            @Override
+            public void onClick(int commentId,XRecyclerView film_comment_recyclerview) {
+                film_comment_recycler=film_comment_recyclerview;
+                if (bool){
+                    film_comment_recycler.setVisibility(View.VISIBLE);
+                    getcommetView(commentId);
+                    mpage=1;
+                    onGetRequest(String.format(Apis.URL_FIND_COMMENT_REPLY_GET,commentId,mpage,COUNT),FilmCommentBean.class);
+                }else{
+                    film_comment_recycler.setVisibility(View.GONE);
+                }
+                bool=!bool;
+            }
+        });
     }
-
+    private void getcommetView(final int commentId) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        film_comment_recycler.setLayoutManager(linearLayoutManager);
+        //创建评论回复适配器
+        filmCommentAdapter = new FilmCommentAdapter(this);
+        film_comment_recycler.setAdapter(filmCommentAdapter);
+        film_comment_recycler.setPullRefreshEnabled(true);
+        film_comment_recycler.setLoadingMoreEnabled(true);
+        film_comment_recycler.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                mpage=1;
+                onGetRequest(String.format(Apis.URL_FIND_COMMENT_REPLY_GET,commentId,mpage,COUNT),FilmCommentBean.class);
+            }
+            @Override
+            public void onLoadMore() {
+                onGetRequest(String.format(Apis.URL_FIND_COMMENT_REPLY_GET,commentId,mpage,COUNT),FilmCommentBean.class);
+            }
+        });
+    }
+    /**
+     *剧照布局
+     *@author Administrator
+     *@time 2019/1/27 0027 11:45
+     */
     private void getStillsView() {
         stills_view = View.inflate(this,R.layout.file_pop_stills_view,null);
         detail_down= stills_view.findViewById(R.id.stills_down);
+        getStillsPopView(stills_view);
         RecyclerView stills_recyclerview= stills_view.findViewById(R.id.stills_recyclerview);
         StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         stills_recyclerview.setLayoutManager(staggeredGridLayoutManager);
         //TODO 创建适配器
         stillsAdapter = new StillsAdapter(this);
         stills_recyclerview.setAdapter(stillsAdapter);
-        getPopView(stills_view);
-    }
 
+    }
+    /**
+     *预告片布局
+     *@author Administrator
+     *@time 2019/1/27 0027 11:45
+     */
     private void getNoticeView() {
         notice_view = View.inflate(this,R.layout.film_pop_notice_view,null);
         detail_down= notice_view.findViewById(R.id.notice_down);
+        getNoticePopView(notice_view);
         RecyclerView notice_recyclerview= notice_view.findViewById(R.id.notice_recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -114,9 +223,13 @@ public class FilmDetailsActivity extends BaseActivty {
         //TODO 创建适配器
         noticeAdapter = new NoticeAdapter(this);
         notice_recyclerview.setAdapter(noticeAdapter);
-        getPopView(notice_view);
-    }
 
+    }
+    /**
+     *详情布局
+     *@author Administrator
+     *@time 2019/1/27 0027 11:44
+     */
     private void getDetailsView() {
         detail_view = View.inflate(this,R.layout.film_pop_details_view,null);
         //获取控件id
@@ -127,7 +240,7 @@ public class FilmDetailsActivity extends BaseActivty {
         plot_name_text = detail_view.findViewById(R.id.plot_name_text);
         image_detail_three = detail_view.findViewById(R.id.image_detail_three);
         detail_down = detail_view.findViewById(R.id.detail_down);
-        getPopView(detail_view);
+        getDetailsPopView(detail_view);
     }
 
     /**
@@ -135,30 +248,13 @@ public class FilmDetailsActivity extends BaseActivty {
      *@author Administrator
      *@time 2019/1/26 0026 16:14
      */
-    private void getPopView(View view) {
-
+    private void getDetailsPopView(View view) {
         mPop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
         //设置焦点
         mPop.setFocusable(true);
         //设置是否可以触摸
         mPop.setTouchable(true);
-        mPop.setBackgroundDrawable(new BitmapDrawable());
-
-        mPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                changeWindowAlfa(1f);//pop消失，透明度恢复
-            }
-        });
         //关闭
-        mPopclose();
-    }
-    /**
-     *关闭pop
-     *@author Administrator
-     *@time 2019/1/26 0026 16:27
-     */
-    private void mPopclose() {
         detail_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,26 +263,82 @@ public class FilmDetailsActivity extends BaseActivty {
         });
     }
     /**
-     *改变窗口透明度
+     *预告片
      *@author Administrator
-     *@time 2019/1/26 0026 16:26
+     *@time 2019/1/27 0027 11:12
      */
-    private void changeWindowAlfa(float v) {
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = v;
-        getWindow().setAttributes(params);
+    private void getNoticePopView(View view) {
+        nopicePop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        //设置焦点
+        nopicePop.setFocusable(true);
+        //设置是否可以触摸
+        nopicePop.setTouchable(true);
+        nopicePop.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#10ffffff")));
+        //关闭
+        detail_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nopicePop.dismiss();
+            }
+        });
     }
-
-
-
+    /**
+     *剧照
+     *@author Administrator
+     *@time 2019/1/27 0027 11:12
+     */
+    private void getStillsPopView(View view) {
+        stillsPop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        //设置焦点
+        stillsPop.setFocusable(true);
+        //设置是否可以触摸
+        stillsPop.setTouchable(true);
+        //关闭
+        detail_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stillsPop.dismiss();
+            }
+        });
+    }
+    /**
+     *剧照
+     *@author Administrator
+     *@time 2019/1/27 0027 11:12
+     */
+    private void getReviewPopView(View view) {
+        reviewPop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        //设置焦点
+        reviewPop.setFocusable(true);
+        //设置是否可以触摸
+        reviewPop.setTouchable(true);
+        //关闭
+        detail_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewPop.dismiss();
+            }
+        });
+    }
     @Override
     protected void initData() {
         Intent intent = getIntent();
         movieId = intent.getIntExtra("id", 0);
         //请求查看电影信息的接口
         onGetRequest(String.format(Apis.URL_FIND_MOVIE_BY_ID_GET, movieId),DetailsBean.class);
-
-
+        //请求电影详情接口
+        onGetRequest(String.format(Apis.URL_FIND_MOVIE_DETAIL_GET,movieId),FilmDetailsBean.class);
+        //请求电影评论接口
+        init();
+    }
+    /**
+     * 请求电影评论接口
+     *@author Administrator
+     *@time 2019/1/27 0027 13:14
+     */
+    private void init() {
+        mpage=1;
+        onGetRequest(String.format(Apis.URL_FIND_MOVIE_COMMENT_GET,movieId,mpage,COUNT),RevirwBean.class);
     }
 
     @Override
@@ -202,9 +354,9 @@ public class FilmDetailsActivity extends BaseActivty {
         }
         ToastUtil.showToast(detailsBean.getMessage());
     }else if (data instanceof FilmDetailsBean){
-        FilmDetailsBean filmDetailsBean = (FilmDetailsBean) data;
-        if (filmDetailsBean.isSuccess()&&filmDetailsBean!=null){
-            if (detail_view!=null) {
+        filmDetailsBean = (FilmDetailsBean) data;
+        result = filmDetailsBean.getResult();
+        if (filmDetailsBean.isSuccess()&& filmDetailsBean !=null){
                 //TODO 设置值详细
                 Uri uri = Uri.parse(filmDetailsBean.getResult().getImageUrl());
                 image_detail_three.setImageURI(uri);
@@ -213,17 +365,71 @@ public class FilmDetailsActivity extends BaseActivty {
                 data_name.setText("时长：" + filmDetailsBean.getResult().getDuration());
                 address_name.setText("产地：" + filmDetailsBean.getResult().getPlaceOrigin());
                 plot_name_text.setText(filmDetailsBean.getResult().getSummary());
-
-            }else if (notice_view!=null){
-                //产值到预告片适配器
+                //传值到预告片适配器
                 noticeAdapter.setList(filmDetailsBean.getResult().getShortFilmList());
-            }else if (stills_view!=null){
-                //产值到预告片适配器
+                //传值到剧照适配器
                 List<String> posterList = filmDetailsBean.getResult().getPosterList();
                 stillsAdapter.setList(posterList);
+                //设置是否关注
+            if (result.getFollowMovie()==1){
+                imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_selected);
+            }else if (result.getFollowMovie()==2){
+                imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_default);
             }
         }
-        ToastUtil.showToast(filmDetailsBean.getMessage());
+    }else if (data instanceof RevirwBean){
+        RevirwBean revirwBean = (RevirwBean) data;
+        if (revirwBean!=null&&revirwBean.isSuccess()){
+            //TODO 传值到适配器
+            if (mpage==1){
+                revirwAdapter.setList(revirwBean.getResult());
+            }else{
+                revirwAdapter.addList(revirwBean.getResult());
+            }
+            mpage++;
+            film_recyclerview.loadMoreComplete();
+            film_recyclerview.refreshComplete();
+        }
+        ToastUtil.showToast(revirwBean.getMessage());
+    }else if (data instanceof PraiseBean){
+        PraiseBean praiseBean = (PraiseBean) data;
+        if (praiseBean!=null&&praiseBean.isSuccess()){
+            revirwAdapter.addWhetherGreat(i);
+        }
+        ToastUtil.showToast(praiseBean.getMessage());
+    }else if (data instanceof FollowMovieBean){
+        FollowMovieBean followMovieBean = (FollowMovieBean) data;
+        if (followMovieBean!=null&&followMovieBean.isSuccess()){
+            result.setFollowMovie(1);
+            imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_selected);
+        }
+        ToastUtil.showToast(followMovieBean.getMessage());
+    }else if (data instanceof CancalFollowMovieBean){
+        CancalFollowMovieBean cancalFollowMovieBean = (CancalFollowMovieBean) data;
+        if (cancalFollowMovieBean!=null&&cancalFollowMovieBean.isSuccess()){
+            result.setFollowMovie(2);
+            imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_default);
+        }
+        ToastUtil.showToast(cancalFollowMovieBean.getMessage());
+    }else if (data instanceof FilmCommentBean){
+        FilmCommentBean filmCommentBean = (FilmCommentBean) data;
+        if (filmCommentBean!=null&&filmCommentBean.isSuccess()){
+
+           /* film_comment_recycler.setVisibility(View.VISIBLE);*/
+            //TODO 传值到查看评论回复适配器
+            if (mpage == 1) {
+                filmCommentAdapter.setList(filmCommentBean.getResult());
+            } else {
+                filmCommentAdapter.addList(filmCommentBean.getResult());
+            }
+            mpage++;
+            film_comment_recycler.loadMoreComplete();
+            film_comment_recycler.refreshComplete();
+        }else{
+           // film_comment_recycler.setVisibility(View.GONE);
+            ToastUtil.showToast(filmCommentBean.getMessage());
+        }
+
     }
     }
 
@@ -232,65 +438,48 @@ public class FilmDetailsActivity extends BaseActivty {
         Log.i("TAG",error);
         ToastUtil.showToast(error);
     }
-
-
+    
     @SuppressLint("NewApi")
-    @OnClick({R.id.detail, R.id.notice, R.id.stills, R.id.film_review, R.id.return_image, R.id.but_purchase})
+    @OnClick({R.id.detail, R.id.notice, R.id.stills, R.id.film_review, R.id.return_image, R.id.but_purchase,R.id.image_detail_select})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.detail:
-                notice_view=null;
-                stills_view=null;
-                review_view=null;
-                getDetailsView();
                 //显示pop
-                showPopView(view);
-                onGetRequest(String.format(Apis.URL_FIND_MOVIE_DETAIL_GET,movieId),FilmDetailsBean.class);
+                mPop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                mPop.update();
                 break;
             case R.id.notice:
-                detail_view=null;
-                stills_view=null;
-                review_view=null;
-                getNoticeView();
                 //显示pop
-                showPopView(view);
-                onGetRequest(String.format(Apis.URL_FIND_MOVIE_DETAIL_GET,movieId),FilmDetailsBean.class);
+                nopicePop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                nopicePop.update();
                 break;
             case R.id.stills:
-                notice_view=null;
-                detail_view=null;
-                review_view=null;
-                getStillsView();
                 //显示pop
-                showPopView(view);
-                onGetRequest(String.format(Apis.URL_FIND_MOVIE_DETAIL_GET,movieId),FilmDetailsBean.class);
+                stillsPop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                stillsPop.update();
                 break;
             case R.id.film_review:
-                detail_view=null;
-                notice_view=null;
-                stills_view=null;
-                getRevirwView();
                 //显示pop
-                showPopView(view);
+                reviewPop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                reviewPop.update();
                 break;
             case R.id.return_image:
                 finish();
                 break;
-            case R.id.but_purchase:
+            case R.id.image_detail_select:
+                //关注
+                if ( result.getFollowMovie()==1){
+                    onGetRequest(String.format(Apis.URL_CANCEL_FOLLOW_MOVIE_GET, filmDetailsBean.getResult().getId()),CancalFollowMovieBean.class);
+                }else if (result.getFollowMovie()==2) {
+                    onGetRequest(String.format(Apis.URL_FOLLOW_MOVIE_GET, filmDetailsBean.getResult().getId()), FollowMovieBean.class);
+                }
                 break;
+            case R.id.but_purchase:
+
+                break;
+
+            default:break;
         }
     }
-
-    /**
-     *显示pop
-     *@author Administrator
-     *@time 2019/1/26 0026 21:47
-     */
-    private void showPopView(View view) {
-        //改变窗口透明度
-        changeWindowAlfa(0.6f);
-        mPop.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-        mPop.update();
-        //mPop.showAsDropDown(view, Gravity.BOTTOM,0 ,0 );
-    }
+    
 }
