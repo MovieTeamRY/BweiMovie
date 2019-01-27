@@ -77,7 +77,6 @@ public class FilmDetailsActivity extends BaseActivty {
     private TextView plot_name_text;
     private SimpleDraweeView image_detail_three;
     private ImageView detail_down;
-    private int num=0;
     private int movieId;
     private NoticeAdapter noticeAdapter;
     private View review_view;
@@ -95,7 +94,7 @@ public class FilmDetailsActivity extends BaseActivty {
     private XRecyclerView film_comment_recycler;
     private FilmCommentAdapter filmCommentAdapter;
     private boolean bool=true;
-    private TextView write;
+    private ImageView write;
 
     @Override
     protected int getLayoutResId() {
