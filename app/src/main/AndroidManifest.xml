@@ -13,7 +13,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoTitle_FullScreen">
+        android:theme="@style/AppTheme.NoTitle_FullScreen"
+        android:hardwareAccelerated="false" >
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/AppTheme.NoTitle_FullScreen"></activity>
@@ -27,7 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".home.activity.HomeActivity"></activity>
+        <activity android:name=".home.activity.HomeActivity"
+            android:hardwareAccelerated="false" ></activity>
         <activity android:name=".film.activity.FilmDetailsActivity"/>
     </application>
 

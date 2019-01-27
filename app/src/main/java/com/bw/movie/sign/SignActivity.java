@@ -1,5 +1,7 @@
 package com.bw.movie.sign;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +12,10 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.home.activity.HomeActivity;
 import com.bw.movie.login.LoginBean;
 import com.bw.movie.utils.EncryptUtil;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.RegularUtils;
 import com.bw.movie.utils.ToastUtil;
 
@@ -46,7 +50,8 @@ public class SignActivity extends BaseActivty {
     Button signBut;
     private String phone;
     private String pwd;
-
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor edit;
     @Override
     protected void onNetSuccess(Object data) {
     if (data instanceof SignBean){
@@ -57,6 +62,11 @@ public class SignActivity extends BaseActivty {
             map.put("phone", phone);
             map.put("pwd", EncryptUtil.encrypt(pwd));
             onPostRequest(Apis.URL_LOGIN_POST, map, LoginBean.class);
+
+            edit.putString("phone", phone);
+            edit.putString("pwd", pwd);
+            edit.putBoolean("isCheck",true);
+            edit.commit();
             //注册成功吐司
             ToastUtil.showToast(signBean.getMessage());
         }
@@ -64,6 +74,8 @@ public class SignActivity extends BaseActivty {
     }else if (data instanceof LoginBean){
         LoginBean loginBean = (LoginBean) data;
         if (loginBean.isSuccess()&&loginBean!=null){
+            IntentUtils.getInstence().intent(SignActivity.this,HomeActivity.class);
+            finish();
             ToastUtil.showToast(loginBean.getMessage());
         }
         ToastUtil.showToast(loginBean.getMessage());
@@ -77,7 +89,8 @@ public class SignActivity extends BaseActivty {
 
     @Override
     protected void initData() {
-
+        preferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        edit = preferences.edit();
     }
 
     @Override

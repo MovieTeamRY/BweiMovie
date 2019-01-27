@@ -42,6 +42,9 @@ import recycler.coverflow.CoverFlowLayoutManger;
 import recycler.coverflow.RecyclerCoverFlow;
 
 public class FilmFragment extends BaseFragment {
+    @BindView(R.id.film_group)
+    RadioGroup filmGroup;
+
     @BindView(R.id.recycler_flow)
     RecyclerCoverFlow recyclerFlow;
     Unbinder unbinder;
@@ -57,8 +60,7 @@ public class FilmFragment extends BaseFragment {
     TextView textSearch;
     @BindView(R.id.film_search_linear)
     LinearLayout searchLinear;
-    @BindView(R.id.film_group)
-    RadioGroup filmGroup;
+
     //热门电影
     @BindView(R.id.hot_film_more)
     ImageButton hotFilmMore;
@@ -125,9 +127,13 @@ public class FilmFragment extends BaseFragment {
             //滑动监听
             @Override
             public void onItemSelected(int position) {
-                RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % result.size());
-                childAt.setChecked(true);
-                current = position;
+                try{
+                    RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % 10);
+                    childAt.setChecked(true);
+                    current = position;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }

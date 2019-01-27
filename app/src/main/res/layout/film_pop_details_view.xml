@@ -2,7 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/tools"
     android:background="#10dcdcdc"
+
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.constraint.ConstraintLayout
         android:id="@+id/detail_loyout"
@@ -155,6 +157,7 @@
         android:id="@+id/image_detail_three"
         android:layout_width="@dimen/dp_111"
         android:layout_height="@dimen/dp_149"
+        fresco:placeholderImage="@mipmap/login"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/dp_90"
