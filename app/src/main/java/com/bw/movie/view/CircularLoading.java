@@ -16,14 +16,22 @@ import android.widget.TextView;
 import com.bw.movie.R;
 
 public class CircularLoading {
+
+    private static CircularLoading circularLoading;
+
+    public  static synchronized CircularLoading getInstance() {
+        if(circularLoading==null){
+            circularLoading=new CircularLoading();
+        }
+        return circularLoading;
+    }
     /**
          * 显示Dialog
          * @param context 上下文对象
-         * @param msg 提示内容
          * @param isCancelable 是否可以点击取消
          * @return
          */
-        public static Dialog showLoadDialog(Context context, boolean isCancelable) {
+        public Dialog showLoadDialog(Context context, boolean isCancelable) {
             LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.loading_view, null);
         RelativeLayout layout =v.findViewById(R.id.dialog_bg);
@@ -43,7 +51,7 @@ public class CircularLoading {
         loadingDialog.show();
         return loadingDialog;
     }
-    public static Dialog showFailDialog(Context context, String msg, boolean isCancelable) {
+    public Dialog showFailDialog(Context context, String msg, boolean isCancelable) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.fail_loading_view, null);
         RelativeLayout layout =v.findViewById(R.id.fail_layout);
@@ -82,6 +90,9 @@ public class CircularLoading {
     public static void closeDialog(Dialog mCircularLoading) {
         if (mCircularLoading != null && mCircularLoading.isShowing()) {
             mCircularLoading.dismiss();
+        }
+        if(circularLoading!=null){
+            circularLoading=null;
         }
     }
 }

@@ -61,7 +61,7 @@ public abstract class BaseFragment extends Fragment implements Iview{
             map=new HashMap<>();
         }
         if(loadDialog==null){
-            loadDialog = CircularLoading.showLoadDialog(getContext(),  true);
+            loadDialog = CircularLoading.getInstance().showLoadDialog(getContext(),  true);
         }
         ipresenter.onPostStart(url,map,clas);
     }
@@ -72,7 +72,7 @@ public abstract class BaseFragment extends Fragment implements Iview{
      */
     protected void onGetRequest(String url,Class clas){
         if(loadDialog==null){
-            loadDialog = CircularLoading.showLoadDialog(getContext(),  true);
+            loadDialog = CircularLoading.getInstance().showLoadDialog(getContext(),  true);
         }
         ipresenter.onGetStart(url,clas);
     }
@@ -93,7 +93,7 @@ public abstract class BaseFragment extends Fragment implements Iview{
             CircularLoading.closeDialog(failDialog);
         }
         if(error.equals("当前网络不可用，请检查网络状态")){
-            failDialog = CircularLoading.showFailDialog(getContext(), "糟糕，网络不给力呀！", true);
+            failDialog = CircularLoading.getInstance().showFailDialog(getContext(), "糟糕，网络不给力呀！", true);
         }else{
             onNetFail(error);
         }

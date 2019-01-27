@@ -32,6 +32,8 @@ import com.bw.movie.film.bean.RelaeseBean;
 import com.bw.movie.film.bean.ScreenFilmBean;
 import com.bw.movie.utils.ToastUtil;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -84,6 +86,7 @@ public class FilmFragment extends BaseFragment {
     private HotFilmAdapter filmAdapter;
     private RelaeseFilmAdapter relaeseFilmAdapter;
     private ScreenFilmAdapter screenFilmAdapter;
+    private List<RelaeseBean.ResultBean> result;
 
     @Override
     protected int getLayoutResId() {
@@ -122,7 +125,7 @@ public class FilmFragment extends BaseFragment {
             //滑动监听
             @Override
             public void onItemSelected(int position) {
-                RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % 10);
+                RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % result.size());
                 childAt.setChecked(true);
                 current = position;
             }
@@ -197,8 +200,18 @@ public class FilmFragment extends BaseFragment {
             if (relaeseBean.getMessage().equals("查询成功")) {
                 if (relaeseBean.getResult().size() > 0) {
                     relaeseFilmAdapter.setList(relaeseBean.getResult());
-                    recyclerFlow.setAdapter(new RelaeseAdapter(relaeseBean.getResult(), getContext()));
+                    result = relaeseBean.getResult();
+                    recyclerFlow.setAdapter(new RelaeseAdapter(result, getContext()));
+                    filmGroup.removeAllViews();
+                    for (int i=0;i<result.size();i++){
+                        RadioButton radioButton=new RadioButton(getContext());
+                        radioButton.setBackgroundResource(R.drawable.home_film_divide_selected);
+                        radioButton.setChecked(false);
+                        filmGroup.addView(radioButton);
+                    }
                     current = 5;
+                    RadioButton radioButton= (RadioButton) filmGroup.getChildAt(current);
+                    radioButton.setChecked(true);
                     handler.sendEmptyMessage(0);
                 }
             }

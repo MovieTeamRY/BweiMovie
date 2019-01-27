@@ -3,9 +3,7 @@ package com.bw.movie.home.activity;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,10 +13,9 @@ import android.widget.RadioGroup;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
-import com.bw.movie.cinema.CinemaFragment;
+import com.bw.movie.cinema.fragment.CinemaFragment;
 import com.bw.movie.film.fragment.FilmFragment;
-import com.bw.movie.home.view.CustomViewpager;
-import com.bw.movie.mine.MineFragment;
+import com.bw.movie.mine.fragment.MineFragment;
 import com.bw.movie.utils.ToastUtil;
 
 import butterknife.BindView;

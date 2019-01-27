@@ -1,4 +1,4 @@
-package com.bw.movie.cinema;
+package com.bw.movie.cinema.fragment;
 
 import android.view.View;
 

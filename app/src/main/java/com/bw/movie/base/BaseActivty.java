@@ -69,7 +69,7 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
             map=new HashMap<>();
         }
         if(loadDialog==null){
-            loadDialog = CircularLoading.showLoadDialog(this, true);
+            loadDialog = CircularLoading.getInstance().showLoadDialog(this, true);
         }
         ipresenter.onPostStart(url,map,clas);
     }
@@ -81,7 +81,7 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
      */
     protected void onGetRequest(String url,Class clas){
         if(loadDialog==null){
-            loadDialog = CircularLoading.showLoadDialog(this,  true);
+            loadDialog = CircularLoading.getInstance().showLoadDialog(this, true);
         }
         ipresenter.onGetStart(url,clas);
     }
@@ -109,7 +109,7 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
             CircularLoading.closeDialog(failDialog);
         }
         if(error.equals("当前网络不可用，请检查网络状态")){
-            failDialog = CircularLoading.showFailDialog(this, "糟糕，网络不给力呀！", true);
+            failDialog = CircularLoading.getInstance().showFailDialog(this, "糟糕，网络不给力呀！", true);
         }else{
             onNetFail(error);
         }

@@ -1,4 +1,4 @@
-package com.bw.movie.mine;
+package com.bw.movie.mine.fragment;
 
 import android.view.View;
 

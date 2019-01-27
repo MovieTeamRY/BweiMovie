@@ -18,7 +18,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/image_loc"
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_24"
@@ -81,7 +81,8 @@
                 android:textColor="#fff"
                 android:textSize="@dimen/sp_12"
                 android:visibility="gone" />
-        </LinearLayout>
+        </LinearLayout>-->
+        <include layout="@layout/home_top_loc_search_layout"/>
 
         <recycler.coverflow.RecyclerCoverFlow
             android:id="@+id/recycler_flow"
@@ -103,76 +104,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recycler_flow">
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_film_divide_selected"
-                android:button="@null" />
         </RadioGroup>
 
         <TextView
