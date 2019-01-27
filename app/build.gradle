@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //日期选择
-    implementation'com.contrarywind:Android-PickerView:3.2.6'
+    implementation'com.contrarywind:Android-PickerView:4.1.7'
     //
     implementation 'com.chenlittleping:recyclercoverflow:1.0.6'
     //加载视频

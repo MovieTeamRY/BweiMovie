@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cinema_tab_text"
+    android:layout_width="@dimen/dp_83"
+    android:layout_height="@dimen/dp_25"
+    android:layout_marginLeft="@dimen/dp_16"
+    android:layout_marginRight="@dimen/dp_16"
+    android:gravity="center"
+    android:textSize="@dimen/sp_14"
+    android:text="3424"
+    android:elevation="@dimen/dp_1"
+    android:textColor="@drawable/cinema_tab_text_selector"
+    android:background="@drawable/cinema_tab_bg_selector"
+    />

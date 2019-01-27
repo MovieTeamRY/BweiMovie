@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
@@ -20,6 +23,7 @@ import com.bw.movie.utils.RegularUtils;
 import com.bw.movie.utils.ToastUtil;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,18 +111,37 @@ public class SignActivity extends BaseActivty {
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.sign_text_date:
-                TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+                //收回软件盘
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(SignActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                //获取系统时间
+                final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String date = sDateFormat.format(new java.util.Date());
+                String[] split = date.split("\\-");
+
+                Calendar startDate = Calendar.getInstance();
+                Calendar endDate = Calendar.getInstance();
+                startDate.set(Integer.valueOf(split[0])-100,0,1);
+                endDate.set(Integer.valueOf(split[0]),Integer.valueOf(split[1]),Integer.valueOf(split[2]));
+                TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                        String time = format.format(date);
+                        String time = sDateFormat.format(date);
                         signTextDate.setText(time+"");
                     }
                 })
-                        .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
-                        .setCancelText("取消")//取消按钮文字
-                        .setSubmitText("确定")//确认按钮文字
-                        .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                        .setType(new boolean[]{true, true, true, false, false, false})
+                        // 默认全部显示
+                        .setCancelText("取消")
+                        //取消按钮文字
+                        .setSubmitText("确定")
+                        //确认按钮文字
+                        .setOutSideCancelable(true)
+                        //点击屏幕，点在控件外部范围时，是否取消显示
+                        .setRangDate(startDate,endDate)
+                        //起始终止年月日设定
+                        .isCenterLabel(false)
+                        //是否只显示中间选中项的label文字，false则每项item全部都带有label。
                         .build();
                 pvTime.show();
                 break;
@@ -160,10 +183,11 @@ public class SignActivity extends BaseActivty {
                             ToastUtil.showToast("请输入合法的手机号");
                         }
                     } else{
-                        ToastUtil.showToast("请确认性别");
+                        ToastUtil.showToast("亲，只能填写男或女哦");
                     }
                 }
                 break;
+            default:break;
         }
 
     }
