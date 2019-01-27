@@ -128,7 +128,7 @@ public class FilmFragment extends BaseFragment {
             @Override
             public void onItemSelected(int position) {
                 try{
-                    RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % 10);
+                    RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % result.size());
                     childAt.setChecked(true);
                     current = position;
                 }catch (Exception e){
