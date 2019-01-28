@@ -161,13 +161,13 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findMovieListByCinemaId
      * 请求方式：GET
      * */
-    public static final String URL_FIND_MOVIE_LIST_BY_CINEMAID_GET ="movie/v1/findMovieListByCinemaId";
+    public static final String URL_FIND_MOVIE_LIST_BY_CINEMAID_GET ="movie/v1/findMovieListByCinemaId?cinemaId=%d";
     /**
      * 15.根据电影ID和影院ID查询电影排期列表
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findMovieScheduleList
      * 请求方式：GET
      * */
-    public static final String URL_FIND_MOVIE_SCHEDULE_LIST ="movie/v1/findMovieScheduleList";
+    public static final String URL_FIND_MOVIE_SCHEDULE_LIST ="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
     /**
      * 16.根据电影ID查询当前排片该电影的影院列表
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findCinemasListByMovieId
@@ -191,7 +191,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findSoonMovieByCinemaId
      * 请求方式：GET
      * */
-    public static final String URL_FIND_SOON_MOVIEW_BY_CINEMAID_GET = "movie/v1/findSoonMovieByCinemaId";
+    public static final String URL_FIND_SOON_MOVIEW_BY_CINEMAID_GET = "movie/v1/findSoonMovieByCinemaId?cinemaId=%d";
 
     /**
      * 1.查询推荐影院信息
@@ -204,13 +204,13 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/findNearbyCinemas
      * 请求方式：GET
      * */
-    public static final String URL_FIND_NEAR_BY_CINEMAS_GET = "cinema/v1/findNearbyCinemas?page=%d&count=10";
+    public static final String URL_FIND_NEAR_BY_CINEMAS_GET = "cinema/v1/findNearbyCinemas?longitude=%s&latitude=%s&page=%d&count=10";
     /**
      * 3.查询电影信息明细
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/findCinemaInfo
      * 请求方式：GET
      * */
-    public static final String URL_FIND_CINEMA_INFO_GET = "cinema/v1/findCinemaInfo";
+    public static final String URL_FIND_CINEMA_INFO_GET = "cinema/v1/findCinemaInfo?cinemaId=%d";
     /**
      * 4.根据电影名称模糊查询电影院
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/findAllCinemas
