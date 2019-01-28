@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_220"
-        android:background="@mipmap/cinema_item_back_image"
+        android:background="@mipmap/home_film_back_image"
         />
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/cinema_logo"
@@ -50,11 +50,17 @@
         app:layout_constraintBottom_toBottomOf="@id/cinema_logo"
         />
     <recycler.coverflow.RecyclerCoverFlow
+        android:id="@+id/cinema_film"
         android:layout_width="@dimen/dp_312"
         android:layout_height="@dimen/dp_180"
         android:layout_marginTop="@dimen/dp_105"
         android:overScrollMode="never"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></recycler.coverflow.RecyclerCoverFlow>
+        app:layout_constraintTop_toTopOf="parent"/>
+    <android.support.v7.widget.RecyclerView
+        app:layout_constraintTop_toBottomOf="@id/cinema_film"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 </android.support.constraint.ConstraintLayout>
