@@ -90,7 +90,7 @@ public class FilmDetailsActivity extends BaseActivty {
     private View detail_view;
     private StillsAdapter stillsAdapter;
     private int mpage;
-    private final int COUNT=5;
+    private final int COUNT = 5;
     private RevirwAdapter revirwAdapter;
     private XRecyclerView film_recyclerview;
     private int i;
@@ -98,8 +98,11 @@ public class FilmDetailsActivity extends BaseActivty {
     private FilmDetailsBean.ResultBean result;
     private XRecyclerView film_comment_recycler;
     private FilmCommentAdapter filmCommentAdapter;
-    private boolean bool=true;
+    private boolean bool = true;
     private ImageButton write;
+    private EditText edit_write;
+    private TextView but_write;
+    private LinearLayout linearLayout;
 
     @Override
     protected int getLayoutResId() {
@@ -116,19 +119,21 @@ public class FilmDetailsActivity extends BaseActivty {
         getStillsView();
         getRevirwView();
     }
+
     /**
-     *评论布局
-     *@author Administrator
-     *@time 2019/1/27 0027 11:45
+     * 评论布局
+     *
+     * @author Administrator
+     * @time 2019/1/27 0027 11:45
      */
     private void getRevirwView() {
-        review_view = View.inflate(this,R.layout.film_pop_review_view,null);
-        detail_down= review_view.findViewById(R.id.film_down);
+        review_view = View.inflate(this, R.layout.film_pop_review_view, null);
+        detail_down = review_view.findViewById(R.id.film_down);
         film_recyclerview = review_view.findViewById(R.id.film_recyclerview);
         write = review_view.findViewById(R.id.write);
-        final LinearLayout linearLayout = review_view.findViewById(R.id.layout_write);
-        final EditText edit_write = review_view.findViewById(R.id.edit_write);
-        final TextView but_write = review_view.findViewById(R.id.but_write);
+        linearLayout = review_view.findViewById(R.id.layout_write);
+        edit_write = review_view.findViewById(R.id.edit_write);
+        but_write = review_view.findViewById(R.id.but_write);
         getReviewPopView(review_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -138,9 +143,10 @@ public class FilmDetailsActivity extends BaseActivty {
         film_recyclerview.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                mpage=1;
+                mpage = 1;
                 init();
             }
+
             @Override
             public void onLoadMore() {
                 init();
@@ -152,27 +158,27 @@ public class FilmDetailsActivity extends BaseActivty {
         //点赞
         revirwAdapter.setLucky(new RevirwAdapter.Lucky() {
             @Override
-            public void onLucky(int commentId,int position) {
-                i=position;
-                Map<String,String> map = new HashMap<>();
-                map.put("commentId",String.valueOf(commentId));
-                onPostRequest(Apis.URL_MOVIE_COMMENT_GREAT_POST,map,PraiseBean.class);
+            public void onLucky(int commentId, int position) {
+                i = position;
+                Map<String, String> map = new HashMap<>();
+                map.put("commentId", String.valueOf(commentId));
+                onPostRequest(Apis.URL_MOVIE_COMMENT_GREAT_POST, map, PraiseBean.class);
             }
         });
         //点击查看评论回复
         revirwAdapter.setClick(new RevirwAdapter.Click() {
             @Override
-            public void onClick(int commentId,XRecyclerView film_comment_recyclerview) {
-                film_comment_recycler=film_comment_recyclerview;
-                if (bool){
+            public void onClick(int commentId, XRecyclerView film_comment_recyclerview) {
+                film_comment_recycler = film_comment_recyclerview;
+                if (bool) {
                     film_comment_recycler.setVisibility(View.VISIBLE);
                     getcommetView(commentId);
-                    mpage=1;
-                    onGetRequest(String.format(Apis.URL_FIND_COMMENT_REPLY_GET,commentId,mpage,COUNT),FilmCommentBean.class);
-                }else{
+                    mpage = 1;
+                    onGetRequest(String.format(Apis.URL_FIND_COMMENT_REPLY_GET, commentId, mpage, COUNT), FilmCommentBean.class);
+                } else {
                     film_comment_recycler.setVisibility(View.GONE);
                 }
-                bool=!bool;
+                bool = !bool;
             }
         });
         //评论影片
@@ -193,20 +199,20 @@ public class FilmDetailsActivity extends BaseActivty {
                 but_write.setVisibility(View.GONE);
                 write.setVisibility(View.VISIBLE);
                 String trim = edit_write.getText().toString().trim();
-                if (trim.equals("")){
-
-                }else{
-                    Map<String, String> map =new HashMap<>();
-                    map.put("movieId",String.valueOf(movieId));
-                    map.put("commentContent",trim);
-                    onPostRequest(Apis.URL_COMMENT_REPLY_POST,map,CommentBean.class);
+                if (trim.equals("")) {
+                    ToastUtil.showToast("评论内容不能为空");
+                } else {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("movieId", String.valueOf(movieId));
+                    map.put("commentContent", trim);
+                    Log.i("TAG", map + "=========");
+                    onPostRequest(Apis.URL_MOVIE_COMMENT_POST, map, CommentBean.class);
                 }
-
-
             }
         });
 
     }
+
     private void getcommetView(final int commentId) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -219,42 +225,47 @@ public class FilmDetailsActivity extends BaseActivty {
         film_comment_recycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                mpage=1;
-                onGetRequest(String.format(Apis.URL_FIND_COMMENT_REPLY_GET,commentId,mpage,COUNT),FilmCommentBean.class);
+                mpage = 1;
+                onGetRequest(String.format(Apis.URL_FIND_COMMENT_REPLY_GET, commentId, mpage, COUNT), FilmCommentBean.class);
             }
+
             @Override
             public void onLoadMore() {
-                onGetRequest(String.format(Apis.URL_FIND_COMMENT_REPLY_GET,commentId,mpage,COUNT),FilmCommentBean.class);
+                onGetRequest(String.format(Apis.URL_FIND_COMMENT_REPLY_GET, commentId, mpage, COUNT), FilmCommentBean.class);
             }
         });
     }
+
     /**
-     *剧照布局
-     *@author Administrator
-     *@time 2019/1/27 0027 11:45
+     * 剧照布局
+     *
+     * @author Administrator
+     * @time 2019/1/27 0027 11:45
      */
     private void getStillsView() {
-        stills_view = View.inflate(this,R.layout.file_pop_stills_view,null);
-        detail_down= stills_view.findViewById(R.id.stills_down);
+        stills_view = View.inflate(this, R.layout.file_pop_stills_view, null);
+        detail_down = stills_view.findViewById(R.id.stills_down);
         getStillsPopView(stills_view);
-        RecyclerView stills_recyclerview= stills_view.findViewById(R.id.stills_recyclerview);
-        StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        RecyclerView stills_recyclerview = stills_view.findViewById(R.id.stills_recyclerview);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         stills_recyclerview.setLayoutManager(staggeredGridLayoutManager);
         //TODO 创建适配器
         stillsAdapter = new StillsAdapter(this);
         stills_recyclerview.setAdapter(stillsAdapter);
 
     }
+
     /**
-     *预告片布局
-     *@author Administrator
-     *@time 2019/1/27 0027 11:45
+     * 预告片布局
+     *
+     * @author Administrator
+     * @time 2019/1/27 0027 11:45
      */
     private void getNoticeView() {
-        notice_view = View.inflate(this,R.layout.film_pop_notice_view,null);
-        detail_down= notice_view.findViewById(R.id.notice_down);
+        notice_view = View.inflate(this, R.layout.film_pop_notice_view, null);
+        detail_down = notice_view.findViewById(R.id.notice_down);
         getNoticePopView(notice_view);
-        RecyclerView notice_recyclerview= notice_view.findViewById(R.id.notice_recyclerview);
+        RecyclerView notice_recyclerview = notice_view.findViewById(R.id.notice_recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         notice_recyclerview.setLayoutManager(linearLayoutManager);
@@ -263,13 +274,15 @@ public class FilmDetailsActivity extends BaseActivty {
         notice_recyclerview.setAdapter(noticeAdapter);
 
     }
+
     /**
-     *详情布局
-     *@author Administrator
-     *@time 2019/1/27 0027 11:44
+     * 详情布局
+     *
+     * @author Administrator
+     * @time 2019/1/27 0027 11:44
      */
     private void getDetailsView() {
-        detail_view = View.inflate(this,R.layout.film_pop_details_view,null);
+        detail_view = View.inflate(this, R.layout.film_pop_details_view, null);
         //获取控件id
         class_name = detail_view.findViewById(R.id.class_name);
         director_name = detail_view.findViewById(R.id.director_name);
@@ -282,12 +295,13 @@ public class FilmDetailsActivity extends BaseActivty {
     }
 
     /**
-     *加载详情的布局
-     *@author Administrator
-     *@time 2019/1/26 0026 16:14
+     * 加载详情的布局
+     *
+     * @author Administrator
+     * @time 2019/1/26 0026 16:14
      */
     private void getDetailsPopView(View view) {
-        mPop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        mPop = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //设置焦点
         mPop.setFocusable(true);
         //设置是否可以触摸
@@ -300,13 +314,15 @@ public class FilmDetailsActivity extends BaseActivty {
             }
         });
     }
+
     /**
-     *预告片
-     *@author Administrator
-     *@time 2019/1/27 0027 11:12
+     * 预告片
+     *
+     * @author Administrator
+     * @time 2019/1/27 0027 11:12
      */
     private void getNoticePopView(View view) {
-        nopicePop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        nopicePop = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //设置焦点
         nopicePop.setFocusable(true);
         //设置是否可以触摸
@@ -320,13 +336,15 @@ public class FilmDetailsActivity extends BaseActivty {
             }
         });
     }
+
     /**
-     *剧照
-     *@author Administrator
-     *@time 2019/1/27 0027 11:12
+     * 剧照
+     *
+     * @author Administrator
+     * @time 2019/1/27 0027 11:12
      */
     private void getStillsPopView(View view) {
-        stillsPop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        stillsPop = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //设置焦点
         stillsPop.setFocusable(true);
         //设置是否可以触摸
@@ -339,13 +357,15 @@ public class FilmDetailsActivity extends BaseActivty {
             }
         });
     }
+
     /**
-     *剧照
-     *@author Administrator
-     *@time 2019/1/27 0027 11:12
+     * 剧照
+     *
+     * @author Administrator
+     * @time 2019/1/27 0027 11:12
      */
     private void getReviewPopView(View view) {
-        reviewPop = new PopupWindow(view,LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        reviewPop = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //设置焦点
         reviewPop.setFocusable(true);
         //设置是否可以触摸
@@ -358,43 +378,46 @@ public class FilmDetailsActivity extends BaseActivty {
             }
         });
     }
+
     @Override
     protected void initData() {
         Intent intent = getIntent();
         movieId = intent.getIntExtra("id", 0);
         //请求查看电影信息的接口
-        onGetRequest(String.format(Apis.URL_FIND_MOVIE_BY_ID_GET, movieId),DetailsBean.class);
+        onGetRequest(String.format(Apis.URL_FIND_MOVIE_BY_ID_GET, movieId), DetailsBean.class);
         //请求电影详情接口
-        onGetRequest(String.format(Apis.URL_FIND_MOVIE_DETAIL_GET,movieId),FilmDetailsBean.class);
+        onGetRequest(String.format(Apis.URL_FIND_MOVIE_DETAIL_GET, movieId), FilmDetailsBean.class);
         //请求电影评论接口
         init();
     }
+
     /**
      * 请求电影评论接口
-     *@author Administrator
-     *@time 2019/1/27 0027 13:14
+     *
+     * @author Administrator
+     * @time 2019/1/27 0027 13:14
      */
     private void init() {
-        mpage=1;
-        onGetRequest(String.format(Apis.URL_FIND_MOVIE_COMMENT_GET,movieId,mpage,COUNT),RevirwBean.class);
+        mpage = 1;
+        onGetRequest(String.format(Apis.URL_FIND_MOVIE_COMMENT_GET, movieId, mpage, COUNT), RevirwBean.class);
     }
 
     @Override
     protected void onNetSuccess(Object data) {
-    if (data instanceof DetailsBean){
-        DetailsBean detailsBean = (DetailsBean) data;
-        if (detailsBean.isSuccess()&&detailsBean!=null){
-            //展示数据
-            Uri uri = Uri.parse(detailsBean.getResult().getImageUrl());
-            bgImageDetail.setImageURI(uri);
-            bgImageDetailName.setImageURI(uri);
-            textName.setText(detailsBean.getResult().getName());
-        }
-        ToastUtil.showToast(detailsBean.getMessage());
-    }else if (data instanceof FilmDetailsBean){
-        filmDetailsBean = (FilmDetailsBean) data;
-        result = filmDetailsBean.getResult();
-        if (filmDetailsBean.isSuccess()&& filmDetailsBean !=null){
+        if (data instanceof DetailsBean) {
+            DetailsBean detailsBean = (DetailsBean) data;
+            if (detailsBean.isSuccess() && detailsBean != null) {
+                //展示数据
+                Uri uri = Uri.parse(detailsBean.getResult().getImageUrl());
+                bgImageDetail.setImageURI(uri);
+                bgImageDetailName.setImageURI(uri);
+                textName.setText(detailsBean.getResult().getName());
+            }
+            ToastUtil.showToast(detailsBean.getMessage());
+        } else if (data instanceof FilmDetailsBean) {
+            filmDetailsBean = (FilmDetailsBean) data;
+            result = filmDetailsBean.getResult();
+            if (filmDetailsBean.isSuccess() && filmDetailsBean != null) {
                 //TODO 设置值详细
                 Uri uri = Uri.parse(filmDetailsBean.getResult().getImageUrl());
                 image_detail_three.setImageURI(uri);
@@ -409,79 +432,85 @@ public class FilmDetailsActivity extends BaseActivty {
                 List<String> posterList = filmDetailsBean.getResult().getPosterList();
                 stillsAdapter.setList(posterList);
                 //设置是否关注
-            if (result.getFollowMovie()==1){
+                if (result.getFollowMovie() == 1) {
+                    imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_selected);
+                } else if (result.getFollowMovie() == 2) {
+                    imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_default);
+                }
+            }
+        } else if (data instanceof RevirwBean) {
+            RevirwBean revirwBean = (RevirwBean) data;
+            if (revirwBean != null && revirwBean.isSuccess()) {
+                //TODO 传值到适配器
+                if (mpage == 1) {
+                    revirwAdapter.setList(revirwBean.getResult());
+                } else {
+                    revirwAdapter.addList(revirwBean.getResult());
+                }
+                mpage++;
+                film_recyclerview.loadMoreComplete();
+                film_recyclerview.refreshComplete();
+            }
+            ToastUtil.showToast(revirwBean.getMessage());
+        } else if (data instanceof PraiseBean) {
+            PraiseBean praiseBean = (PraiseBean) data;
+            if (praiseBean != null && praiseBean.isSuccess()) {
+                revirwAdapter.addWhetherGreat(i);
+            }
+            ToastUtil.showToast(praiseBean.getMessage());
+        } else if (data instanceof FollowMovieBean) {
+            FollowMovieBean followMovieBean = (FollowMovieBean) data;
+            if (followMovieBean != null && followMovieBean.isSuccess()) {
+                result.setFollowMovie(1);
                 imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_selected);
-            }else if (result.getFollowMovie()==2){
+            }
+            ToastUtil.showToast(followMovieBean.getMessage());
+        } else if (data instanceof CancalFollowMovieBean) {
+            CancalFollowMovieBean cancalFollowMovieBean = (CancalFollowMovieBean) data;
+            if (cancalFollowMovieBean != null && cancalFollowMovieBean.isSuccess()) {
+                result.setFollowMovie(2);
                 imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_default);
             }
-        }
-    }else if (data instanceof RevirwBean){
-        RevirwBean revirwBean = (RevirwBean) data;
-        if (revirwBean!=null&&revirwBean.isSuccess()){
-            //TODO 传值到适配器
-            if (mpage==1){
-                revirwAdapter.setList(revirwBean.getResult());
-            }else{
-                revirwAdapter.addList(revirwBean.getResult());
-            }
-            mpage++;
-            film_recyclerview.loadMoreComplete();
-            film_recyclerview.refreshComplete();
-        }
-        ToastUtil.showToast(revirwBean.getMessage());
-    }else if (data instanceof PraiseBean){
-        PraiseBean praiseBean = (PraiseBean) data;
-        if (praiseBean!=null&&praiseBean.isSuccess()){
-            revirwAdapter.addWhetherGreat(i);
-        }
-        ToastUtil.showToast(praiseBean.getMessage());
-    }else if (data instanceof FollowMovieBean){
-        FollowMovieBean followMovieBean = (FollowMovieBean) data;
-        if (followMovieBean!=null&&followMovieBean.isSuccess()){
-            result.setFollowMovie(1);
-            imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_selected);
-        }
-        ToastUtil.showToast(followMovieBean.getMessage());
-    }else if (data instanceof CancalFollowMovieBean){
-        CancalFollowMovieBean cancalFollowMovieBean = (CancalFollowMovieBean) data;
-        if (cancalFollowMovieBean!=null&&cancalFollowMovieBean.isSuccess()){
-            result.setFollowMovie(2);
-            imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_default);
-        }
-        ToastUtil.showToast(cancalFollowMovieBean.getMessage());
-    }else if (data instanceof FilmCommentBean){
-        FilmCommentBean filmCommentBean = (FilmCommentBean) data;
-        if (filmCommentBean!=null&&filmCommentBean.isSuccess()){
+            ToastUtil.showToast(cancalFollowMovieBean.getMessage());
+        } else if (data instanceof FilmCommentBean) {
+            FilmCommentBean filmCommentBean = (FilmCommentBean) data;
+            if (filmCommentBean != null && filmCommentBean.isSuccess()) {
 
-           /* film_comment_recycler.setVisibility(View.VISIBLE);*/
-            //TODO 传值到查看评论回复适配器
-            if (mpage == 1) {
-                filmCommentAdapter.setList(filmCommentBean.getResult());
+                /* film_comment_recycler.setVisibility(View.VISIBLE);*/
+                //TODO 传值到查看评论回复适配器
+                if (mpage == 1) {
+                    filmCommentAdapter.setList(filmCommentBean.getResult());
+                } else {
+                    filmCommentAdapter.addList(filmCommentBean.getResult());
+                }
+                mpage++;
+                film_comment_recycler.loadMoreComplete();
+                film_comment_recycler.refreshComplete();
             } else {
-                filmCommentAdapter.addList(filmCommentBean.getResult());
+                // film_comment_recycler.setVisibility(View.GONE);
+                ToastUtil.showToast(filmCommentBean.getMessage());
             }
-            mpage++;
-            film_comment_recycler.loadMoreComplete();
-            film_comment_recycler.refreshComplete();
-        }else{
-           // film_comment_recycler.setVisibility(View.GONE);
-            ToastUtil.showToast(filmCommentBean.getMessage());
-        }
 
-    }else if (data instanceof CommentBean){
-        CommentBean commentBean = (CommentBean) data;
-        ToastUtil.showToast(commentBean.getMessage());
-    }
+        } else if (data instanceof CommentBean) {
+            CommentBean commentBean = (CommentBean) data;
+            //清空输入框
+            edit_write.setText("");
+            ToastUtil.showToast(commentBean.getMessage());
+            if (commentBean.isSuccess()) {
+                mpage = 1;
+                init();
+            }
+        }
     }
 
     @Override
     protected void onNetFail(String error) {
-        Log.i("TAG",error);
+        Log.i("TAG", error);
         ToastUtil.showToast(error);
     }
-    
+
     @SuppressLint("NewApi")
-    @OnClick({R.id.detail, R.id.notice, R.id.stills, R.id.film_review, R.id.return_image, R.id.but_purchase,R.id.image_detail_select})
+    @OnClick({R.id.detail, R.id.notice, R.id.stills, R.id.film_review, R.id.return_image, R.id.but_purchase, R.id.image_detail_select})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.detail:
@@ -509,9 +538,9 @@ public class FilmDetailsActivity extends BaseActivty {
                 break;
             case R.id.image_detail_select:
                 //关注
-                if ( result.getFollowMovie()==1){
-                    onGetRequest(String.format(Apis.URL_CANCEL_FOLLOW_MOVIE_GET, filmDetailsBean.getResult().getId()),CancalFollowMovieBean.class);
-                }else if (result.getFollowMovie()==2) {
+                if (result.getFollowMovie() == 1) {
+                    onGetRequest(String.format(Apis.URL_CANCEL_FOLLOW_MOVIE_GET, filmDetailsBean.getResult().getId()), CancalFollowMovieBean.class);
+                } else if (result.getFollowMovie() == 2) {
                     onGetRequest(String.format(Apis.URL_FOLLOW_MOVIE_GET, filmDetailsBean.getResult().getId()), FollowMovieBean.class);
                 }
                 break;
@@ -519,8 +548,9 @@ public class FilmDetailsActivity extends BaseActivty {
 
                 break;
 
-            default:break;
+            default:
+                break;
         }
     }
-    
+
 }
