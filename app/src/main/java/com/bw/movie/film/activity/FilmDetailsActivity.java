@@ -1,6 +1,7 @@
 package com.bw.movie.film.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,6 +15,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -27,6 +31,7 @@ import com.bw.movie.film.adapter.NoticeAdapter;
 import com.bw.movie.film.adapter.RevirwAdapter;
 import com.bw.movie.film.adapter.StillsAdapter;
 import com.bw.movie.film.bean.CancalFollowMovieBean;
+import com.bw.movie.film.bean.CommentBean;
 import com.bw.movie.film.bean.DetailsBean;
 import com.bw.movie.film.bean.FilmCommentBean;
 import com.bw.movie.film.bean.FilmDetailsBean;
@@ -94,7 +99,7 @@ public class FilmDetailsActivity extends BaseActivty {
     private XRecyclerView film_comment_recycler;
     private FilmCommentAdapter filmCommentAdapter;
     private boolean bool=true;
-    private ImageView write;
+    private ImageButton write;
 
     @Override
     protected int getLayoutResId() {
@@ -121,6 +126,9 @@ public class FilmDetailsActivity extends BaseActivty {
         detail_down= review_view.findViewById(R.id.film_down);
         film_recyclerview = review_view.findViewById(R.id.film_recyclerview);
         write = review_view.findViewById(R.id.write);
+        final LinearLayout linearLayout = review_view.findViewById(R.id.layout_write);
+        final EditText edit_write = review_view.findViewById(R.id.edit_write);
+        final TextView but_write = review_view.findViewById(R.id.but_write);
         getReviewPopView(review_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -167,6 +175,37 @@ public class FilmDetailsActivity extends BaseActivty {
                 bool=!bool;
             }
         });
+        //评论影片
+        write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.setVisibility(View.VISIBLE);
+                but_write.setVisibility(View.VISIBLE);
+                write.setVisibility(View.GONE);
+
+            }
+        });
+        //评论
+        but_write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.setVisibility(View.GONE);
+                but_write.setVisibility(View.GONE);
+                write.setVisibility(View.VISIBLE);
+                String trim = edit_write.getText().toString().trim();
+                if (trim.equals("")){
+
+                }else{
+                    Map<String, String> map =new HashMap<>();
+                    map.put("movieId",String.valueOf(movieId));
+                    map.put("commentContent",trim);
+                    onPostRequest(Apis.URL_COMMENT_REPLY_POST,map,CommentBean.class);
+                }
+
+
+            }
+        });
+
     }
     private void getcommetView(final int commentId) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -429,6 +468,9 @@ public class FilmDetailsActivity extends BaseActivty {
             ToastUtil.showToast(filmCommentBean.getMessage());
         }
 
+    }else if (data instanceof CommentBean){
+        CommentBean commentBean = (CommentBean) data;
+        ToastUtil.showToast(commentBean.getMessage());
     }
     }
 

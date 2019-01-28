@@ -30,7 +30,9 @@
         </activity>
         <activity android:name=".home.activity.HomeActivity"
             android:hardwareAccelerated="false" ></activity>
-        <activity android:name=".film.activity.FilmDetailsActivity"/>
+        <activity android:name=".film.activity.FilmDetailsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
     </application>
 
 </manifest>
