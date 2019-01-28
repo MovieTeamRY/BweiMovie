@@ -29,5 +29,6 @@
         <item name="android:windowShowAnimation">@anim/dialog_show</item>
         <item name="android:windowHideAnimation">@anim/dialog_hide</item>
     </style>
-
+    <style name="CustomTheme" parent="DefaultCityPickerTheme">
+    </style>
 </resources>

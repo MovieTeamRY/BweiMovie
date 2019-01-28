@@ -18,6 +18,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+/**
+ * 附近影院页面
+ * @author YU
+ * @date 2019.01.27
+ */
 public class NearFragment extends BaseFragment {
     @BindView(R.id.near_cinema_recycler)
     RecyclerView nearCinemaRecycler;
@@ -30,16 +35,12 @@ public class NearFragment extends BaseFragment {
     }
 
     @Override
-    protected View getLayoutView() {
-        return null;
-    }
-
-    @Override
     protected void initData() {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         nearCinemaRecycler.setLayoutManager(linearLayoutManager);
         nearAdapter = new NearAdapter(getContext());
         nearCinemaRecycler.setAdapter(nearAdapter);
+        //请求数据
         onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,1),NearCinemaBean.class);
     }
 
@@ -51,8 +52,11 @@ public class NearFragment extends BaseFragment {
     @Override
     protected void onNetSuccess(Object data) {
         if(data instanceof NearCinemaBean){
+            //给适配器添加数据
             NearCinemaBean nearCinemaBean= (NearCinemaBean) data;
-            nearAdapter.setList(nearCinemaBean.getResult());
+            if(nearCinemaBean.getResult().size()>0){
+                nearAdapter.setList(nearCinemaBean.getResult());
+            }
         }
     }
 

@@ -16,6 +16,7 @@ import com.bw.movie.base.BaseActivty;
 import com.bw.movie.cinema.fragment.CinemaFragment;
 import com.bw.movie.film.fragment.FilmFragment;
 import com.bw.movie.mine.fragment.MineFragment;
+import com.bw.movie.utils.AddressUtils;
 import com.bw.movie.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -50,7 +51,7 @@ public class HomeActivity extends BaseActivty {
     @Override
     protected void initData() {
         filmFragment = new FilmFragment();
-
+        AddressUtils.getAddressUtils().getAddressDetail(this);
         //fragment管理器
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
