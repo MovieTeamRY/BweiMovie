@@ -47,7 +47,7 @@ public class RecommAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        RecommCinemaBean.Result result = list.get(i);
+        final RecommCinemaBean.Result result = list.get(i);
         ViewHolder holder= (ViewHolder) viewHolder;
         holder.simpleDraweeView.setImageURI(Uri.parse(result.getLogo()));
         holder.address.setText(result.getAddress());
@@ -58,9 +58,14 @@ public class RecommAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }else{
             holder.prise.setImageResource(R.mipmap.com_icon_heart_default);
         }
-        Intent intent=new Intent(context,CinemaDetailActivity.class);
-        intent.putExtra("id",result.getId());
-        context.startActivity(intent);
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,CinemaDetailActivity.class);
+                intent.putExtra("id",result.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
