@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.film.activity.FilmMoreActivity;
 import com.bw.movie.film.adapter.HotFilmAdapter;
 import com.bw.movie.film.adapter.RelaeseAdapter;
 import com.bw.movie.film.adapter.RelaeseFilmAdapter;
@@ -31,6 +32,7 @@ import com.bw.movie.film.bean.HotFilmBean;
 import com.bw.movie.film.bean.RelaeseBean;
 import com.bw.movie.film.bean.ScreenFilmBean;
 import com.bw.movie.utils.AddressUtils;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
 import com.zaaach.citypicker.CityPicker;
@@ -52,6 +54,9 @@ import recycler.coverflow.CoverFlowLayoutManger;
 import recycler.coverflow.RecyclerCoverFlow;
 
 public class FilmFragment extends BaseFragment {
+    private static final int COUNT_ZERO =0 ;
+    private static final int COUNT_ONE =1 ;
+    private static final int COUNT_TWO =2 ;
     @BindView(R.id.film_group)
     RadioGroup filmGroup;
 
@@ -99,6 +104,7 @@ public class FilmFragment extends BaseFragment {
     private RelaeseFilmAdapter relaeseFilmAdapter;
     private ScreenFilmAdapter screenFilmAdapter;
     private List<RelaeseBean.ResultBean> result;
+    private Bundle bundle;
 
     @Override
     protected int getLayoutResId() {
@@ -194,6 +200,18 @@ public class FilmFragment extends BaseFragment {
                 //点击搜索影片 判断输入框的内容不能为空
                 setCutAnimator(searchLinear);
                 break;
+            case R.id.hot_film_more:
+                bundle.putInt("zero",COUNT_ZERO);
+                IntentUtils.getInstence().intent(getActivity(),FilmMoreActivity.class,bundle);
+                break;
+            case R.id.relaese_film_more:
+                bundle.putInt("one",COUNT_ONE);
+                IntentUtils.getInstence().intent(getActivity(),FilmMoreActivity.class,bundle);
+                break;
+            case R.id.screen_film_more:
+                bundle.putInt("two",COUNT_TWO);
+                IntentUtils.getInstence().intent(getActivity(),FilmMoreActivity.class,bundle);
+                break;
             default:break;
         }
     }
@@ -201,6 +219,7 @@ public class FilmFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         unbinder = ButterKnife.bind(this, view);
+        bundle = new Bundle();
     }
 
     private void setAddAnimator(View view) {

@@ -1,7 +1,6 @@
 package com.bw.movie.film.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.film.bean.FilmDetailsBean;
-import com.facebook.drawee.view.SimpleDraweeView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +40,11 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.noticeImage.setUp(list.get(position).getVideoUrl(),
+        holder.notice_image.setUp(list.get(position).getVideoUrl(),
                 JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL,"");
         Glide.with(context).load(list.get(position).getImageUrl()).crossFade()
-                .into(holder.noticeImage.thumbImageView);
-        holder.noticeImage.thumbImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-
+                .into(holder.notice_image.thumbImageView);
+        holder.notice_image.thumbImageView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
     @Override
     public int getItemCount() {
@@ -57,7 +53,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.notice_image)
-        JZVideoPlayerStandard noticeImage;
+        JZVideoPlayerStandard notice_image;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

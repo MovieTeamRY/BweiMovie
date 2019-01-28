@@ -26,6 +26,14 @@ android {
             }
         }
     }
+    signingConfigs {
+        debug {
+            storeFile file('movie.keystore')
+            keyAlias "bw_movie"
+            storePassword "123456"
+            keyPassword "123456"
+        }
+    }
 }
 
 dependencies {
@@ -54,6 +62,7 @@ dependencies {
     implementation 'com.facebook.fresco:animated-webp:0.14.1'
     //如果项目中使用了OkHttp需要进行替换(因为Fresco底层网络用的是okhttp,不做修改会出现jar包冲突)
     implementation 'com.facebook.fresco:imagepipeline-okhttp3:0.14.1'
+    //butterknife依赖
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //日期选择
@@ -61,9 +70,11 @@ dependencies {
     //旋转木马recyclerview
     implementation 'com.chenlittleping:recyclercoverflow:1.0.6'
     //加载视频
+
     implementation 'cn.jzvd:jiaozivideoplayer:6.2.10'
     implementation 'com.github.bumptech.glide:glide:3.8.0'
-    implementation 'org.greenrobot:eventbus:3.0.0'//Eventbus
+    //Eventbus依赖
+    implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.android.support:design:28.0.0'
     //动态权限
     implementation 'com.yanzhenjie:permission:1.0.4'
@@ -71,4 +82,6 @@ dependencies {
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
     //定位 地址
     implementation 'com.zaaach:citypicker:2.0.3'
+    /*微信登录*/
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

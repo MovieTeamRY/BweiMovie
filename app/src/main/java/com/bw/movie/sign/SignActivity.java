@@ -80,6 +80,9 @@ public class SignActivity extends BaseActivty {
         if (loginBean.isSuccess()&&loginBean!=null){
             IntentUtils.getInstence().intent(SignActivity.this,HomeActivity.class);
             finish();
+            //存入状态值
+            edit.putString("UserId",String.valueOf(loginBean.getResult().getUserId())).putString("SessionId",loginBean.getResult().getSessionId()).commit();
+
             ToastUtil.showToast(loginBean.getMessage());
         }
         ToastUtil.showToast(loginBean.getMessage());

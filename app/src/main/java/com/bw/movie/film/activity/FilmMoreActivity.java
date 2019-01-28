@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.cinema.fragment.NearFragment;
+import com.bw.movie.cinema.fragment.RecommFragment;
+import com.bw.movie.film.fragment.HotFilmFragment;
+import com.bw.movie.film.fragment.RelaeseFilmFragment;
+import com.bw.movie.film.fragment.ScreenFilmFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,14 +44,15 @@ public class FilmMoreActivity extends BaseActivty {
         filmViewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
-               /* if (i == 0) {
-                    return new NearFragment();
-                } else {
-                    return new RecommFragment();
-                }*/
-               return null;
+                if (i == 0) {
+                    return new HotFilmFragment();
+                } else if (i == 1) {
+                    return new RelaeseFilmFragment();
+                } else if (i == 2) {
+                    return new ScreenFilmFragment();
+                }
+                return null;
             }
-
             @Override
             public int getCount() {
                 return menu.length;

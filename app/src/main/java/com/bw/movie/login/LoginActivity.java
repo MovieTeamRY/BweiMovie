@@ -24,6 +24,8 @@ import com.bw.movie.utils.EncryptUtil;
 import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.RegularUtils;
 import com.bw.movie.utils.ToastUtil;
+import com.bw.movie.utils.WeiXinUtil;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -186,7 +188,16 @@ public class LoginActivity extends BaseActivty {
                 }
                 break;
             case R.id.login_weixin:
-                
+                //微信登录
+                if (!WeiXinUtil.success(this)) {
+                    ToastUtil.showToast("请先安装应用");
+                } else {
+                    //  验证
+                    SendAuth.Req req = new SendAuth.Req();
+                    req.scope = "snsapi_userinfo";
+                    req.state = "wechat_sdk_demo_test";
+                    WeiXinUtil.reg(LoginActivity.this).sendReq(req);
+                }
                 break;
             default:break;
         }
