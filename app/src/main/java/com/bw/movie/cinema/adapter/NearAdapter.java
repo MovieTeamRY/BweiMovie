@@ -1,6 +1,7 @@
 package com.bw.movie.cinema.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.cinema.activity.CinemaDetailActivity;
 import com.bw.movie.cinema.bean.NearCinemaBean;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -45,7 +47,7 @@ public class NearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        NearCinemaBean.Result result = list.get(i);
+        final NearCinemaBean.Result result = list.get(i);
         ViewHolder holder= (ViewHolder) viewHolder;
         holder.simpleDraweeView.setImageURI(Uri.parse(result.getLogo()));
         holder.address.setText(result.getAddress());
@@ -56,6 +58,14 @@ public class NearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }else{
             holder.prise.setImageResource(R.mipmap.com_icon_heart_default);
         }
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,CinemaDetailActivity.class);
+                intent.putExtra("id",result.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

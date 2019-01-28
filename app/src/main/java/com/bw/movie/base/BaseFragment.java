@@ -32,12 +32,9 @@ public abstract class BaseFragment extends Fragment implements Iview{
         ipresenter=new IpresenterImpl(this);
         if (getLayoutResId()!=0) {
             return inflater.inflate(getLayoutResId(), container, false);
+        }else{
+            return null;
         }
-        View view = getLayoutView();
-        if (view!=null){
-            return view;
-        }
-        return null;
     }
 
     @Override
@@ -112,8 +109,6 @@ public abstract class BaseFragment extends Fragment implements Iview{
     }
 
     protected abstract int getLayoutResId();
-
-    protected abstract View getLayoutView();
 
     protected abstract void initData();
 

@@ -1,14 +1,16 @@
 package com.bw.movie.cinema.fragment;
 
-import android.os.Bundle;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -16,19 +18,31 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.mine.fragment.MineFragment;
+import com.bw.movie.utils.MessageBean;
+import com.bw.movie.utils.ToastUtil;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.adapter.OnPickListener;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.LocatedCity;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
+/**
+ * 影院页面
+ * @author YU
+ * @date 2019.01.27
+ */
 public class CinemaFragment extends BaseFragment {
     @BindView(R.id.image_loc)
     ImageButton imageLoc;
+    @BindView(R.id.text_loc)
+    TextView textLoc;
     @BindView(R.id.image_search)
     ImageButton imageSearch;
     @BindView(R.id.edit_search)
@@ -49,17 +63,18 @@ public class CinemaFragment extends BaseFragment {
     }
 
     @Override
-    protected View getLayoutView() {
-        return null;
-    }
-
-    @Override
     protected void initView(View view) {
         unbinder = ButterKnife.bind(this, view);
     }
 
     @Override
     protected void initData() {
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
+        imageLoc.setBackgroundResource(R.mipmap.cinema_detail_icon_location_default);
+        textLoc.setTextColor(Color.parseColor("#333333"));
+        //添加fragment
         final String[] menu=new String[]{"推荐影院","附近影院"};
         cinemaViewpager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
@@ -82,6 +97,7 @@ public class CinemaFragment extends BaseFragment {
                 return menu[position];
             }
         });
+        //tablayout和viewpager关联
         cinemaTab.setupWithViewPager(cinemaViewpager);
         for (int i = 0; i < menu.length; i++) {
             TabLayout.Tab tab = cinemaTab.getTabAt(i);
@@ -99,6 +115,91 @@ public class CinemaFragment extends BaseFragment {
         }
 
     }
+    @Subscribe(threadMode=ThreadMode.MAIN,sticky = true)
+    public void getAddress(MessageBean messageBean){
+        if(messageBean.getId().equals("address")){
+            textLoc.setText(String.valueOf(messageBean.getObject()));
+        }
+    }
+
+    @OnClick({R.id.image_loc, R.id.image_search, R.id.text_search})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.image_loc:
+                //点击搜索地址
+                CityPicker.from(getActivity())
+                    //activity或者fragment
+                    .enableAnimation(true)
+                    //自定义动画
+                    .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))
+                    //APP自身已定位的城市，传null会自动定位（默认）
+                    .setOnPickListener(new OnPickListener() {
+                        @Override
+                        public void onPick(int position, City data) {
+                            textLoc.setText(data.getName());
+                            EventBus.getDefault().postSticky(new MessageBean("address",data.getName()));
+                            ToastUtil.showToast(data.getName());
+                        }
+
+                        @Override
+                        public void onCancel(){
+                            ToastUtil.showToast("取消选择");
+                        }
+
+                        @Override
+                        public void onLocate() {
+                        }
+                    })
+                    .show();
+                break;
+            case R.id.image_search:
+                //点击弹出搜索框和搜索文字
+                editSearch.setVisibility(View.VISIBLE);
+                textSearch.setVisibility(View.VISIBLE);
+                setAddAnimator(filmSearchLinear);
+                break;
+            case R.id.text_search:
+                //收回搜索框和搜索文字 判断文字内容 并搜索
+                setCutAnimator(filmSearchLinear);
+                break;
+            default:break;
+        }
+    }
+    private void setAddAnimator(View view) {
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(view, "translationX", -470f);
+        translationX.setInterpolator(new AccelerateInterpolator());
+        translationX.setDuration(2000);
+        translationX.start();
+    }
+
+    private void setCutAnimator(View view) {
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(view, "translationX", 0f);
+        translationX.setInterpolator(new AccelerateInterpolator());
+        translationX.setDuration(2000);
+        translationX.start();
+        translationX.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                editSearch.setVisibility(View.GONE);
+                textSearch.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
 
     @Override
     protected void onNetSuccess(Object data) {
@@ -107,28 +208,13 @@ public class CinemaFragment extends BaseFragment {
 
     @Override
     protected void onNetFail(String error) {
-
+        Log.i("TAG",error);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @OnClick({R.id.image_loc, R.id.image_search, R.id.text_search})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.image_loc:
-                //点击搜索地址
-                break;
-            case R.id.image_search:
-                //点击弹出搜索框和搜索文字
-                break;
-            case R.id.text_search:
-                //收回搜索框和搜索文字 判断文字内容 并搜索
-                break;
-            default:break;
-        }
+        EventBus.getDefault().unregister(this);
     }
 }

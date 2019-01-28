@@ -30,7 +30,17 @@ import com.bw.movie.film.adapter.ScreenFilmAdapter;
 import com.bw.movie.film.bean.HotFilmBean;
 import com.bw.movie.film.bean.RelaeseBean;
 import com.bw.movie.film.bean.ScreenFilmBean;
+import com.bw.movie.utils.AddressUtils;
+import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.adapter.OnPickListener;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.LocatedCity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -96,12 +106,10 @@ public class FilmFragment extends BaseFragment {
     }
 
     @Override
-    protected View getLayoutView() {
-        return null;
-    }
-
-    @Override
     protected void initData() {
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         LinearLayoutManager hotFilmManager=new LinearLayoutManager(getContext());
         hotFilmManager.setOrientation(OrientationHelper.HORIZONTAL);
         hotFilmRecycler.setLayoutManager(hotFilmManager);
@@ -136,6 +144,14 @@ public class FilmFragment extends BaseFragment {
                 }
             }
         });
+
+    }
+
+    @Subscribe(threadMode=ThreadMode.MAIN,sticky = true)
+    public void getAddress(MessageBean messageBean){
+        if(messageBean.getId().equals("address")){
+            textLoc.setText(String.valueOf(messageBean.getObject()));
+        }
     }
 
     @OnClick({R.id.image_loc, R.id.image_search, R.id.text_search,R.id.hot_film_more,R.id.relaese_film_more,R.id.screen_film_more})
@@ -143,6 +159,30 @@ public class FilmFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.image_loc:
                 //TODO 点击定位
+                CityPicker.from(getActivity())
+                    //activity或者fragment
+                    .enableAnimation(true)
+                    //自定义动画
+                    .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))
+                    //APP自身已定位的城市，传null会自动定位（默认）
+                    .setOnPickListener(new OnPickListener() {
+                        @Override
+                        public void onPick(int position, City data) {
+                            EventBus.getDefault().postSticky(new MessageBean("address",data.getName()));
+                            textLoc.setText(data.getName());
+                            ToastUtil.showToast(data.getName());
+                        }
+
+                        @Override
+                        public void onCancel(){
+                            ToastUtil.showToast("取消选择");
+                        }
+
+                        @Override
+                        public void onLocate() {
+                        }
+                    })
+                    .show();
                 break;
             case R.id.image_search:
                 //点击搜索框实现动画
@@ -248,6 +288,7 @@ public class FilmFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
         handler.removeMessages(0);
     }
 }

@@ -160,6 +160,8 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
                     Manifest.permission.INTERNET,
                     //打开相机
                     Manifest.permission.CAMERA,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS
 
             };
             ActivityCompat.requestPermissions(this,mStatenetwork,100);

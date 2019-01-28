@@ -57,15 +57,18 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //日期选择
-    implementation'com.contrarywind:Android-PickerView:4.1.7'
-    //
+    implementation 'com.contrarywind:Android-PickerView:4.1.7'
+    //旋转木马recyclerview
     implementation 'com.chenlittleping:recyclercoverflow:1.0.6'
     //加载视频
     implementation 'cn.jzvd:jiaozivideoplayer:6.2.10'
     implementation 'com.github.bumptech.glide:glide:3.8.0'
-
+    implementation 'org.greenrobot:eventbus:3.0.0'//Eventbus
     implementation 'com.android.support:design:28.0.0'
-
+    //动态权限
+    implementation 'com.yanzhenjie:permission:1.0.4'
     //xRecyclerview依赖
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
+    //定位 地址
+    implementation 'com.zaaach:citypicker:2.0.3'
 }

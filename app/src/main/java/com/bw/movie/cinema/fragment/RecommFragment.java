@@ -3,6 +3,7 @@ package com.bw.movie.cinema.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+/**
+ * 推荐影院页面
+ * @author YU
+ * @date 2019.01.27
+ */
 public class RecommFragment extends BaseFragment {
     @BindView(R.id.recomm_cinema_recycler)
     RecyclerView recommCinemaRecycler;
@@ -31,16 +37,12 @@ public class RecommFragment extends BaseFragment {
     }
 
     @Override
-    protected View getLayoutView() {
-        return null;
-    }
-
-    @Override
     protected void initData() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recommCinemaRecycler.setLayoutManager(linearLayoutManager);
         recommAdapter = new RecommAdapter(getContext());
         recommCinemaRecycler.setAdapter(recommAdapter);
+        //请求数据
         onGetRequest(String.format(Apis.URL_FIND_RECOMMEND_CINEMAS_GET, 1), RecommCinemaBean.class);
     }
 
@@ -54,6 +56,7 @@ public class RecommFragment extends BaseFragment {
         if(data instanceof RecommCinemaBean){
             RecommCinemaBean recommCinemaBean= (RecommCinemaBean) data;
             if(recommCinemaBean.getResult().size()>0){
+                //给适配器设置数据
                 recommAdapter.setList(recommCinemaBean.getResult());
             }
         }
@@ -61,7 +64,7 @@ public class RecommFragment extends BaseFragment {
 
     @Override
     protected void onNetFail(String error) {
-
+        Log.i("TAG",error);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.bw.movie.cinema.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.cinema.activity.CinemaDetailActivity;
 import com.bw.movie.cinema.bean.RecommCinemaBean;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -56,6 +58,9 @@ public class RecommAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }else{
             holder.prise.setImageResource(R.mipmap.com_icon_heart_default);
         }
+        Intent intent=new Intent(context,CinemaDetailActivity.class);
+        intent.putExtra("id",result.getId());
+        context.startActivity(intent);
     }
 
     @Override
