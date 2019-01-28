@@ -80,9 +80,9 @@ public class CinemaFragment extends BaseFragment {
             @Override
             public Fragment getItem(int i) {
                 if(i==0){
-                    return new NearFragment();
-                }else{
                     return new RecommFragment();
+                }else{
+                    return new NearFragment();
                 }
             }
 

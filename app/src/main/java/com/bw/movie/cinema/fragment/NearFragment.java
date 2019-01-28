@@ -13,6 +13,11 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.cinema.adapter.NearAdapter;
 import com.bw.movie.cinema.bean.NearCinemaBean;
+import com.bw.movie.utils.MessageBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +33,8 @@ public class NearFragment extends BaseFragment {
     RecyclerView nearCinemaRecycler;
     Unbinder unbinder;
     private NearAdapter nearAdapter;
-
+    private String longtitude="";
+    private String latitude="";
     @Override
     protected int getLayoutResId() {
         return R.layout.near_cinema_fragment;
@@ -40,13 +46,26 @@ public class NearFragment extends BaseFragment {
         nearCinemaRecycler.setLayoutManager(linearLayoutManager);
         nearAdapter = new NearAdapter(getContext());
         nearCinemaRecycler.setAdapter(nearAdapter);
-        //请求数据
-        onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,1),NearCinemaBean.class);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void getLoacation(MessageBean messageBean){
+        if(messageBean.getId().equals("location")){
+            double[] location= (double[]) messageBean.getObject();
+            longtitude= String.valueOf(location[0]);
+            latitude= String.valueOf(location[1]);
+            //请求数据
+            onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,longtitude,latitude,1),NearCinemaBean.class);
+        }
     }
 
     @Override
     protected void initView(View view) {
         unbinder = ButterKnife.bind(this, view);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -69,5 +88,6 @@ public class NearFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 }

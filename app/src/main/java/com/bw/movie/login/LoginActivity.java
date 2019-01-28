@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -177,6 +178,7 @@ public class LoginActivity extends BaseActivty {
                     if (RegularUtils.isMobile(phone)){
                         if (RegularUtils.isPassword(pwd)){
                             map.put("phone", phone);
+                            Log.i("TAG",EncryptUtil.encrypt(pwd));
                             map.put("pwd", EncryptUtil.encrypt(pwd));
                             onPostRequest(Apis.URL_LOGIN_POST, map, LoginBean.class);
                         }else{

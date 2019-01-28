@@ -33,10 +33,11 @@ public class AddressUtils {
         @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         if (location != null) {
             latitude = location.getLatitude();
-            // 经度
-            longitude = location.getLongitude();
             // 纬度
-            String address = getAddress(latitude, longitude);
+            longitude = location.getLongitude();
+            // 经度
+            String address = getAddress(longitude,latitude);
+            EventBus.getDefault().postSticky(new MessageBean("location",new double[]{latitude,longitude}));
             EventBus.getDefault().postSticky(new MessageBean("address",address));
         }
 
@@ -49,7 +50,7 @@ public class AddressUtils {
             List<Address> addList = null;
             Geocoder ge = new Geocoder(MyApplication.getApplication());
             try {
-                addList = ge.getFromLocation(latitude, longitude, 1);
+                addList = ge.getFromLocation( longitude,latitude, 1);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
