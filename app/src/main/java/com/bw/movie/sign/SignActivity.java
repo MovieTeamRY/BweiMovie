@@ -21,6 +21,7 @@ import com.bw.movie.utils.EncryptUtil;
 import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.RegularUtils;
 import com.bw.movie.utils.ToastUtil;
+import com.xw.repo.XEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,17 +40,17 @@ import butterknife.OnClick;
  */
 public class SignActivity extends BaseActivty {
     @BindView(R.id.sign_text_nick)
-    EditText signTextNick;
+    XEditText signTextNick;
     @BindView(R.id.sign_text_sex)
-    EditText signTextSex;
+    XEditText signTextSex;
     @BindView(R.id.sign_text_date)
     TextView signTextDate;
     @BindView(R.id.sign_text_phone)
-    EditText signTextPhone;
+    XEditText signTextPhone;
     @BindView(R.id.sign_text_email)
-    EditText signTextEmail;
+    XEditText signTextEmail;
     @BindView(R.id.sign_text_pwd)
-    EditText signTextPwd;
+    XEditText signTextPwd;
     @BindView(R.id.sign_but)
     Button signBut;
     private String phone;

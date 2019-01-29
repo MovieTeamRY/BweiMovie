@@ -21,6 +21,7 @@ import com.bw.movie.base.BaseFragment;
 import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
+import com.xw.repo.XEditText;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
@@ -47,7 +48,7 @@ public class CinemaFragment extends BaseFragment {
     @BindView(R.id.image_search)
     ImageButton imageSearch;
     @BindView(R.id.edit_search)
-    EditText editSearch;
+    XEditText editSearch;
     @BindView(R.id.text_search)
     TextView textSearch;
     @BindView(R.id.film_search_linear)

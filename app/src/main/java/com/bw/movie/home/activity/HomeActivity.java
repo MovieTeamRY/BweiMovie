@@ -58,6 +58,10 @@ public class HomeActivity extends BaseActivty {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.home_frame, filmFragment);
         transaction.commit();
+        homeFilm.setChecked(true);
+        AnimatorUtils.scaleAnimator(homeFilm,"scaleX","scaleY",1f,1.17f,0);
+        AnimatorUtils.scaleAnimator(homeCinema,"scaleX","scaleY",1f,0);
+        AnimatorUtils.scaleAnimator(homeMy,"scaleX","scaleY",1f,0);
     }
 
     @Override
@@ -68,26 +72,6 @@ public class HomeActivity extends BaseActivty {
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_home;
-    }
-
-    //点击放大
-    private void setAddAnimator(View view) {
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.17f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.17f);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.setDuration(0);
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.start();
-    }
-
-    //点击缩小
-    private void setCutAnimator(View view) {
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.setDuration(0);
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.start();
     }
 
     @Override

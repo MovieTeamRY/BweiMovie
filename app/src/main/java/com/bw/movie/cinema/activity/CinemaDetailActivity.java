@@ -1,13 +1,26 @@
 package com.bw.movie.cinema.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -20,6 +33,8 @@ import com.bw.movie.cinema.adapter.CinemaSchedulAdapter;
 import com.bw.movie.cinema.bean.CinemaFilmBean;
 import com.bw.movie.cinema.bean.CinemaInfoBean;
 import com.bw.movie.cinema.bean.FilmSchedulBean;
+import com.bw.movie.cinema.fragment.CinemaCommentFragment;
+import com.bw.movie.cinema.fragment.CinemaDetailFragment;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -59,6 +74,8 @@ public class CinemaDetailActivity extends BaseActivty {
     private int id;
     private List<CinemaFilmBean.ResultBean> movieList;
     private CinemaFilmAdapter cinemaFilmAdapter;
+    private PopupWindow detailWindow;
+    private View popView;
 
     @Override
     protected int getLayoutResId() {
@@ -66,10 +83,63 @@ public class CinemaDetailActivity extends BaseActivty {
     }
 
     @Override
+    public <T extends View> T findViewById(int id) {
+        if (id == R.id.detail_viewpager && popView !=null){
+            return popView.findViewById(id);
+        }
+        return super.findViewById(id);
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
         bind = ButterKnife.bind(this);
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
+        }
+        popView = LayoutInflater.from(this).inflate(R.layout.cinema_detail_pop_view,null,false);
+        detailWindow = new PopupWindow(popView,ViewGroup.LayoutParams.MATCH_PARENT,1300);
+        detailWindow.setFocusable(true);
+        detailWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
+        TabLayout tabLayout=popView.findViewById(R.id.detail_tab);
+
+        ViewPager viewPager=popView.findViewById(R.id.detail_viewpager);
+        final String[] menu=new String[]{"详情","评论"};
+        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int i) {
+                if(i==0){
+                    return new CinemaDetailFragment();
+                }else{
+                    return new CinemaCommentFragment();
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return menu.length;
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return menu[position];
+            }
+        });
+        //tablayout和viewpager关联
+        tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < menu.length; i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            //获得每一个tab
+            tab.setCustomView(R.layout.cinema_detail_pop_tab_text);
+            //给每一个tab设置view
+            if (i == 0) {
+                // 设置第一个tab的TextView是被选择的样式
+                tab.getCustomView().findViewById(R.id.cinema_tab_text).setSelected(true);
+                //第一个tab被选中
+            }
+            TextView textView = tab.getCustomView().findViewById(R.id.cinema_tab_text);
+            textView.setText(menu[i]);
+            //设置tab上的文字
         }
     }
 
@@ -111,11 +181,29 @@ public class CinemaDetailActivity extends BaseActivty {
         }
     }
 
-    @OnClick(R.id.cinema_film_return)
+    @OnClick({R.id.cinema_film_return,R.id.cinema_name,R.id.cinema_logo,R.id.cinema_address})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.cinema_film_return:
                 finish();
+                break;
+            case R.id.cinema_name:
+                if(!detailWindow.isShowing()){
+                    EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",id));
+                    detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
+                }
+                break;
+            case R.id.cinema_address:
+                if(!detailWindow.isShowing()){
+                    EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",id));
+                    detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
+                }
+                break;
+            case R.id.cinema_logo:
+                if(!detailWindow.isShowing()){
+                    EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",id));
+                    detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
+                }
                 break;
             default:break;
         }
@@ -134,6 +222,7 @@ public class CinemaDetailActivity extends BaseActivty {
             if(filmBean.getResult().size()>0){
                 movieList = filmBean.getResult();
                 if(movieList.size()>0){
+                    cinemaFilm.setVisibility(View.VISIBLE);
                     cinemaFilmAdapter.setListBeans(movieList);
                     cinemaGroup.removeAllViews();
                     int width = cinemaGroup.getWidth();
@@ -142,6 +231,8 @@ public class CinemaDetailActivity extends BaseActivty {
                         RadioButton radioButton=new RadioButton(this);
                         radioButton.setWidth(childWidth);
                         radioButton.setBackgroundResource(R.drawable.home_film_divide_selected);
+                        Bitmap a=null;
+                        radioButton.setButtonDrawable(new BitmapDrawable(a));
                         radioButton.setChecked(false);
                         cinemaGroup.addView(radioButton);
                     }

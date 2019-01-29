@@ -50,7 +50,27 @@ public class CinemaSchedulAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         final FilmSchedulBean.ResultBean resultBean = list.get(i);
         ViewHolder holder= (ViewHolder) viewHolder;
-        holder.schedulingLoc.setText(resultBean.getScreeningHall());
+        if(resultBean.getStatus()==2){
+            holder.schedulingLoc.setText("影片已过期");
+        }else if(resultBean.getStatus()==1){
+            holder.schedulingLoc.setText(resultBean.getScreeningHall());
+            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context,SeatActivity.class);
+                    intent.putExtra("scheduleId",resultBean.getId());
+                    context.startActivity(intent);
+                }
+            });
+            holder.schedulingNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context,SeatActivity.class);
+                    intent.putExtra("scheduleId",resultBean.getId());
+                    context.startActivity(intent);
+                }
+            });
+        }
         holder.schedulingLanguage.setText(resultBean.getDuration());
         holder.startTime.setText(resultBean.getBeginTime());
         holder.endTime.setText(resultBean.getEndTime());
@@ -62,22 +82,7 @@ public class CinemaSchedulAdapter extends RecyclerView.Adapter<RecyclerView.View
         spannableString.setSpan(sizeSpan01, 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(sizeSpan02, 2, 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         holder.schedulingPrice.setText(spannableString);
-        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(context,SeatActivity.class);
-                intent.putExtra("scheduleId",resultBean.getId());
-                context.startActivity(intent);
-            }
-        });
-        holder.schedulingNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(context,SeatActivity.class);
-                intent.putExtra("scheduleId",resultBean.getId());
-                context.startActivity(intent);
-            }
-        });
+
     }
 
     @Override

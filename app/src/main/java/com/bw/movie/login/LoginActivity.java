@@ -27,6 +27,7 @@ import com.bw.movie.utils.RegularUtils;
 import com.bw.movie.utils.ToastUtil;
 import com.bw.movie.utils.WeiXinUtil;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.xw.repo.XEditText;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,9 +44,9 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseActivty {
 
     @BindView(R.id.login_text_phone)
-    EditText loginTextPhone;
+    XEditText loginTextPhone;
     @BindView(R.id.login_text_pwd)
-    EditText loginTextPwd;
+    XEditText loginTextPwd;
     @BindView(R.id.login_image_eye)
     ImageButton loginImageEye;
     @BindView(R.id.login_check_rem)

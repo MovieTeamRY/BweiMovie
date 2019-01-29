@@ -15,6 +15,12 @@ import com.bw.movie.cinema.adapter.NearAdapter;
 import com.bw.movie.cinema.adapter.RecommAdapter;
 import com.bw.movie.cinema.bean.NearCinemaBean;
 import com.bw.movie.cinema.bean.RecommCinemaBean;
+import com.bw.movie.film.bean.CancalFollowMovieBean;
+import com.bw.movie.film.bean.FollowMovieBean;
+import com.bw.movie.utils.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +36,8 @@ public class RecommFragment extends BaseFragment {
     RecyclerView recommCinemaRecycler;
     Unbinder unbinder;
     private RecommAdapter recommAdapter;
+    private List<RecommCinemaBean.Result> resultList;
+    private int index;
 
     @Override
     protected int getLayoutResId() {
@@ -38,10 +46,26 @@ public class RecommFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        resultList=new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recommCinemaRecycler.setLayoutManager(linearLayoutManager);
         recommAdapter = new RecommAdapter(getContext());
         recommCinemaRecycler.setAdapter(recommAdapter);
+
+        recommAdapter.setPriseClick(new RecommAdapter.PriseClick() {
+            @Override
+            public void onClick(int position, List<RecommCinemaBean.Result> list, int followCinema) {
+                resultList.addAll(list);
+                index=position;
+                if(followCinema==1){
+                    //已经关注过 点击 就取消关注
+                    onGetRequest(String.format(Apis.URL_CANCEL_FOLLOW_CINEAM_GET,list.get(position).getId()),CancalFollowMovieBean.class);
+                }else{
+                    //没有关注过  点击 就关注
+                    onGetRequest(String.format(Apis.URL_FOLLOW_CINEAM_GET,list.get(position).getId()),FollowMovieBean.class);
+                }
+            }
+        });
         //请求数据
         onGetRequest(String.format(Apis.URL_FIND_RECOMMEND_CINEMAS_GET, 1), RecommCinemaBean.class);
     }
@@ -59,6 +83,16 @@ public class RecommFragment extends BaseFragment {
                 //给适配器设置数据
                 recommAdapter.setList(recommCinemaBean.getResult());
             }
+        }else if(data instanceof FollowMovieBean){
+            FollowMovieBean followMovieBean= (FollowMovieBean) data;
+            ToastUtil.showToast(followMovieBean.getMessage());
+            resultList.get(index).setFollowCinema(1);
+            recommAdapter.setList(resultList);
+        }else if(data instanceof CancalFollowMovieBean){
+            CancalFollowMovieBean cancalFollowMovieBean= (CancalFollowMovieBean) data;
+            ToastUtil.showToast(cancalFollowMovieBean.getMessage());
+            resultList.get(index).setFollowCinema(2);
+            recommAdapter.setList(resultList);
         }
     }
 

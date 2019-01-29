@@ -20,14 +20,16 @@
         app:layout_constraintRight_toLeftOf="@+id/sign_text_nick"
         android:background="@mipmap/register_icon_name_default"
         />
-    <EditText
+    <com.xw.repo.XEditText
         android:id="@+id/sign_text_nick"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
         android:hint="昵称"
+        app:x_disableClear="true"
         android:inputType="text"
         android:textColor="#fff"
         android:textColorHint="#fff"
+        app:x_disableEmoji="true"
         android:textSize="@dimen/sp_16"
         android:background="@null"
         app:layout_constraintLeft_toRightOf="@+id/sign_image_nick"
@@ -53,11 +55,12 @@
         app:layout_constraintRight_toLeftOf="@+id/sign_text_sex"
         android:background="@mipmap/register_icon_sex_default"
         />
-    <EditText
+    <com.xw.repo.XEditText
         android:id="@+id/sign_text_sex"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
         android:hint="性别"
+        app:x_disableClear="true"
         android:digits="男女"
         android:textColor="#fff"
         android:textColorHint="#fff"
@@ -121,11 +124,12 @@
         app:layout_constraintRight_toLeftOf="@+id/sign_text_phone"
         android:background="@mipmap/log_icon_phone_default"
         />
-    <EditText
+    <com.xw.repo.XEditText
         android:id="@+id/sign_text_phone"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
         android:hint="手机号"
+        app:x_disableClear="true"
         android:textColor="#fff"
         android:textColorHint="#fff"
         android:inputType="number"
@@ -156,11 +160,12 @@
         app:layout_constraintRight_toLeftOf="@+id/sign_text_email"
         android:background="@mipmap/register_icon_mail_default"
         />
-    <EditText
+    <com.xw.repo.XEditText
         android:id="@+id/sign_text_email"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
         android:hint="邮箱"
+        app:x_disableClear="true"
         android:inputType="text"
         android:textColor="#fff"
         android:textColorHint="#fff"
@@ -191,11 +196,12 @@
         app:layout_constraintRight_toLeftOf="@+id/sign_text_pwd"
         android:background="@mipmap/log_icon_lock_default"
         />
-    <EditText
+    <com.xw.repo.XEditText
         android:id="@+id/sign_text_pwd"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
         android:hint="登录密码"
+        app:x_disableClear="true"
         android:textColor="#fff"
         android:textColorHint="#fff"
         android:textSize="@dimen/sp_16"

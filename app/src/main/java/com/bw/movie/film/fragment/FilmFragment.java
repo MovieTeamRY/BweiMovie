@@ -2,9 +2,13 @@ package com.bw.movie.film.fragment;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +41,7 @@ import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
+import com.xw.repo.XEditText;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
@@ -72,7 +77,7 @@ public class FilmFragment extends BaseFragment {
     @BindView(R.id.image_search)
     ImageButton imageSearch;
     @BindView(R.id.edit_search)
-    EditText editSearch;
+    XEditText editSearch;
     @BindView(R.id.text_search)
     TextView textSearch;
     @BindView(R.id.film_search_linear)
@@ -147,6 +152,15 @@ public class FilmFragment extends BaseFragment {
                     RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % result.size());
                     childAt.setChecked(true);
                     current = position;
+//                    for(int i = 0; i<filmGroup.getChildCount(); i++){
+//                        RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % result.size());
+//                        if(i == (position % result.size())){
+//                            childAt.setChecked(true);
+//                            current = position;
+//                        }else{
+//                            childAt.setChecked(false);
+//                        }
+//                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -243,6 +257,8 @@ public class FilmFragment extends BaseFragment {
                     for (int i=0;i<result.size();i++){
                         RadioButton radioButton=new RadioButton(getContext());
                         radioButton.setWidth(childWidth);
+                        Bitmap a=null;
+                        radioButton.setButtonDrawable(new BitmapDrawable(a));
                         radioButton.setBackgroundResource(R.drawable.home_film_divide_selected);
                         radioButton.setChecked(false);
                         filmGroup.addView(radioButton);

@@ -23,6 +23,7 @@ import com.bw.movie.film.fragment.RelaeseFilmFragment;
 import com.bw.movie.film.fragment.ScreenFilmFragment;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
+import com.xw.repo.XEditText;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
@@ -50,7 +51,7 @@ public class FilmMoreActivity extends BaseActivty {
     @BindView(R.id.text_loc)
     TextView textLoc;
     @BindView(R.id.edit_search)
-    EditText edit_search;
+    XEditText edit_search;
     @BindView(R.id.image_search)
     ImageButton image_search;
     @BindView(R.id.text_search)

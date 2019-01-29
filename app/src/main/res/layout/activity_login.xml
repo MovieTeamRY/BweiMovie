@@ -18,7 +18,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:background="@mipmap/log_icon_phone_default"
         />
-    <EditText
+    <com.xw.repo.XEditText
         android:id="@+id/login_text_phone"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_30"
@@ -27,6 +27,7 @@
         android:textSize="@dimen/sp_18"
         android:maxLength="11"
         android:hint="手机号"
+        app:x_disableClear="true"
         android:textColor="#eeeeee"
         android:textColorHint="#eeeeee"
         android:inputType="number"
@@ -51,11 +52,12 @@
         android:background="@mipmap/log_icon_lock_default"
        app:layout_constraintTop_toBottomOf="@id/login_view_phone"
         />
-    <EditText
+    <com.xw.repo.XEditText
         android:id="@+id/login_text_pwd"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_30"
         android:layout_marginLeft="@dimen/dp_20"
+        app:x_disableClear="true"
         android:layout_toLeftOf="@id/login_image_eye"
         android:hint="登录密码"
         android:inputType="textPassword"

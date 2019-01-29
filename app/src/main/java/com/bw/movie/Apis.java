@@ -228,13 +228,13 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/verify/followCinema
      * 请求方式：GET
      * */
-    public static final String URL_FOLLOW_CINEAM_GET = "cinema/v1/verify/followCinema";
+    public static final String URL_FOLLOW_CINEAM_GET = "cinema/v1/verify/followCinema?cinemaId=%d";
     /**
      * 7.取消关注影院
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/verify/cancelFollowCinema
      * 请求方式：GET
      * */
-    public static final String URL_CANCEL_FOLLOW_CINEAM_GET = "cinema/v1/verify/cancelFollowCinema";
+    public static final String URL_CANCEL_FOLLOW_CINEAM_GET = "cinema/v1/verify/cancelFollowCinema?cinemaId=%d";
     /**
      * 8.查询影院用户评论列表
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/findAllCinemaComment
