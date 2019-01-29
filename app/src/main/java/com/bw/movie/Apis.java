@@ -173,7 +173,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/findCinemasListByMovieId
      * 请求方式：GET
      * */
-    public static final String URL_FIND_CINEMAS_LIST_BY_MOVIE_ID_GET = "movie/v1/findCinemasListByMovieId";
+    public static final String URL_FIND_CINEMAS_LIST_BY_MOVIE_ID_GET = "movie/v1/findCinemasListByMovieId?movieId=%d";
     /**
      * 17.购票下单
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/verify/buyMovieTicket
