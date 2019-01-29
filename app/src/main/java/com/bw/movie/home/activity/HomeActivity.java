@@ -17,6 +17,7 @@ import com.bw.movie.cinema.fragment.CinemaFragment;
 import com.bw.movie.film.fragment.FilmFragment;
 import com.bw.movie.mine.fragment.MineFragment;
 import com.bw.movie.utils.AddressUtils;
+import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -103,9 +104,9 @@ public class HomeActivity extends BaseActivty {
                 FragmentTransaction transaction1 = manager1.beginTransaction();
                 transaction1.replace(R.id.home_frame, filmFragment);
                 transaction1.commit();
-                setAddAnimator(view);
-                setCutAnimator(homeCinema);
-                setCutAnimator(homeMy);
+                AnimatorUtils.scaleAnimator(view,"scaleX","scaleY",1f,1.17f,0);
+                AnimatorUtils.scaleAnimator(homeCinema,"scaleX","scaleY",1f,0);
+                AnimatorUtils.scaleAnimator(homeMy,"scaleX","scaleY",1f,0);
                 break;
             case R.id.home_cinema:
                 CinemaFragment cinemaFragment = new CinemaFragment();
@@ -113,9 +114,9 @@ public class HomeActivity extends BaseActivty {
                 FragmentTransaction transaction2 = manager2.beginTransaction();
                 transaction2.replace(R.id.home_frame, cinemaFragment);
                 transaction2.commit();
-                setAddAnimator(view);
-                setCutAnimator(homeFilm);
-                setCutAnimator(homeMy);
+                AnimatorUtils.scaleAnimator(view,"scaleX","scaleY",1f,1.17f,0);
+                AnimatorUtils.scaleAnimator(homeFilm,"scaleX","scaleY",1f,0);
+                AnimatorUtils.scaleAnimator(homeMy,"scaleX","scaleY",1f,0);
                 break;
             case R.id.home_my:
                 MineFragment mineFragment = new MineFragment();
@@ -123,9 +124,9 @@ public class HomeActivity extends BaseActivty {
                 FragmentTransaction transaction3 = manager3.beginTransaction();
                 transaction3.replace(R.id.home_frame, mineFragment);
                 transaction3.commit();
-                setAddAnimator(view);
-                setCutAnimator(homeCinema);
-                setCutAnimator(homeFilm);
+                AnimatorUtils.scaleAnimator(view,"scaleX","scaleY",1f,1.17f,0);
+                AnimatorUtils.scaleAnimator(homeCinema,"scaleX","scaleY",1f,0);
+                AnimatorUtils.scaleAnimator(homeFilm,"scaleX","scaleY",1f,0);
                 break;
             default:break;
         }

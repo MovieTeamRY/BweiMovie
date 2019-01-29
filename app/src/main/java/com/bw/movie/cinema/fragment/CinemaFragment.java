@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
 import com.zaaach.citypicker.CityPicker;
@@ -119,6 +120,9 @@ public class CinemaFragment extends BaseFragment {
     public void getAddress(MessageBean messageBean){
         if(messageBean.getId().equals("address")){
             textLoc.setText(String.valueOf(messageBean.getObject()));
+        }else if(messageBean.getId().equals("isChange")){
+            editSearch.setVisibility(View.GONE);
+            textSearch.setVisibility(View.GONE);
         }
     }
 
@@ -156,49 +160,16 @@ public class CinemaFragment extends BaseFragment {
                 //点击弹出搜索框和搜索文字
                 editSearch.setVisibility(View.VISIBLE);
                 textSearch.setVisibility(View.VISIBLE);
-                setAddAnimator(filmSearchLinear);
+                AnimatorUtils.translationAnimator(filmSearchLinear,"translationX",-470f,2000,false);
                 break;
             case R.id.text_search:
                 //收回搜索框和搜索文字 判断文字内容 并搜索
-                setCutAnimator(filmSearchLinear);
+                editSearch.setVisibility(View.VISIBLE);
+                textSearch.setVisibility(View.VISIBLE);
+                AnimatorUtils.translationAnimator(filmSearchLinear,"translationX",0f,2000,true);
                 break;
             default:break;
         }
-    }
-    private void setAddAnimator(View view) {
-        ObjectAnimator translationX = ObjectAnimator.ofFloat(view, "translationX", -470f);
-        translationX.setInterpolator(new AccelerateInterpolator());
-        translationX.setDuration(2000);
-        translationX.start();
-    }
-
-    private void setCutAnimator(View view) {
-        ObjectAnimator translationX = ObjectAnimator.ofFloat(view, "translationX", 0f);
-        translationX.setInterpolator(new AccelerateInterpolator());
-        translationX.setDuration(2000);
-        translationX.start();
-        translationX.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                editSearch.setVisibility(View.GONE);
-                textSearch.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
     }
 
     @Override

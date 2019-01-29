@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
@@ -39,6 +40,10 @@ public class GuideActivity extends BaseActivty {
     ViewPager guideViewpager;
     @BindView(R.id.guide_group)
     LinearLayout guideGroup;
+    @BindView(R.id.guide_text)
+    TextView guideText;
+    @BindView(R.id.guide_title)
+    TextView guideTitle;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private List<GuideBean> list;
@@ -76,6 +81,8 @@ public class GuideActivity extends BaseActivty {
             finish();
         }else{
             guideImage.setVisibility(View.GONE);
+            guideText.setVisibility(View.GONE);
+            guideTitle.setVisibility(View.GONE);
             guideViewpager.setVisibility(View.VISIBLE);
             guideGroup.setVisibility(View.VISIBLE);
             list=new ArrayList<>();
