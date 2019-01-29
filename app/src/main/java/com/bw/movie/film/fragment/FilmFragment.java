@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ import com.bw.movie.film.bean.HotFilmBean;
 import com.bw.movie.film.bean.RelaeseBean;
 import com.bw.movie.film.bean.ScreenFilmBean;
 import com.bw.movie.utils.AddressUtils;
+import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
@@ -157,6 +159,10 @@ public class FilmFragment extends BaseFragment {
     public void getAddress(MessageBean messageBean){
         if(messageBean.getId().equals("address")){
             textLoc.setText(String.valueOf(messageBean.getObject()));
+        }else
+        if(messageBean.getId().equals("isChange")){
+            editSearch.setVisibility(View.GONE);
+            textSearch.setVisibility(View.GONE);
         }
     }
 
@@ -194,11 +200,11 @@ public class FilmFragment extends BaseFragment {
                 //点击搜索框实现动画
                 editSearch.setVisibility(View.VISIBLE);
                 textSearch.setVisibility(View.VISIBLE);
-                setAddAnimator(searchLinear);
+                AnimatorUtils.translationAnimator(searchLinear,"translationX",-470f,2000,false);
                 break;
             case R.id.text_search:
                 //点击搜索影片 判断输入框的内容不能为空
-                setCutAnimator(searchLinear);
+                AnimatorUtils.translationAnimator(searchLinear,"translationX",0f,2000,true);
                 break;
             case R.id.hot_film_more:
                 bundle.putInt("type",COUNT_ZERO);
@@ -222,42 +228,6 @@ public class FilmFragment extends BaseFragment {
         bundle = new Bundle();
     }
 
-    private void setAddAnimator(View view) {
-        ObjectAnimator translationX = ObjectAnimator.ofFloat(view, "translationX", -470f);
-        translationX.setInterpolator(new AccelerateInterpolator());
-        translationX.setDuration(2000);
-        translationX.start();
-    }
-
-    private void setCutAnimator(View view) {
-        ObjectAnimator translationX = ObjectAnimator.ofFloat(view, "translationX", 0f);
-        translationX.setInterpolator(new AccelerateInterpolator());
-        translationX.setDuration(2000);
-        translationX.start();
-        translationX.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                editSearch.setVisibility(View.GONE);
-                textSearch.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-    }
-
     @Override
     protected void onNetSuccess(Object data) {
         if (data instanceof RelaeseBean) {
@@ -268,13 +238,16 @@ public class FilmFragment extends BaseFragment {
                     result = relaeseBean.getResult();
                     recyclerFlow.setAdapter(new RelaeseAdapter(result, getContext()));
                     filmGroup.removeAllViews();
+                    int width = filmGroup.getWidth();
+                    int childWidth = width / result.size();
                     for (int i=0;i<result.size();i++){
                         RadioButton radioButton=new RadioButton(getContext());
+                        radioButton.setWidth(childWidth);
                         radioButton.setBackgroundResource(R.drawable.home_film_divide_selected);
                         radioButton.setChecked(false);
                         filmGroup.addView(radioButton);
                     }
-                    current = 5;
+                    current = result.size()/2;
                     RadioButton radioButton= (RadioButton) filmGroup.getChildAt(current);
                     radioButton.setChecked(true);
                     handler.sendEmptyMessage(0);

@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import com.bw.movie.cinema.bean.CinemaFilmBean;
 import com.bw.movie.cinema.bean.CinemaInfoBean;
 import com.bw.movie.cinema.bean.FilmSchedulBean;
 import com.bw.movie.utils.MessageBean;
+import com.bw.movie.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import recycler.coverflow.CoverFlowLayoutManger;
 import recycler.coverflow.RecyclerCoverFlow;
@@ -78,7 +82,11 @@ public class CinemaDetailActivity extends BaseActivty {
             @Override
             public void onItemSelected(int position) {
                 int movieId = movieList.get(position).getId();
-                onGetRequest(String.format(Apis.URL_FIND_MOVIE_SCHEDULE_LIST,id,movieId),FilmSchedulBean.class);
+                if(cinemaGroup.getChildCount()>0){
+                    RadioButton radioButton= (RadioButton) cinemaGroup.getChildAt(position);
+                    radioButton.setChecked(true);
+                    onGetRequest(String.format(Apis.URL_FIND_MOVIE_SCHEDULE_LIST,id,movieId),FilmSchedulBean.class);
+                }
             }
         });
 
@@ -98,6 +106,18 @@ public class CinemaDetailActivity extends BaseActivty {
     public void getFlowId(MessageBean messageBean){
         if(messageBean.getId().equals("onitemclick")){
             cinemaFilm.smoothScrollToPosition((Integer) messageBean.getObject());
+            RadioButton radioButton= (RadioButton) cinemaGroup.getChildAt((Integer) messageBean.getObject());
+            radioButton.setChecked(true);
+        }
+    }
+
+    @OnClick(R.id.cinema_film_return)
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.cinema_film_return:
+                finish();
+                break;
+            default:break;
         }
     }
 
@@ -113,8 +133,24 @@ public class CinemaDetailActivity extends BaseActivty {
             CinemaFilmBean filmBean= (CinemaFilmBean) data;
             if(filmBean.getResult().size()>0){
                 movieList = filmBean.getResult();
-                cinemaFilmAdapter.setListBeans(movieList);
-                cinemaFilm.smoothScrollToPosition(movieList.size()/2);
+                if(movieList.size()>0){
+                    cinemaFilmAdapter.setListBeans(movieList);
+                    cinemaGroup.removeAllViews();
+                    int width = cinemaGroup.getWidth();
+                    int childWidth = width / movieList.size();
+                    for (int i=0;i<movieList.size();i++){
+                        RadioButton radioButton=new RadioButton(this);
+                        radioButton.setWidth(childWidth);
+                        radioButton.setBackgroundResource(R.drawable.home_film_divide_selected);
+                        radioButton.setChecked(false);
+                        cinemaGroup.addView(radioButton);
+                    }
+                    cinemaFilm.smoothScrollToPosition(movieList.size()/2);
+                    RadioButton radioButton= (RadioButton) cinemaGroup.getChildAt(movieList.size()/2);
+                    radioButton.setChecked(true);
+                }else{
+                    ToastUtil.showToast("没有影片信息");
+                }
             }
         }else if(data instanceof FilmSchedulBean){
             FilmSchedulBean schedulBean= (FilmSchedulBean) data;
