@@ -38,6 +38,8 @@ import com.bw.movie.film.bean.FilmDetailsBean;
 import com.bw.movie.film.bean.FollowMovieBean;
 import com.bw.movie.film.bean.PraiseBean;
 import com.bw.movie.film.bean.RevirwBean;
+import com.bw.movie.purchase.activity.PurchaseActivity;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -103,6 +105,7 @@ public class FilmDetailsActivity extends BaseActivty {
     private EditText edit_write;
     private TextView but_write;
     private LinearLayout linearLayout;
+    private String name;
 
     @Override
     protected int getLayoutResId() {
@@ -411,6 +414,7 @@ public class FilmDetailsActivity extends BaseActivty {
                 Uri uri = Uri.parse(detailsBean.getResult().getImageUrl());
                 bgImageDetail.setImageURI(uri);
                 bgImageDetailName.setImageURI(uri);
+                name = detailsBean.getResult().getName();
                 textName.setText(detailsBean.getResult().getName());
             }
             ToastUtil.showToast(detailsBean.getMessage());
@@ -545,9 +549,12 @@ public class FilmDetailsActivity extends BaseActivty {
                 }
                 break;
             case R.id.but_purchase:
-
+                //购票跳转播放该片的影院界面
+                Bundle bundle = new Bundle();
+                bundle.putInt("movieId",movieId);
+                bundle.putString("name",name);
+                IntentUtils.getInstence().intent(FilmDetailsActivity.this,PurchaseActivity.class,bundle);
                 break;
-
             default:
                 break;
         }

@@ -179,7 +179,7 @@ public class FilmMoreActivity extends BaseActivty {
         }
     }
 
-    @OnClick({R.id.return_image, R.id.image_loc})
+    @OnClick({R.id.return_image, R.id.image_loc,R.id.image_search,R.id.text_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.return_image:
@@ -200,7 +200,6 @@ public class FilmMoreActivity extends BaseActivty {
                                 textLoc.setText(data.getName());
                                 ToastUtil.showToast(data.getName());
                             }
-
                             @Override
                             public void onCancel() {
                                 ToastUtil.showToast("取消选择");
@@ -211,6 +210,12 @@ public class FilmMoreActivity extends BaseActivty {
                             }
                         })
                         .show();
+                break;
+            case R.id.text_search:
+
+                   break;
+            case R.id.image_search:
+
                 break;
             default:break;
         }

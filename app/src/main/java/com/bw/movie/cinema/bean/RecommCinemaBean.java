@@ -38,7 +38,7 @@ public class RecommCinemaBean {
         String name;
         String logo;
         int commentTotal;
-        int distance;
+        double distance;
 
         public int getId() {
             return id;
@@ -88,11 +88,11 @@ public class RecommCinemaBean {
             this.commentTotal = commentTotal;
         }
 
-        public int getDistance() {
+        public double getDistance() {
             return distance;
         }
 
-        public void setDistance(int distance) {
+        public void setDistance(double distance) {
             this.distance = distance;
         }
     }
