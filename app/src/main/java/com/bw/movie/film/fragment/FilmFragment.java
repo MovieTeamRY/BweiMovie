@@ -175,7 +175,7 @@ public class FilmFragment extends BaseFragment {
                     //activity或者fragment
                     .enableAnimation(true)
                     //自定义动画
-                    .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))
+                        .setLocatedCity(new LocatedCity(textLoc.getText().toString(), "", ""))
                     //APP自身已定位的城市，传null会自动定位（默认）
                     .setOnPickListener(new OnPickListener() {
                         @Override
@@ -207,15 +207,15 @@ public class FilmFragment extends BaseFragment {
                 AnimatorUtils.translationAnimator(searchLinear,"translationX",0f,2000,true);
                 break;
             case R.id.hot_film_more:
-                bundle.putInt("zero",COUNT_ZERO);
+                bundle.putInt("type",COUNT_ZERO);
                 IntentUtils.getInstence().intent(getActivity(),FilmMoreActivity.class,bundle);
                 break;
             case R.id.relaese_film_more:
-                bundle.putInt("one",COUNT_ONE);
+                bundle.putInt("type",COUNT_ONE);
                 IntentUtils.getInstence().intent(getActivity(),FilmMoreActivity.class,bundle);
                 break;
             case R.id.screen_film_more:
-                bundle.putInt("two",COUNT_TWO);
+                bundle.putInt("type",COUNT_TWO);
                 IntentUtils.getInstence().intent(getActivity(),FilmMoreActivity.class,bundle);
                 break;
             default:break;

@@ -38,9 +38,11 @@
             />
         <activity
             android:name=".home.activity.HomeActivity"
-            android:hardwareAccelerated="false"
+            android:hardwareAccelerated="true"
             android:theme="@style/DefaultCityPickerTheme" />
-        <activity android:name=".film.activity.FilmMoreActivity" />
+        <activity android:name=".film.activity.FilmMoreActivity"
+            android:theme="@style/DefaultCityPickerTheme"
+            />
         <activity android:name=".cinema.activity.CinemaDetailActivity"></activity>
         <activity android:name=".wxapi.WXEntryActivity" android:exported="true"/>
         <activity android:name=".cinema.activity.SeatActivity"></activity>

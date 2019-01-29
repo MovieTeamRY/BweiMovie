@@ -4,7 +4,6 @@ import java.util.List;
 
 public class RevirwBean {
 
-
     private String message;
     private String status;
     private List<ResultBean> result;

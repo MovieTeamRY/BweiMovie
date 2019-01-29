@@ -42,7 +42,7 @@ public class IntentUtils {
      */
     public void intent(Context fromContext, Class<?> cls, Bundle bb) {
         Intent intent = new Intent(fromContext, cls);
-        intent.putExtras(bb);
+        intent.putExtra("bundle",bb);
         fromContext.startActivity(intent);
     }
 }

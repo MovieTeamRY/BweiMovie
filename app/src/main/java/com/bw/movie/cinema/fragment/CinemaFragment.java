@@ -135,7 +135,7 @@ public class CinemaFragment extends BaseFragment {
                     //activity或者fragment
                     .enableAnimation(true)
                     //自定义动画
-                    .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))
+                    .setLocatedCity(new LocatedCity(textLoc.getText().toString(), "", ""))
                     //APP自身已定位的城市，传null会自动定位（默认）
                     .setOnPickListener(new OnPickListener() {
                         @Override
