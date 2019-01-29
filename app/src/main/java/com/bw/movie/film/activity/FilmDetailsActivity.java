@@ -359,7 +359,7 @@ public class FilmDetailsActivity extends BaseActivty {
     }
 
     /**
-     * 剧照
+     * 影评
      *
      * @author Administrator
      * @time 2019/1/27 0027 11:12

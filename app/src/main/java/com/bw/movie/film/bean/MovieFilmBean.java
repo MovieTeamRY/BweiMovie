@@ -2,7 +2,7 @@ package com.bw.movie.film.bean;
 
 import java.util.List;
 
-public class HotFilmBean {
+public class MovieFilmBean {
 
     private String message;
     private String status;
@@ -44,8 +44,8 @@ public class HotFilmBean {
         private int rank;
         private String summary;
 
-        public String isFollowMovie() {
-            return followMovie;
+        public boolean isFollowMovie() {
+            return followMovie.equals("1");
         }
 
         public void setFollowMovie(String followMovie) {

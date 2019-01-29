@@ -13,6 +13,7 @@
         android:id="@+id/film_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabIndicatorHeight="@dimen/dp_0"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/dp_50"
         />
@@ -25,4 +26,13 @@
         app:layout_constraintTop_toBottomOf="@+id/film_tab"
         app:layout_constraintBottom_toBottomOf="parent"
         ></android.support.v4.view.ViewPager>
+    <ImageView
+        android:id="@+id/return_image"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
+        android:background="@mipmap/com_icon_return_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/dp_20"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="@dimen/dp_24"/>
 </android.support.constraint.ConstraintLayout>
