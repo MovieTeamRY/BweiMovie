@@ -6,6 +6,5 @@
     <cn.jzvd.JZVideoPlayerStandard
         android:id="@+id/notice_image"
         android:layout_width="@dimen/dp_312"
-        android:layout_height="@dimen/dp_153">
-    </cn.jzvd.JZVideoPlayerStandard>
+        android:layout_height="@dimen/dp_153"/>
 </RelativeLayout>

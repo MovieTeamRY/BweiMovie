@@ -35,6 +35,7 @@ import com.bw.movie.cinema.bean.CinemaInfoBean;
 import com.bw.movie.cinema.bean.FilmSchedulBean;
 import com.bw.movie.cinema.fragment.CinemaCommentFragment;
 import com.bw.movie.cinema.fragment.CinemaDetailFragment;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -43,6 +44,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,12 +78,18 @@ public class CinemaDetailActivity extends BaseActivty {
     private CinemaFilmAdapter cinemaFilmAdapter;
     private PopupWindow detailWindow;
     private View popView;
-
+    private Bundle bundle;
+    private int i;
+    private ArrayList<String> list;
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_cinema_detail;
     }
-
+    /**
+     *寻找pop中viewpager的id
+     *@author YU
+     *@time 2019/1/30 0030 9:45
+     */
     @Override
     public <T extends View> T findViewById(int id) {
         if (id == R.id.detail_viewpager && popView !=null){
@@ -154,12 +162,15 @@ public class CinemaDetailActivity extends BaseActivty {
 
     @Override
     protected void initData() {
+        bundle = new Bundle();
+        list = new ArrayList<>();
         Intent intent=getIntent();
         id = intent.getIntExtra("id", 0);
 
         cinemaFilm.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
             @Override
             public void onItemSelected(int position) {
+                i=position;
                 int movieId = movieList.get(position).getId();
                 if(cinemaGroup.getChildCount()>0){
                     RadioButton radioButton= (RadioButton) cinemaGroup.getChildAt(position);
@@ -173,6 +184,20 @@ public class CinemaDetailActivity extends BaseActivty {
         cinemaFilmScheduling.setLayoutManager(schedulLayoutManager);
         cinemaSchedulAdapter = new CinemaSchedulAdapter(this);
         cinemaFilmScheduling.setAdapter(cinemaSchedulAdapter);
+        //点击事件
+        cinemaSchedulAdapter.setOnClickListener(new CinemaSchedulAdapter.Click() {
+            @Override
+            public void onClick(FilmSchedulBean.ResultBean resultBean) {
+                //如果list有第三位数据，则每次请求删除第三位
+                if (list.size()==3){
+                    list.remove(2);
+                }
+                list.add(movieList.get(i).getName());
+                bundle.putParcelable("resultBean",resultBean);
+                bundle.putStringArrayList("list",list);
+                IntentUtils.getInstence().intent(CinemaDetailActivity.this,SeatActivity.class,bundle);
+            }
+        });
 
         cinemaFilmAdapter = new CinemaFilmAdapter(this);
         cinemaFilm.setAdapter(cinemaFilmAdapter);
@@ -184,6 +209,7 @@ public class CinemaDetailActivity extends BaseActivty {
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void getFlowId(MessageBean messageBean){
         if(messageBean.getId().equals("onitemclick")){
+            i=(Integer) messageBean.getObject();
             cinemaFilm.smoothScrollToPosition((Integer) messageBean.getObject());
             RadioButton radioButton= (RadioButton) cinemaGroup.getChildAt((Integer) messageBean.getObject());
             radioButton.setChecked(true);
@@ -232,9 +258,13 @@ public class CinemaDetailActivity extends BaseActivty {
             cinemaLogo.setImageURI(Uri.parse(result.getLogo()));
             cinemaName.setText(result.getName());
             cinemaAddress.setText(result.getAddress());
+            //存入集合传递到选座页面
+            list.add(result.getName());
+            list.add(result.getAddress());
+            list.add("");
         }else if(data instanceof CinemaFilmBean){
             CinemaFilmBean filmBean= (CinemaFilmBean) data;
-            if(filmBean.getResult().size()>0){
+            if(filmBean.getResult()!=null&&filmBean.getResult().size()>0){
                 movieList = filmBean.getResult();
                 if(movieList.size()>0){
                     cinemaFilm.setVisibility(View.VISIBLE);
