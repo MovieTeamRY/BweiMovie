@@ -204,7 +204,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/findNearbyCinemas
      * 请求方式：GET
      * */
-    public static final String URL_FIND_NEAR_BY_CINEMAS_GET = "cinema/v1/findNearbyCinemas?longitude=%s&latitude=%s&page=%d&count=10";
+    public static final String URL_FIND_NEAR_BY_CINEMAS_GET = "cinema/v1/findNearbyCinemas?longitude=%f&latitude=%f&page=%d&count=10";
     /**
      * 3.查询电影信息明细
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/findCinemaInfo
