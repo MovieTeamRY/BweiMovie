@@ -13,14 +13,20 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.cinema.activity.CinemaDetailActivity;
+import com.bw.movie.cinema.activity.SeatActivity;
 import com.bw.movie.cinema.adapter.CinemaFilmAdapter;
 import com.bw.movie.cinema.adapter.CinemaSchedulAdapter;
 import com.bw.movie.cinema.bean.FilmSchedulBean;
 import com.bw.movie.film.bean.DetailsBean;
 import com.bw.movie.film.bean.FilmDetailsBean;
 import com.bw.movie.purchase.bean.FilmSchedulingBean;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +57,8 @@ public class PlayVideoCinemaActivity extends BaseActivty {
     @BindView(R.id.return_image)
     ImageView returnImage;
     private CinemaSchedulAdapter cinemaSchedulAdapter;
+    private Bundle bundle;
+    private ArrayList<String> list;
 
     @Override
     protected int getLayoutResId() {
@@ -59,6 +67,8 @@ public class PlayVideoCinemaActivity extends BaseActivty {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        bundle = new Bundle();
+        list = new ArrayList<>();
         ButterKnife.bind(this);
         //创建布局
         LinearLayoutManager schedulLayoutManager=new LinearLayoutManager(this);
@@ -67,6 +77,15 @@ public class PlayVideoCinemaActivity extends BaseActivty {
         //创建适配器
         cinemaSchedulAdapter = new CinemaSchedulAdapter(this);
         filmRecyclerview.setAdapter(cinemaSchedulAdapter);
+
+        cinemaSchedulAdapter.setOnClickListener(new CinemaSchedulAdapter.Click() {
+            @Override
+            public void onClick(FilmSchedulBean.ResultBean resultBean) {
+                bundle.putStringArrayList("list",list);
+                bundle.putParcelable("resultBean",resultBean);
+                IntentUtils.getInstence().intent(PlayVideoCinemaActivity.this,SeatActivity.class,bundle);
+            }
+        });
     }
 
     @Override
@@ -81,6 +100,8 @@ public class PlayVideoCinemaActivity extends BaseActivty {
         //赋值影院信息
         cinemaName.setText(resultBean.getName());
         cinemaAddress.setText(resultBean.getAddress());
+        list.add(resultBean.getName());
+        list.add(resultBean.getAddress());
         //请求电影详情接口
         onGetRequest(String.format(Apis.URL_FIND_MOVIE_DETAIL_GET, movieId), FilmDetailsBean.class);
         //根据电影ID和影院ID查询电影排期列表
@@ -92,6 +113,7 @@ public class PlayVideoCinemaActivity extends BaseActivty {
         if (data instanceof FilmDetailsBean) {
             FilmDetailsBean detailsBean = (FilmDetailsBean) data;
             if (detailsBean.isSuccess() && detailsBean != null) {
+                list.add(detailsBean.getResult().getName());
                 //展示数据
                 Uri uri = Uri.parse(detailsBean.getResult().getImageUrl());
                 filmImage.setImageURI(uri);

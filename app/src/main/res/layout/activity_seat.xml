@@ -148,6 +148,50 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bg_image"
+        app:layout_constraintBottom_toTopOf="@id/relative_layout"
+        android:layout_marginTop="@dimen/dp_10"/>
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="@dimen/dp_312"
+        android:layout_height="@dimen/dp_73"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="@dimen/dp_50"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/pay_item_bg_shape">
+        <TextView
+            android:id="@+id/text_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="合计："
+            android:textSize="@dimen/sp_14"
+            android:textColor="#333333"
+           android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_34"/>
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥\t\t0.0"
+            android:textSize="@dimen/sp_36"
+            android:textColor="#b11450"
+            android:layout_toRightOf="@id/text_total"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"/>
+        <ImageView
+            android:id="@+id/pay_ok"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:background="@mipmap/pay_ok"
+            android:layout_toLeftOf="@id/pay_fail"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_20"/>
+        <ImageView
+            android:id="@+id/pay_fail"
+            android:layout_width="@dimen/dp_38"
+            android:layout_height="@dimen/dp_38"
+            android:background="@mipmap/pay_fail"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_20"/>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

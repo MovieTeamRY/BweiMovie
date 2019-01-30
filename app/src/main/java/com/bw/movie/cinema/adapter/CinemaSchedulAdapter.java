@@ -47,7 +47,7 @@ public class CinemaSchedulAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         final FilmSchedulBean.ResultBean resultBean = list.get(i);
         ViewHolder holder= (ViewHolder) viewHolder;
         if(resultBean.getStatus()==2){
@@ -57,17 +57,23 @@ public class CinemaSchedulAdapter extends RecyclerView.Adapter<RecyclerView.View
             holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(context,SeatActivity.class);
-                    intent.putExtra("scheduleId",resultBean.getId());
-                    context.startActivity(intent);
+                    if (click!=null){
+                        click.onClick(list.get(i));
+                    }
+//                    Intent intent=new Intent(context,SeatActivity.class);
+//                    intent.putExtra("scheduleId",resultBean.getId());
+//                    context.startActivity(intent);
                 }
             });
             holder.schedulingNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(context,SeatActivity.class);
+                    if (click!=null){
+                        click.onClick(list.get(i));
+                    }
+                    /*Intent intent=new Intent(context,SeatActivity.class);
                     intent.putExtra("scheduleId",resultBean.getId());
-                    context.startActivity(intent);
+                    context.startActivity(intent);*/
                 }
             });
         }
@@ -111,5 +117,12 @@ public class CinemaSchedulAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+    Click click;
+    public void setOnClickListener(Click click){
+        this.click=click;
+    }
+    public interface Click{
+        void onClick(FilmSchedulBean.ResultBean resultBean);
     }
 }
