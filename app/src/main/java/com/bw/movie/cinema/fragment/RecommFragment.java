@@ -17,7 +17,12 @@ import com.bw.movie.cinema.bean.NearCinemaBean;
 import com.bw.movie.cinema.bean.RecommCinemaBean;
 import com.bw.movie.film.bean.CancalFollowMovieBean;
 import com.bw.movie.film.bean.FollowMovieBean;
+import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +78,16 @@ public class RecommFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         unbinder = ButterKnife.bind(this, view);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void getMessage(MessageBean messageBean){
+        if(messageBean.getId().equals("near")){
+            onGetRequest(String.format(Apis.URL_FIND_RECOMMEND_CINEMAS_GET, 1), RecommCinemaBean.class);
+        }
     }
 
     @Override
@@ -88,11 +103,13 @@ public class RecommFragment extends BaseFragment {
             ToastUtil.showToast(followMovieBean.getMessage());
             resultList.get(index).setFollowCinema(1);
             recommAdapter.setList(resultList);
+            EventBus.getDefault().postSticky(new MessageBean("recomm",null));
         }else if(data instanceof CancalFollowMovieBean){
             CancalFollowMovieBean cancalFollowMovieBean= (CancalFollowMovieBean) data;
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());
             resultList.get(index).setFollowCinema(2);
             recommAdapter.setList(resultList);
+            EventBus.getDefault().postSticky(new MessageBean("recomm",null));
         }
     }
 
@@ -105,5 +122,6 @@ public class RecommFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
     }
 }

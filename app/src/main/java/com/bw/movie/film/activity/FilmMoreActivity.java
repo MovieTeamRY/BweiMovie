@@ -21,6 +21,7 @@ import com.bw.movie.base.BaseActivty;
 import com.bw.movie.film.fragment.HotFilmFragment;
 import com.bw.movie.film.fragment.RelaeseFilmFragment;
 import com.bw.movie.film.fragment.ScreenFilmFragment;
+import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
 import com.xw.repo.XEditText;
@@ -163,7 +164,7 @@ public class FilmMoreActivity extends BaseActivty {
 
     @Override
     protected void onNetFail(String error) {
-
+        Log.i("TAG",error);
     }
 
     @Override
@@ -176,6 +177,9 @@ public class FilmMoreActivity extends BaseActivty {
     public void getAddress(MessageBean messageBean){
         if(messageBean.getId().equals("address")){
             textLoc.setText(String.valueOf(messageBean.getObject()));
+        }else if(messageBean.getId().equals("isChange")){
+            edit_search.setVisibility(View.GONE);
+            text_search.setVisibility(View.GONE);
         }
     }
 
@@ -212,10 +216,12 @@ public class FilmMoreActivity extends BaseActivty {
                         .show();
                 break;
             case R.id.text_search:
-
-                   break;
+                AnimatorUtils.translationAnimator(film_search_linear,"translationX",0f,2000,true);
+                break;
             case R.id.image_search:
-
+                edit_search.setVisibility(View.VISIBLE);
+                text_search.setVisibility(View.VISIBLE);
+                AnimatorUtils.translationAnimator(film_search_linear,"translationX",-470f,2000,false);
                 break;
             default:break;
         }

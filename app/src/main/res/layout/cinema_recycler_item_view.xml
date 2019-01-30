@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/cinema_simple"
         android:layout_alignParentRight="true"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="#333"
         android:textSize="@dimen/sp_14"
         />

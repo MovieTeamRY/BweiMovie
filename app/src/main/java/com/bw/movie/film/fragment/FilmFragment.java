@@ -152,15 +152,6 @@ public class FilmFragment extends BaseFragment {
                     RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % result.size());
                     childAt.setChecked(true);
                     current = position;
-//                    for(int i = 0; i<filmGroup.getChildCount(); i++){
-//                        RadioButton childAt = (RadioButton) filmGroup.getChildAt(position % result.size());
-//                        if(i == (position % result.size())){
-//                            childAt.setChecked(true);
-//                            current = position;
-//                        }else{
-//                            childAt.setChecked(false);
-//                        }
-//                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }

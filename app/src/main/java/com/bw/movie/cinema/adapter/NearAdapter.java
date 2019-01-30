@@ -46,7 +46,7 @@ public class NearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         final NearCinemaBean.Result result = list.get(i);
         ViewHolder holder= (ViewHolder) viewHolder;
         holder.simpleDraweeView.setImageURI(Uri.parse(result.getLogo()));
@@ -64,6 +64,14 @@ public class NearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Intent intent=new Intent(context,CinemaDetailActivity.class);
                 intent.putExtra("id",result.getId());
                 context.startActivity(intent);
+            }
+        });
+        holder.prise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(priseClick!=null){
+                    priseClick.onClick(i,list,list.get(i).getFollowCinema());
+                }
             }
         });
     }
@@ -92,5 +100,14 @@ public class NearAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+    private PriseClick priseClick;
+
+    public void setPriseClick(PriseClick priseClick){
+        this.priseClick=priseClick;
+    }
+
+    public interface PriseClick{
+        void  onClick(int position,List<NearCinemaBean.Result> list,int followCinema);
     }
 }
