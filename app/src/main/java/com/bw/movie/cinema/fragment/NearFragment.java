@@ -46,7 +46,7 @@ public class NearFragment extends BaseFragment {
         nearCinemaRecycler.setLayoutManager(linearLayoutManager);
         nearAdapter = new NearAdapter(getContext());
         nearCinemaRecycler.setAdapter(nearAdapter);
-
+        onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,116.30551391385724,40.04571807462411,1),NearCinemaBean.class);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
