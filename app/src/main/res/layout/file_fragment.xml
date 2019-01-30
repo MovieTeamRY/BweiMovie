@@ -26,6 +26,7 @@
             android:layout_height="@dimen/dp_180"
             android:layout_marginTop="@dimen/dp_85"
             android:overScrollMode="never"
+            android:visibility="invisible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">

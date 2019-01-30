@@ -103,6 +103,15 @@ public class CinemaDetailActivity extends BaseActivty {
         TabLayout tabLayout=popView.findViewById(R.id.detail_tab);
 
         ViewPager viewPager=popView.findViewById(R.id.detail_viewpager);
+        ImageView downImage=popView.findViewById(R.id.detail_down);
+        downImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(detailWindow.isShowing()){
+                    detailWindow.dismiss();
+                }
+            }
+        });
         final String[] menu=new String[]{"详情","评论"};
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -200,6 +209,12 @@ public class CinemaDetailActivity extends BaseActivty {
                 }
                 break;
             case R.id.cinema_logo:
+                if(!detailWindow.isShowing()){
+                    EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",id));
+                    detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
+                }
+                break;
+            case R.id.cinema_navigation:
                 if(!detailWindow.isShowing()){
                     EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",id));
                     detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
