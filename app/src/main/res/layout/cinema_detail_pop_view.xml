@@ -2,8 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/dp_24"
-    android:paddingRight="@dimen/dp_24"
     android:background="@drawable/film_detail_loyout_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -37,6 +35,7 @@
         android:id="@+id/detail_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         android:layout_below="@id/detail_tab"
         android:layout_alignParentBottom="true"
         />

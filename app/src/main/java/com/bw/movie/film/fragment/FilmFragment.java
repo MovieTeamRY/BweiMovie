@@ -239,6 +239,7 @@ public class FilmFragment extends BaseFragment {
             RelaeseBean relaeseBean = (RelaeseBean) data;
             if (relaeseBean.getMessage().equals("查询成功")) {
                 if (relaeseBean.getResult().size() > 0) {
+                    recyclerFlow.setVisibility(View.VISIBLE);
                     relaeseFilmAdapter.setList(relaeseBean.getResult());
                     result = relaeseBean.getResult();
                     recyclerFlow.setAdapter(new RelaeseAdapter(result, getContext()));
