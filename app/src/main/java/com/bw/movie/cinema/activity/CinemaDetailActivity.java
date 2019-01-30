@@ -79,7 +79,7 @@ public class CinemaDetailActivity extends BaseActivty {
     private PopupWindow detailWindow;
     private View popView;
     private Bundle bundle;
-    private int position;
+    private int i;
     private ArrayList<String> list;
     @Override
     protected int getLayoutResId() {
@@ -170,6 +170,7 @@ public class CinemaDetailActivity extends BaseActivty {
         cinemaFilm.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
             @Override
             public void onItemSelected(int position) {
+                i=position;
                 int movieId = movieList.get(position).getId();
                 if(cinemaGroup.getChildCount()>0){
                     RadioButton radioButton= (RadioButton) cinemaGroup.getChildAt(position);
@@ -187,10 +188,11 @@ public class CinemaDetailActivity extends BaseActivty {
         cinemaSchedulAdapter.setOnClickListener(new CinemaSchedulAdapter.Click() {
             @Override
             public void onClick(FilmSchedulBean.ResultBean resultBean) {
-                list.add(movieList.get(position).getName());
-                Log.i("TAG",movieList.get(position).getName());
-                Log.i("TAG",position+"===========================");
-                Log.i("TAG",movieList.get(position).getName()+"==========================");
+                //如果list有第三位数据，则每次请求删除第三位
+                if (list.size()==3){
+                    list.remove(2);
+                }
+                list.add(movieList.get(i).getName());
                 bundle.putParcelable("resultBean",resultBean);
                 bundle.putStringArrayList("list",list);
                 IntentUtils.getInstence().intent(CinemaDetailActivity.this,SeatActivity.class,bundle);
@@ -207,9 +209,7 @@ public class CinemaDetailActivity extends BaseActivty {
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void getFlowId(MessageBean messageBean){
         if(messageBean.getId().equals("onitemclick")){
-            position=(Integer) messageBean.getObject();
-
-            /*bundle.putString("filmName",movieList.get(position).getName());*/
+            i=(Integer) messageBean.getObject();
             cinemaFilm.smoothScrollToPosition((Integer) messageBean.getObject());
             RadioButton radioButton= (RadioButton) cinemaGroup.getChildAt((Integer) messageBean.getObject());
             radioButton.setChecked(true);
@@ -258,13 +258,13 @@ public class CinemaDetailActivity extends BaseActivty {
             cinemaLogo.setImageURI(Uri.parse(result.getLogo()));
             cinemaName.setText(result.getName());
             cinemaAddress.setText(result.getAddress());
+            //存入集合传递到选座页面
             list.add(result.getName());
             list.add(result.getAddress());
-            /*bundle.putString("name",result.getName());
-            bundle.putString("address",result.getAddress());*/
+            list.add("");
         }else if(data instanceof CinemaFilmBean){
             CinemaFilmBean filmBean= (CinemaFilmBean) data;
-            if(filmBean.getResult().size()>0){
+            if(filmBean.getResult()!=null&&filmBean.getResult().size()>0){
                 movieList = filmBean.getResult();
                 if(movieList.size()>0){
                     cinemaFilm.setVisibility(View.VISIBLE);

@@ -19,6 +19,7 @@ import com.bw.movie.cinema.bean.FilmSchedulBean;
 import com.bw.movie.cinema.view.SeatTable;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +43,13 @@ public class SeatActivity extends BaseActivty {
     ImageView payOk;
     @BindView(R.id.pay_fail)
     ImageView payFail;
-
+    private FilmSchedulBean.ResultBean resultBean;
+    private ArrayList<String> list;
+    private int num;
+    private int num1;
+    private int seatsUseCount;
+    private double totalPrice;
+    private int numCount=0;
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_seat;
@@ -53,8 +60,7 @@ public class SeatActivity extends BaseActivty {
         ButterKnife.bind(this);
         //设置文字样式
         getTextView();
-        //选座
-        selectView();
+
     }
     /**
      *设置文字样式
@@ -66,12 +72,12 @@ public class SeatActivity extends BaseActivty {
         SpannableString spannableString = new SpannableString("¥\t\t0.0");
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#666666"));
         spannableString.setSpan(colorSpan, 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        price.setText(spannableString);
 
         //设置文字大小
         RelativeSizeSpan sizeSpan01 = new RelativeSizeSpan(0.5f);
+        RelativeSizeSpan sizeSpan02 = new RelativeSizeSpan(0.5f);
         spannableString.setSpan(sizeSpan01, 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(sizeSpan01, spannableString.length()-1, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(sizeSpan02, spannableString.length()-1, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
         price.setText(spannableString);
     }
@@ -82,10 +88,19 @@ public class SeatActivity extends BaseActivty {
      *@time 2019/1/30 0030 10:23
      */
     private void selectView() {
-        seattable.setScreenName("8号厅荧幕");//设置屏幕名称
-        seattable.setMaxSelected(3);//设置最多选中
+        //影厅座位总数
+        int seatsTotal = resultBean.getSeatsTotal();
+        //已售座位数
+        seatsUseCount = resultBean.getSeatsUseCount();
+        Random rand = new Random();
+        num = rand.nextInt(9);
+        num1 = rand.nextInt(9);
+        Log.i("TAG",num+"========================"+num1);
+        //设置屏幕名称
+        seattable.setScreenName(resultBean.getScreeningHall()+"荧幕");
+        //设置最多选中
+        seattable.setMaxSelected(3);
         seattable.setSeatChecker(new SeatTable.SeatChecker() {
-
             @Override
             public boolean isValidSeat(int row, int column) {
                 if (column == 2) {
@@ -96,19 +111,33 @@ public class SeatActivity extends BaseActivty {
 
             @Override
             public boolean isSold(int row, int column) {
-                if (row == 6 && column == 6) {
-                    return true;
+                for (int i =0;i<seatsUseCount;i++){
+                        if(isValidSeat(num,num1)){
+                            if (row == num+i && column == num1+i) {
+                              return true;
+                            }
+                        }else{
+                            num++;
+                        }
+
                 }
                 return false;
             }
 
             @Override
             public void checked(int row, int column) {
-
+                totalPrice+=resultBean.getPrice();
+                String totalprice = String.format("%.2f", totalPrice);
+                price.setText(totalprice+"");
+                numCount++;
             }
 
             @Override
             public void unCheck(int row, int column) {
+                totalPrice-=resultBean.getPrice();
+                String totalprice = String.format("%.2f", totalPrice);
+                price.setText(totalprice+"");
+                numCount--;
 
             }
 
@@ -118,19 +147,31 @@ public class SeatActivity extends BaseActivty {
             }
 
         });
-        seattable.setData(10, 15);
+        //设置影厅总座位数
+        if (seatsTotal<=10){
+            seattable.setData(1, seatsTotal+1);
+        } else if (seatsTotal>10||seatsTotal<=100){
+            seattable.setData(5, seatsTotal/10+1);
+        }else if (seatsTotal>100){
+            seattable.setData(10, seatsTotal/10+1);
+        }
     }
 
     @Override
     protected void initData() {
+
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
-        FilmSchedulBean.ResultBean resultBean = bundle.getParcelable("resultBean");
-        ArrayList<String> list =bundle.getStringArrayList("list");
+        resultBean = bundle.getParcelable("resultBean");
+        list = bundle.getStringArrayList("list");
             cinemaName.setText(list.get(0));
             cinemaAddress.setText(list.get(1));
             filmName.setText(list.get(2));
+        tvText.setText("\t"+ resultBean.getBeginTime()+"-"+ resultBean.getEndTime()+"\t\t\t"+ resultBean.getScreeningHall());
 
+        //选座
+        selectView();
+        //TODO  购买下单
     }
 
     @Override

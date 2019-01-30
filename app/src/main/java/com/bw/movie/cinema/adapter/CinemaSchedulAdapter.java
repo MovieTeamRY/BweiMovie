@@ -82,12 +82,14 @@ public class CinemaSchedulAdapter extends RecyclerView.Adapter<RecyclerView.View
         holder.endTime.setText(resultBean.getEndTime());
         double price = resultBean.getPrice();
         String prices= String.valueOf(price);
-        SpannableString spannableString = new SpannableString(prices);
-        RelativeSizeSpan sizeSpan01 = new RelativeSizeSpan(1.0f);
-        RelativeSizeSpan sizeSpan02 = new RelativeSizeSpan(0.5f);
-        spannableString.setSpan(sizeSpan01, 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(sizeSpan02, 2, 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        holder.schedulingPrice.setText(spannableString);
+        if (!prices.equals("")) {
+            SpannableString spannableString = new SpannableString(prices);
+            RelativeSizeSpan sizeSpan01 = new RelativeSizeSpan(1.0f);
+            RelativeSizeSpan sizeSpan02 = new RelativeSizeSpan(0.5f);
+            spannableString.setSpan(sizeSpan01, 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(sizeSpan02, 2, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            holder.schedulingPrice.setText(spannableString);
+        }
 
     }
 
