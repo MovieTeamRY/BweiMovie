@@ -68,7 +68,7 @@
         android:textColor="#333333"
         android:layout_alignBottom="@id/detail_route"
         />
-    <TextView
+    <!--<TextView
         android:id="@+id/text_subway"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -121,6 +121,6 @@
         android:layout_below="@id/text_car"
         android:textSize="@dimen/sp_12"
         android:textColor="#333333"
-        />
+        />-->
 
 </RelativeLayout>
