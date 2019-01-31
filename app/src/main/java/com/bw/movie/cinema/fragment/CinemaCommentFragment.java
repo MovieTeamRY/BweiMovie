@@ -1,5 +1,7 @@
 package com.bw.movie.cinema.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -12,14 +14,8 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.cinema.adapter.CinemaCommentAdapter;
 import com.bw.movie.cinema.bean.CinemaCommentBean;
-import com.bw.movie.cinema.bean.CinemaInfoBean;
-import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,24 +27,21 @@ public class CinemaCommentFragment extends BaseFragment {
     Unbinder unbinder;
     private int page;
     private CinemaCommentAdapter cinemaCommentAdapter;
-    private int id;
+    private int cinemaId;
 
     @Override
     protected int getLayoutResId() {
         return R.layout.cinema_comment_fragment;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void getCinemaId(MessageBean messageBean) {
-        if (messageBean.getId().equals("detail_cinemaId")) {
-            id = (int) messageBean.getObject();
-            page=1;
-            onGetRequest(String.format(Apis.URL_FIND_ALL_CINEAM_COMMENT_GET, id, page), CinemaCommentBean.class);
-        }
+    @Override
+    protected void initView(View view) {
+        unbinder = ButterKnife.bind(this, view);
     }
-
     @Override
     protected void initData() {
+        Intent intent=getActivity().getIntent();
+        cinemaId = intent.getIntExtra("id", 0);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         commentXrecycler.setLayoutManager(linearLayoutManager);
         cinemaCommentAdapter = new CinemaCommentAdapter(getContext());
@@ -57,23 +50,24 @@ public class CinemaCommentFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 page=1;
-                onGetRequest(String.format(Apis.URL_FIND_ALL_CINEAM_COMMENT_GET,id, page), CinemaCommentBean.class);
+                onGetRequest(String.format(Apis.URL_FIND_ALL_CINEAM_COMMENT_GET,cinemaId, page), CinemaCommentBean.class);
             }
 
             @Override
             public void onLoadMore() {
-                onGetRequest(String.format(Apis.URL_FIND_ALL_CINEAM_COMMENT_GET, id,page), CinemaCommentBean.class);
+                onGetRequest(String.format(Apis.URL_FIND_ALL_CINEAM_COMMENT_GET, cinemaId,page), CinemaCommentBean.class);
             }
         });
-
+        Log.i("TAG",cinemaId+"===");
+        page=1;
+        onGetRequest(String.format(Apis.URL_FIND_ALL_CINEAM_COMMENT_GET, cinemaId, page), CinemaCommentBean.class);
     }
 
-    @Override
-    protected void initView(View view) {
-        unbinder = ButterKnife.bind(this, view);
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
+    public void setCinemaId(int cinemaId){
+        this.cinemaId=cinemaId;
+        Log.i("TAG",cinemaId+"===");
+        page=1;
+        onGetRequest(String.format(Apis.URL_FIND_ALL_CINEAM_COMMENT_GET, cinemaId, page), CinemaCommentBean.class);
     }
 
     @Override
@@ -81,17 +75,23 @@ public class CinemaCommentFragment extends BaseFragment {
         if(data instanceof CinemaCommentBean){
             CinemaCommentBean cinemaCommentBean= (CinemaCommentBean) data;
             if(cinemaCommentBean.getResult().size()>0){
-                if(page==1){
-                    cinemaCommentAdapter.setList(cinemaCommentBean.getResult());
+                if(cinemaCommentBean.getResult().size()<10){
+                    if(page==1){
+                        cinemaCommentAdapter.setList(cinemaCommentBean.getResult());
+                    }else{
+                        cinemaCommentAdapter.addList(cinemaCommentBean.getResult());
+                    }
                 }else{
-                    cinemaCommentAdapter.addList(cinemaCommentBean.getResult());
+                    ToastUtil.showToast("没有更多数据了");
                 }
-                commentXrecycler.refreshComplete();
-                commentXrecycler.loadMoreComplete();
-                page++;
+            }else if(cinemaCommentBean.getResult().size()==0||cinemaCommentBean.getResult()==null){
+                ToastUtil.showToast("没有更多数据了");
             }else{
                 ToastUtil.showToast(cinemaCommentBean.getMessage());
             }
+            page++;
+            commentXrecycler.refreshComplete();
+            commentXrecycler.loadMoreComplete();
         }
     }
 
@@ -104,6 +104,5 @@ public class CinemaCommentFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        EventBus.getDefault().unregister(this);
     }
 }

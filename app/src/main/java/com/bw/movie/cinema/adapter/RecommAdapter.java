@@ -65,7 +65,7 @@ public class RecommAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context,CinemaDetailActivity.class);
-                EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",result.getId()));
+                //EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",result.getId()));
                 intent.putExtra("id",result.getId());
                 context.startActivity(intent);
             }

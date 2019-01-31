@@ -240,7 +240,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/findAllCinemaComment
      * 请求方式：GET
      * */
-    public static final String URL_FIND_ALL_CINEAM_COMMENT_GET = "cinema/v1/findAllCinemaComment?cinemaId=%d%page=%d&count=10";
+    public static final String URL_FIND_ALL_CINEAM_COMMENT_GET = "cinema/v1/findAllCinemaComment?cinemaId=%d&page=%d&count=10";
     /**
      * 9.影院评论
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/verify/cinemaComment

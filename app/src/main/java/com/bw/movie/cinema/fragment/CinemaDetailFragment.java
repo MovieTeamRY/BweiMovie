@@ -1,5 +1,7 @@
 package com.bw.movie.cinema.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,11 +13,6 @@ import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.cinema.bean.CinemaInfoBean;
-import com.bw.movie.utils.MessageBean;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +25,10 @@ public class CinemaDetailFragment extends BaseFragment {
     TextView textPhone;
     @BindView(R.id.text_route)
     TextView textRoute;
+    @BindView(R.id.subway_way)
+    TextView subwayWay;
     Unbinder unbinder;
+    private int cinemaId;
 
     @Override
     protected int getLayoutResId() {
@@ -37,24 +37,22 @@ public class CinemaDetailFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        Intent intent=getActivity().getIntent();
+        cinemaId = intent.getIntExtra("id", 0);
+        onGetRequest(String.format(Apis.URL_FIND_CINEMA_INFO_GET, cinemaId), CinemaInfoBean.class);
     }
 
     @Override
     protected void initView(View view) {
         unbinder = ButterKnife.bind(this, view);
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void getCinemaId(MessageBean messageBean) {
-        if (messageBean.getId().equals("detail_cinemaId")) {
-            int id = (int) messageBean.getObject();
-            onGetRequest(String.format(Apis.URL_FIND_CINEMA_INFO_GET, id), CinemaInfoBean.class);
-        }
+    public void setCinemaId(int cinemaId){
+        this.cinemaId=cinemaId;
+        Log.i("TAG",cinemaId+"====");
+        onGetRequest(String.format(Apis.URL_FIND_CINEMA_INFO_GET, cinemaId), CinemaInfoBean.class);
     }
+
 
     @Override
     protected void onNetSuccess(Object data) {
@@ -63,7 +61,7 @@ public class CinemaDetailFragment extends BaseFragment {
             CinemaInfoBean.ResultBean result = cinemaInfoBean.getResult();
             textLoc.setText(result.getAddress());
             textPhone.setText(result.getPhone());
-            textRoute.setText(result.getVehicleRoute());
+            subwayWay.setText(result.getVehicleRoute());
         }
     }
 
@@ -75,12 +73,6 @@ public class CinemaDetailFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
         unbinder.unbind();
     }
 }

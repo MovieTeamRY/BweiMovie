@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class CinemaCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -85,6 +86,7 @@ public class CinemaCommentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            ButterKnife.bind(this,itemView);
         }
     }
 }
