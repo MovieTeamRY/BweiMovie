@@ -81,6 +81,9 @@ public class CinemaDetailActivity extends BaseActivty {
     private Bundle bundle;
     private int i;
     private ArrayList<String> list;
+    private CinemaDetailFragment cinemaDetailFragment;
+    private CinemaCommentFragment cinemaCommentFragment;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_cinema_detail;
@@ -121,13 +124,15 @@ public class CinemaDetailActivity extends BaseActivty {
             }
         });
         final String[] menu=new String[]{"详情","评论"};
+        cinemaDetailFragment = new CinemaDetailFragment();
+        cinemaCommentFragment = new CinemaCommentFragment();
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
                 if(i==0){
-                    return new CinemaDetailFragment();
+                    return cinemaDetailFragment;
                 }else{
-                    return new CinemaCommentFragment();
+                    return cinemaCommentFragment;
                 }
             }
 
@@ -224,25 +229,28 @@ public class CinemaDetailActivity extends BaseActivty {
                 break;
             case R.id.cinema_name:
                 if(!detailWindow.isShowing()){
-                    EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",id));
+                    /*cinemaDetailFragment.setCinemaId(id);
+                    cinemaCommentFragment.setCinemaId(id);*/
                     detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
                 }
                 break;
             case R.id.cinema_address:
                 if(!detailWindow.isShowing()){
-                    EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",id));
+
                     detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
                 }
                 break;
             case R.id.cinema_logo:
                 if(!detailWindow.isShowing()){
-                    EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",id));
+                   /* cinemaDetailFragment.setCinemaId(id);
+                    cinemaCommentFragment.setCinemaId(id);*/
                     detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
                 }
                 break;
             case R.id.cinema_navigation:
                 if(!detailWindow.isShowing()){
-                    EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",id));
+                   /* cinemaDetailFragment.setCinemaId(id);
+                    cinemaCommentFragment.setCinemaId(id);*/
                     detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
                 }
                 break;

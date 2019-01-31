@@ -119,17 +119,20 @@ public class SignActivity extends BaseActivty {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(SignActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 //获取系统时间
-                final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String date = sDateFormat.format(new java.util.Date());
-                String[] split = date.split("\\-");
+                Calendar calendar = Calendar.getInstance();
+                final int year = calendar.get(Calendar.YEAR);
+                final int month = calendar.get(Calendar.MONTH);
+                final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 Calendar startDate = Calendar.getInstance();
                 Calendar endDate = Calendar.getInstance();
-                startDate.set(Integer.valueOf(split[0])-100,0,1);
-                endDate.set(Integer.valueOf(split[0]),Integer.valueOf(split[1]),Integer.valueOf(split[2]));
+                calendar.set(year-10,month,day);
+                startDate.set(year-100,0,1);
+                endDate.set(year,month,day);
                 TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
+                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         String time = sDateFormat.format(date);
                         signTextDate.setText(time+"");
                     }
@@ -144,6 +147,8 @@ public class SignActivity extends BaseActivty {
                         //点击屏幕，点在控件外部范围时，是否取消显示
                         .setRangDate(startDate,endDate)
                         //起始终止年月日设定
+                        .setDate(calendar)
+                        //设置默认时间
                         .isCenterLabel(false)
                         //是否只显示中间选中项的label文字，false则每项item全部都带有label。
                         .build();
