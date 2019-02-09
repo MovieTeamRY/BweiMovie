@@ -61,6 +61,26 @@ public class Imodelmpl implements Imodel{
         }
     }
 
+    @Override
+    public void onpostFileRequest(String url, Map<String, String> map, final Class clas, final MyCallBack myCallBack) {
+        if(!isNetWork()){
+            myCallBack.onFail(Apis.NOTNETWORK);
+        }else{
+            RetrofitManager.getInstance().postFile(url, map, new RetrofitManager.HttpListener() {
+                @Override
+                public void onSuccess(String data) {
+                    Object o = new Gson().fromJson(data, clas);
+                    myCallBack.onSuccess(o);
+                }
+
+                @Override
+                public void onFail(String error) {
+                    myCallBack.onFail(error);
+                }
+            });
+        }
+    }
+
     public static boolean isNetWork(){
         ConnectivityManager cm = (ConnectivityManager) MyApplication.getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();

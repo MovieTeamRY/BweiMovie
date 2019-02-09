@@ -2,7 +2,9 @@ package com.bw.movie.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -29,5 +31,11 @@ public class MyApplication extends Application {
                 .setMainDiskCacheConfig(diskCacheConfig)
                 .build();
         Fresco.initialize(this,config);
+
+        //android 7.0调用相机闪退问题
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
     }
 }
