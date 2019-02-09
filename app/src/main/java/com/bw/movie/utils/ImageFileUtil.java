@@ -1,4 +1,4 @@
-package com.bw.movie.util;
+package com.bw.movie.utils;
 
 import android.graphics.Bitmap;
 
@@ -6,11 +6,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 /**
-  * @作者 GXY
-  * @创建日期 2019/1/26 14:48
-  * @描述 质量压缩和转换成file文件
-  *
-  */
+ *质量压缩和转换成file文件
+ *@author Administrator
+ *@time 2019/2/9 0009 18:17
+ */
 public class ImageFileUtil {
     public static void setBitmap(Bitmap bitmap, String path, int quality){
         String sub = path.substring(0, path.lastIndexOf("/"));

@@ -46,6 +46,21 @@ public class IpresenterImpl implements Ipresenter{
         });
     }
 
+    @Override
+    public void onpostFileRequest(String url, Map<String, String> map, Class clas) {
+        imodelmpl.onpostFileRequest(url, map, clas, new MyCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                iview.onSuccess(data);
+            }
+
+            @Override
+            public void onFail(String error) {
+                iview.onFail(error);
+            }
+        });
+    }
+
     public void onDetach(){
         if(imodelmpl!=null){
             imodelmpl=null;

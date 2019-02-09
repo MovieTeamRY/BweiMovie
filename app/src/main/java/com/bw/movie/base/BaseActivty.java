@@ -85,7 +85,20 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         }
         ipresenter.onGetStart(url,clas);
     }
-
+    /**
+     *上传头像
+     *@author Administrator
+     *@time 2019/2/9 0009 18:23
+     */
+    protected void onpostFileRequest(String url, Map<String,String> map, Class clas){
+        if(map==null){
+            map=new HashMap<>();
+        }
+        if(loadDialog==null){
+            loadDialog = CircularLoading.getInstance().showLoadDialog(this, true);
+        }
+        ipresenter.onpostFileRequest(url,map,clas);
+    }
     /**
      * 请求数据成功
      */

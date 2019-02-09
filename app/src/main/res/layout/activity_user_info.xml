@@ -5,7 +5,8 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mine.activity.UserInfoActivity">
+    tools:context=".mine.activity.UserInfoActivity"
+    tools:ignore="MissingDefaultResource">
 
     <TextView
         android:id="@+id/text_user"
@@ -43,9 +44,7 @@
             android:id="@+id/user_simple"
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
-            fresco:roundAsCircle="true"
-            android:layout_alignParentRight="true"
-            />
+            android:layout_alignParentRight="true"/>
         <View
             android:id="@+id/view01"
             android:layout_below="@id/user_simple"

@@ -51,12 +51,18 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        onGetRequest(Apis.URL_GET_USER_INFO_BY_USERID_GET, UserInfoBean.class);
+            // onGetRequest(Apis.URL_GET_USER_INFO_BY_USERID_GET, UserInfoBean.class);
     }
 
     @Override
     protected void initView(View view) {
         unbinder = ButterKnife.bind(this, view);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onGetRequest(Apis.URL_GET_USER_INFO_BY_USERID_GET, UserInfoBean.class);
     }
 
     @Override
