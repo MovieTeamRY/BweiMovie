@@ -211,4 +211,13 @@
             android:background="@mipmap/com_icon_next_default"
             />
     </RelativeLayout>
+    <ImageView
+        android:id="@+id/user_return"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
+        android:background="@mipmap/com_icon_return_default"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_alignLeft="@id/user_relative_top"
+        />
 </RelativeLayout>

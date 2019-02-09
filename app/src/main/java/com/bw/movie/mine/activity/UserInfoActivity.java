@@ -77,7 +77,7 @@ public class UserInfoActivity extends BaseActivty {
 
     }
 
-    @OnClick({R.id.user_simple, R.id.user_nikeName, R.id.user_sex, R.id.user_brith, R.id.user_phone, R.id.user_email, R.id.user_pwd})
+    @OnClick({R.id.user_simple, R.id.user_nikeName, R.id.user_sex, R.id.user_brith, R.id.user_phone, R.id.user_email, R.id.user_pwd,R.id.user_return})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_simple:
@@ -93,6 +93,9 @@ public class UserInfoActivity extends BaseActivty {
             case R.id.user_email:
                 break;
             case R.id.user_pwd:
+                break;
+            case R.id.user_return:
+                finish();
                 break;
             default:break;
         }
