@@ -36,8 +36,8 @@
         <activity
             android:name=".film.activity.FilmDetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".home.activity.HomeActivity"
             android:hardwareAccelerated="true"
@@ -51,7 +51,11 @@
             android:exported="true" />
         <activity android:name=".cinema.activity.SeatActivity" />
         <activity android:name=".purchase.activity.PurchaseActivity" />
-        <activity android:name=".purchase.activity.PlayVideoCinemaActivity"></activity>
+        <activity android:name=".purchase.activity.PlayVideoCinemaActivity" />
+        <activity android:name=".mine.activity.FeedBackActivity" />
+        <activity android:name=".mine.activity.UserInfoActivity" />
+        <activity android:name=".mine.activity.AttentActivity" />
+        <activity android:name=".mine.activity.RecordActivity"></activity>
     </application>
 
 </manifest>
