@@ -229,28 +229,21 @@ public class CinemaDetailActivity extends BaseActivty {
                 break;
             case R.id.cinema_name:
                 if(!detailWindow.isShowing()){
-                    /*cinemaDetailFragment.setCinemaId(id);
-                    cinemaCommentFragment.setCinemaId(id);*/
                     detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
                 }
                 break;
             case R.id.cinema_address:
                 if(!detailWindow.isShowing()){
-
                     detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
                 }
                 break;
             case R.id.cinema_logo:
                 if(!detailWindow.isShowing()){
-                   /* cinemaDetailFragment.setCinemaId(id);
-                    cinemaCommentFragment.setCinemaId(id);*/
                     detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
                 }
                 break;
             case R.id.cinema_navigation:
                 if(!detailWindow.isShowing()){
-                   /* cinemaDetailFragment.setCinemaId(id);
-                    cinemaCommentFragment.setCinemaId(id);*/
                     detailWindow.showAtLocation(view,Gravity.BOTTOM,0,0);
                 }
                 break;

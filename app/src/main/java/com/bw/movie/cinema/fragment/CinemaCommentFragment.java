@@ -74,18 +74,14 @@ public class CinemaCommentFragment extends BaseFragment {
     protected void onNetSuccess(Object data) {
         if(data instanceof CinemaCommentBean){
             CinemaCommentBean cinemaCommentBean= (CinemaCommentBean) data;
-            if(cinemaCommentBean.getResult().size()>0){
-                if(cinemaCommentBean.getResult().size()<10){
-                    if(page==1){
-                        cinemaCommentAdapter.setList(cinemaCommentBean.getResult());
-                    }else{
-                        cinemaCommentAdapter.addList(cinemaCommentBean.getResult());
-                    }
-                }else{
-                    ToastUtil.showToast("没有更多数据了");
-                }
-            }else if(cinemaCommentBean.getResult().size()==0||cinemaCommentBean.getResult()==null){
+            if(cinemaCommentBean.getMessage().equals("无数据")){
                 ToastUtil.showToast("没有更多数据了");
+            }else if(cinemaCommentBean.getResult().size()>0){
+                if(page==1){
+                    cinemaCommentAdapter.setList(cinemaCommentBean.getResult());
+                }else{
+                    cinemaCommentAdapter.addList(cinemaCommentBean.getResult());
+                }
             }else{
                 ToastUtil.showToast(cinemaCommentBean.getMessage());
             }
