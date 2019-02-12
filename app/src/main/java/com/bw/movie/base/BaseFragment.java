@@ -43,7 +43,9 @@ public abstract class BaseFragment extends Fragment implements Iview{
         //初始化
         initView(view);
         //添加数据
-        initData();
+        if(getUserVisibleHint()){
+            initData();
+        }
 
     }
 

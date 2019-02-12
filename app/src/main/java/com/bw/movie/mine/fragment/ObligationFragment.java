@@ -1,5 +1,7 @@
 package com.bw.movie.mine.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +13,15 @@ import android.view.ViewGroup;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.cinema.bean.PayBean;
 import com.bw.movie.mine.adapter.ObligationAdapter;
 import com.bw.movie.mine.bean.ObligationBean;
+import com.bw.movie.utils.Md5Utils;
 import com.bw.movie.utils.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,10 +31,11 @@ public class ObligationFragment extends BaseFragment {
     @BindView(R.id.obligation_recycler)
     XRecyclerView obligationRecycler;
     private int mpage;
-    private int status=1;
+    private final int status=1;
     Unbinder unbinder;
     private ObligationAdapter obligationAdapter;
-
+    private SharedPreferences.Editor edit;
+    private SharedPreferences preferences;
     @Override
     protected int getLayoutResId() {
         return R.layout.mine_recrd_obligation_fragment;
@@ -38,6 +46,16 @@ public class ObligationFragment extends BaseFragment {
         obligationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         obligationAdapter = new ObligationAdapter(status,getContext());
         obligationRecycler.setAdapter(obligationAdapter);
+        obligationAdapter.setOnClick(new ObligationAdapter.PayClick() {
+            @Override
+            public void onClick(ObligationBean.ResultBean resultBean) {
+                 Map<String, String> map=new HashMap<>();
+                map.put("scheduleId",String.valueOf(resultBean.getId()));
+                map.put("amount",resultBean.getAmount()+"");
+                map.put("sign",Md5Utils.MD5(preferences.getString("UserId",null)+resultBean.getId()+resultBean.getAmount()+"movie"));
+                onPostRequest(Apis.URL_BUY_MOVIE_TICKET_POST,map,PayBean.class);
+            }
+        });
         obligationRecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -57,6 +75,8 @@ public class ObligationFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         unbinder = ButterKnife.bind(this, view);
+        preferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        edit = preferences.edit();
     }
 
     @Override
