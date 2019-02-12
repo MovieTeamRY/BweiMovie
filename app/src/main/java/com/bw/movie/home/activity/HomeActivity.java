@@ -38,6 +38,8 @@ public class HomeActivity extends BaseActivty {
     RadioGroup homeGroup;
     private Unbinder bind;
     private FilmFragment filmFragment;
+    private CinemaFragment cinemaFragment;
+    private MineFragment mineFragment;
 
     @Override
     protected void onNetSuccess(Object data) {
@@ -52,11 +54,13 @@ public class HomeActivity extends BaseActivty {
     @Override
     protected void initData() {
         filmFragment = new FilmFragment();
+        cinemaFragment = new CinemaFragment();
+        mineFragment = new MineFragment();
         AddressUtils.getAddressUtils().getAddressDetail(this);
         //fragment管理器
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.home_frame, filmFragment);
+        transaction.add(R.id.home_frame, filmFragment, filmFragment.getClass().getName());
         transaction.commit();
         homeFilm.setChecked(true);
         AnimatorUtils.scaleAnimator(homeFilm,"scaleX","scaleY",1f,1.17f,0);
@@ -84,30 +88,40 @@ public class HomeActivity extends BaseActivty {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.home_film:
-                FragmentManager manager1 = getSupportFragmentManager();
-                FragmentTransaction transaction1 = manager1.beginTransaction();
-                transaction1.replace(R.id.home_frame, filmFragment);
-                transaction1.commit();
+                FragmentManager managerFilm = getSupportFragmentManager();
+                FragmentTransaction transactionFilm = managerFilm.beginTransaction();
+                transactionFilm.hide(mineFragment);
+                transactionFilm.hide(cinemaFragment);
+                transactionFilm.show(filmFragment);
+                transactionFilm.commit();
                 AnimatorUtils.scaleAnimator(view,"scaleX","scaleY",1f,1.17f,0);
                 AnimatorUtils.scaleAnimator(homeCinema,"scaleX","scaleY",1f,0);
                 AnimatorUtils.scaleAnimator(homeMy,"scaleX","scaleY",1f,0);
                 break;
             case R.id.home_cinema:
-                CinemaFragment cinemaFragment = new CinemaFragment();
-                FragmentManager manager2 = getSupportFragmentManager();
-                FragmentTransaction transaction2 = manager2.beginTransaction();
-                transaction2.replace(R.id.home_frame, cinemaFragment);
-                transaction2.commit();
+                FragmentManager managerCinema = getSupportFragmentManager();
+                FragmentTransaction transactionCinema = managerCinema.beginTransaction();
+                if (managerCinema.findFragmentByTag(cinemaFragment.getClass().getName()) == null) {
+                    transactionCinema.add(R.id.home_frame, cinemaFragment, cinemaFragment.getClass().getName());
+                }
+                transactionCinema.hide(filmFragment);
+                transactionCinema.hide(mineFragment);
+                transactionCinema.show(cinemaFragment);
+                transactionCinema.commit();
                 AnimatorUtils.scaleAnimator(view,"scaleX","scaleY",1f,1.17f,0);
                 AnimatorUtils.scaleAnimator(homeFilm,"scaleX","scaleY",1f,0);
                 AnimatorUtils.scaleAnimator(homeMy,"scaleX","scaleY",1f,0);
                 break;
             case R.id.home_my:
-                MineFragment mineFragment = new MineFragment();
-                FragmentManager manager3 = getSupportFragmentManager();
-                FragmentTransaction transaction3 = manager3.beginTransaction();
-                transaction3.replace(R.id.home_frame, mineFragment);
-                transaction3.commit();
+                FragmentManager managerMine = getSupportFragmentManager();
+                FragmentTransaction transactionMine = managerMine.beginTransaction();
+                if (managerMine.findFragmentByTag(mineFragment.getClass().getName()) == null) {
+                    transactionMine.add(R.id.home_frame, mineFragment, mineFragment.getClass().getName());
+                }
+                transactionMine.hide(filmFragment);
+                transactionMine.hide(cinemaFragment);
+                transactionMine.show(mineFragment);
+                transactionMine.commit();
                 AnimatorUtils.scaleAnimator(view,"scaleX","scaleY",1f,1.17f,0);
                 AnimatorUtils.scaleAnimator(homeCinema,"scaleX","scaleY",1f,0);
                 AnimatorUtils.scaleAnimator(homeFilm,"scaleX","scaleY",1f,0);

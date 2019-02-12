@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/home_recycler_simple_bg"
+    android:layout_height="wrap_content"
+    android:paddingRight="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_20"
+    >
+    <TextView
+        android:id="@+id/film_name"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#333"
+        android:text="铁血战士"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="@dimen/sp_12"
+        android:textColor="#333"
+        android:id="@+id/film_order"
+        android:text="订单号："
+        android:layout_below="@id/film_name"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="@dimen/sp_12"
+        android:textColor="#333"
+        android:layout_below="@id/film_order"
+        android:id="@+id/film_cinema"
+        android:text="影院："
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/film_hall"
+        android:textSize="@dimen/sp_12"
+        android:textColor="#333"
+        android:text="影厅："
+        android:layout_below="@+id/film_cinema"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/film_time"
+        android:textSize="@dimen/sp_12"
+        android:textColor="#333"
+        android:text="时间："
+        android:layout_below="@+id/film_hall"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/film_num"
+        android:textSize="@dimen/sp_12"
+        android:textColor="#333"
+        android:text="数量："
+        android:layout_below="@+id/film_time"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="@dimen/sp_12"
+        android:textColor="#333"
+        android:text="金额："
+        android:layout_below="@+id/film_num"
+        android:id="@+id/film_total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/film_topay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="去付款"
+        android:textSize="@dimen/sp_12"
+        android:textColor="#fff"
+        android:background="@drawable/login_but_bg"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        />
+</RelativeLayout>
