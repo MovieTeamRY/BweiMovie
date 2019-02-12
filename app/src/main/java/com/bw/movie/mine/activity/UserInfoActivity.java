@@ -23,6 +23,7 @@ import com.bw.movie.base.BaseActivty;
 import com.bw.movie.mine.bean.LoadHeadPicBean;
 import com.bw.movie.mine.bean.UserInfoBean;
 import com.bw.movie.utils.ImageFileUtil;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -196,6 +197,7 @@ public class UserInfoActivity extends BaseActivty {
             case R.id.user_email:
                 break;
             case R.id.user_pwd:
+                IntentUtils.getInstence().intent(UserInfoActivity.this,UpdatePassWordActivity.class);
                 break;
             case R.id.user_return:
                 finish();
