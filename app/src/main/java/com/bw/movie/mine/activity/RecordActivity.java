@@ -91,6 +91,7 @@ public class RecordActivity extends BaseActivty {
 
     @OnClick(R.id.user_return)
     public void onViewClicked() {
+        finish();
     }
 
     @Override
