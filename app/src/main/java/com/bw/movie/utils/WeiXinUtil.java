@@ -1,7 +1,11 @@
 package com.bw.movie.utils;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.bw.movie.base.MyApplication;
+import com.bw.movie.wxapi.bean.WXPayBean;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -37,11 +41,13 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
                 return  null;
             }
         }
-   /* //支付
-    public static void  weiXinPay(Bean_OrderSuccessBean bean){
-        IWXAPI wxapi = WXAPIFactory.createWXAPI(App.context, APP_ID, true);
-        //注册到微信
-        wxapi.registerApp(APP_ID);
+   //支付
+    public static void  weiXinPay(Context context, WXPayBean bean){
+//        IWXAPI wxapi = WXAPIFactory.createWXAPI(MyApplication.getApplication(), APP_ID, true);
+//        //注册到微信
+//        wxapi.registerApp(APP_ID);
+
+        IWXAPI wxapi = reg(context);
 
         PayReq payReq = new PayReq();
         payReq.appId=bean.getAppId();
@@ -53,5 +59,5 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
         payReq.packageValue=bean.getPackageValue();
         Log.d("",payReq.toString()+"111111");
         wxapi.sendReq(payReq);
-    }*/
+    }
 }
