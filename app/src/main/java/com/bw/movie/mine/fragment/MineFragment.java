@@ -1,5 +1,6 @@
 package com.bw.movie.mine.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -71,9 +72,7 @@ public class MineFragment extends BaseFragment {
         if (data instanceof UserInfoBean) {
             UserInfoBean userInfoBean = (UserInfoBean) data;
             UserInfoBean.ResultBean resultBean = userInfoBean.getResult();
-            if(userInfoBean.getMessage().equals("请先登陆")){
-                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
-            }
+
             userSimple.setImageURI(Uri.parse(resultBean.getHeadPic()));
             userName.setText(resultBean.getNickName());
         }else if(data instanceof AttendBean){

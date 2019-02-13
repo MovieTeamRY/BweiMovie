@@ -89,7 +89,8 @@ public class LoginActivity extends BaseActivty {
                 //存入状态值
                 edit.putString("UserId",String.valueOf(loginBean.getResult().getUserId())).putString("SessionId",loginBean.getResult().getSessionId()).commit();
                 //登录成功后跳转首页
-                IntentUtils.getInstence().intent(LoginActivity.this,HomeActivity.class);
+                //IntentUtils.getInstence().intent(LoginActivity.this,HomeActivity.class);
+                setResult(100);
                 //销毁
                 finish();
                 ToastUtil.showToast(loginBean.getMessage());
@@ -200,6 +201,7 @@ public class LoginActivity extends BaseActivty {
                     req.scope = "snsapi_userinfo";
                     req.state = "wechat_sdk_demo_test";
                     WeiXinUtil.reg(LoginActivity.this).sendReq(req);
+                    finish();
                 }
                 break;
             default:break;

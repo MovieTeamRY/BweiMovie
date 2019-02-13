@@ -52,7 +52,7 @@ public class WXEntryActivity extends BaseActivty implements IWXAPIEventHandler {
         if (data instanceof WXBean){
             WXBean wxBean = (WXBean) data;
             if (wxBean.isSuccess()&&wxBean!=null){
-                IntentUtils.getInstence().intent(WXEntryActivity.this,HomeActivity.class);
+                //IntentUtils.getInstence().intent(WXEntryActivity.this,HomeActivity.class);
                 finish();
                 //存入状态值
                 edit.putString("UserId",String.valueOf(wxBean.getResult().getUserId())).putString("SessionId",wxBean.getResult().getSessionId()).commit();
