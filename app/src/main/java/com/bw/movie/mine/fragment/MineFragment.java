@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.mine.activity.AttentActivity;
 import com.bw.movie.mine.activity.FeedBackActivity;
 import com.bw.movie.mine.activity.RecordActivity;
@@ -70,10 +71,16 @@ public class MineFragment extends BaseFragment {
         if (data instanceof UserInfoBean) {
             UserInfoBean userInfoBean = (UserInfoBean) data;
             UserInfoBean.ResultBean resultBean = userInfoBean.getResult();
+            if(userInfoBean.getMessage().equals("请先登陆")){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }
             userSimple.setImageURI(Uri.parse(resultBean.getHeadPic()));
             userName.setText(resultBean.getNickName());
         }else if(data instanceof AttendBean){
             AttendBean attendBean= (AttendBean) data;
+            if(attendBean.getMessage().equals("请先登陆")){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }
             ToastUtil.showToast(attendBean.getMessage());
         }
     }

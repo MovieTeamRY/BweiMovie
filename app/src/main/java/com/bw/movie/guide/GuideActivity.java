@@ -24,6 +24,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
 import com.bw.movie.guide.adapter.GuideAdapter;
 import com.bw.movie.guide.bean.GuideBean;
+import com.bw.movie.home.activity.HomeActivity;
 import com.bw.movie.login.LoginActivity;
 
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class GuideActivity extends BaseActivty {
     //判断是否是第一次下载
     private void isGuide(boolean is_guide){
         if(is_guide){
-            Intent intent=new Intent(this,LoginActivity.class);
+            Intent intent=new Intent(this,HomeActivity.class);
             startActivity(intent);
             finish();
         }else{
@@ -104,7 +105,7 @@ public class GuideActivity extends BaseActivty {
                 @Override
                 public void onPageSelected(int i) {
                     if(i==list.size()){
-                        Intent intent=new Intent(GuideActivity.this,LoginActivity.class);
+                        Intent intent=new Intent(GuideActivity.this,HomeActivity.class);
                         startActivity(intent);
                         finish();
                     }else{

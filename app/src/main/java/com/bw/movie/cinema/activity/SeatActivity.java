@@ -28,6 +28,8 @@ import com.bw.movie.base.BaseActivty;
 import com.bw.movie.cinema.bean.FilmSchedulBean;
 import com.bw.movie.cinema.bean.PayBean;
 import com.bw.movie.cinema.view.SeatTable;
+import com.bw.movie.login.LoginActivity;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.Md5Utils;
 import com.bw.movie.utils.ToastUtil;
 import com.bw.movie.utils.WeiXinUtil;
@@ -275,6 +277,9 @@ public class SeatActivity extends BaseActivty {
     protected void onNetSuccess(Object data) {
         if (data instanceof PayBean){
             payBean = (PayBean) data;
+            if(payBean.getMessage().equals("请先登陆")){
+                IntentUtils.getInstence().intent(this,LoginActivity.class);
+            }else
             if (payBean.isSuccess()&& payBean !=null){
                 ToastUtil.showToast(payBean.getMessage());
                 //调用支付pop弹框

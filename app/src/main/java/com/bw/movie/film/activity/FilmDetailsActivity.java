@@ -38,6 +38,7 @@ import com.bw.movie.film.bean.FilmDetailsBean;
 import com.bw.movie.film.bean.FollowMovieBean;
 import com.bw.movie.film.bean.PraiseBean;
 import com.bw.movie.film.bean.RevirwBean;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.purchase.activity.PurchaseActivity;
 import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.ToastUtil;
@@ -464,6 +465,9 @@ public class FilmDetailsActivity extends BaseActivty {
             ToastUtil.showToast(praiseBean.getMessage());
         } else if (data instanceof FollowMovieBean) {
             FollowMovieBean followMovieBean = (FollowMovieBean) data;
+            if(followMovieBean.getMessage().equals("请先登陆")){
+                IntentUtils.getInstence().intent(this,LoginActivity.class);
+            }else
             if (followMovieBean != null && followMovieBean.isSuccess()) {
                 result.setFollowMovie(1);
                 imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_selected);
