@@ -113,7 +113,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/verify/findMoviePageList
      * 请求方式：GET
      * */
-    public static final String URL_FIND_MOVIE_PAGE_LIST_GET = "movie/v1/verify/findMoviePageList";
+    public static final String URL_FIND_MOVIE_PAGE_LIST_GET = "movie/v1/verify/findMoviePageList?page=%d&count=10";
     /**
      * 7.关注电影
      * 接口地址：http://172.17.8.100/movieApi/movie/v1/verify/followMovie
@@ -222,7 +222,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/verify/findCinemaPageList
      * 请求方式：GET
      * */
-    public static final String URL_FIND_CINEAM_PAGE_LIST_GET = "cinema/v1/verify/findCinemaPageList";
+    public static final String URL_FIND_CINEAM_PAGE_LIST_GET = "cinema/v1/verify/findCinemaPageList?page=%d&count=10";
     /**
      * 6.关注影院
      * 接口地址：http://172.17.8.100/movieApi/cinema/v1/verify/followCinema

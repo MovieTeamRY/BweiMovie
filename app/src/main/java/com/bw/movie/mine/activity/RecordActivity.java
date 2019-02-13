@@ -1,18 +1,20 @@
 package com.bw.movie.mine.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
-import com.bw.movie.mine.fragment.CompletedFragment;
-import com.bw.movie.mine.fragment.ObligationFragment;
+import com.bw.movie.mine.adapter.ObligationAdapter;
+import com.bw.movie.mine.bean.ObligationBean;
+import com.bw.movie.utils.ToastUtil;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,11 +23,20 @@ import butterknife.Unbinder;
 
 public class RecordActivity extends BaseActivty {
 
-    @BindView(R.id.user_tab)
-    TabLayout userTab;
-    @BindView(R.id.user_viewpager)
-    ViewPager userViewpager;
+    @BindView(R.id.obligation_radio)
+    RadioButton obligationRadio;
+    @BindView(R.id.completed_radio)
+    RadioButton completedRadio;
+    @BindView(R.id.record_group)
+    RadioGroup recordGroup;
+    @BindView(R.id.record_recycler)
+    XRecyclerView recordRecycler;
+    @BindView(R.id.user_return)
+    ImageView userReturn;
     private Unbinder bind;
+    private int status;
+    private int mpage;
+    private ObligationAdapter obligationAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -39,49 +50,59 @@ public class RecordActivity extends BaseActivty {
 
     @Override
     protected void initData() {
-        final String[] menu=new String[]{"待付款","已完成"};
-        userViewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        status=1;
+        loadData();
+    }
+
+    public void loadData(){
+        obligationAdapter = new ObligationAdapter(status, this);
+        recordRecycler.setLayoutManager(new LinearLayoutManager(this));
+        recordRecycler.setAdapter(obligationAdapter);
+        recordRecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
-            public Fragment getItem(int i) {
-                if(i==0){
-                    return new ObligationFragment();
-                }else{
-                    return new CompletedFragment();
-                }
+            public void onRefresh() {
+                mpage=1;
+                onGetRequest(String.format(Apis.URL_FIND_USER_BUY_TICLET_RECORD_LIST_GET,mpage),ObligationBean.class);
             }
 
             @Override
-            public int getCount() {
-                return menu.length;
-            }
-
-            @Nullable
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return menu[position];
+            public void onLoadMore() {
+                onGetRequest(String.format(Apis.URL_FIND_USER_BUY_TICLET_RECORD_LIST_GET,mpage),ObligationBean.class);
             }
         });
-        //tablayout和viewpager关联
-        userTab.setupWithViewPager(userViewpager);
-        for (int i = 0; i < menu.length; i++) {
-            TabLayout.Tab tab = userTab.getTabAt(i);
-            //获得每一个tab
-            tab.setCustomView(R.layout.cinema_tab_layout);
-            //给每一个tab设置view
-            if (i == 0) {
-                // 设置第一个tab的TextView是被选择的样式
-                tab.getCustomView().findViewById(R.id.cinema_tab_text).setSelected(true);
-                //第一个tab被选中
-            }
-            TextView textView = tab.getCustomView().findViewById(R.id.cinema_tab_text);
-            textView.setText(menu[i]);
-            //设置tab上的文字
+        mpage=1;
+        onGetRequest(String.format(Apis.URL_FIND_USER_BUY_TICLET_RECORD_LIST_GET,mpage),ObligationBean.class);
+        if(status==1){
+            obligationAdapter.setOnClick(new ObligationAdapter.PayClick() {
+                @Override
+                public void onClick(ObligationBean.ResultBean resultBean) {
+                    //TODO 去支付创建订单
+
+                }
+            });
         }
     }
 
     @Override
     protected void onNetSuccess(Object data) {
-
+        if(data instanceof ObligationBean){
+            ObligationBean obligationBean= (ObligationBean) data;
+            if(obligationBean.getMessage().equals("请求成功")){
+                if(obligationBean.getResult().size()<10){
+                    ToastUtil.showToast("没有更多数据了");
+                }
+                if(mpage==1){
+                    obligationAdapter.setList(obligationBean.getResult());
+                }else{
+                    obligationAdapter.addList(obligationBean.getResult());
+                }
+                mpage++;
+            }else{
+                ToastUtil.showToast(obligationBean.getMessage());
+            }
+            recordRecycler.loadMoreComplete();
+            recordRecycler.refreshComplete();
+        }
     }
 
     @Override
@@ -89,9 +110,23 @@ public class RecordActivity extends BaseActivty {
         Log.i("TAG", error);
     }
 
-    @OnClick(R.id.user_return)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.obligation_radio, R.id.completed_radio, R.id.user_return})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.obligation_radio:
+                status=1;
+                loadData();
+
+                break;
+            case R.id.completed_radio:
+                status=2;
+                loadData();
+                break;
+            case R.id.user_return:
+                finish();
+                break;
+            default:break;
+        }
     }
 
     @Override
@@ -99,4 +134,5 @@ public class RecordActivity extends BaseActivty {
         super.onDestroy();
         bind.unbind();
     }
+
 }
