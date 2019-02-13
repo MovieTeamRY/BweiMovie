@@ -30,6 +30,8 @@ import com.bw.movie.cinema.bean.PayBean;
 import com.bw.movie.cinema.view.SeatTable;
 import com.bw.movie.utils.Md5Utils;
 import com.bw.movie.utils.ToastUtil;
+import com.bw.movie.utils.WeiXinUtil;
+import com.bw.movie.wxapi.bean.WXPayBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,9 +68,10 @@ public class SeatActivity extends BaseActivty {
     private double totalPrice;
     private int numCount=0;
     private PopupWindow popupWindow;
-    private int pay=0;
+    private int pay=1;
     private SharedPreferences.Editor edit;
     private SharedPreferences preferences;
+    private PayBean payBean;
 
     @Override
     protected int getLayoutResId() {
@@ -115,19 +118,19 @@ public class SeatActivity extends BaseActivty {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
                     case R.id.pay_wx:
-                        pay=0;
+                        pay=1;
                         confirm_pay.setText("微信支付"+totalPrice+"元");
                         break;
                     case R.id.pay_alipay:
-                        pay=1;
+                        pay=2;
                         confirm_pay.setText("支付宝支付"+totalPrice+"元");
                         break;
                 }
             }
         });
-       if (pay==0){
+       if (pay==1){
             confirm_pay.setText("微信支付"+totalPrice+"元");
-        }else if(pay==1){
+        }else if(pay==2){
             confirm_pay.setText("支付宝支付"+totalPrice+"元");
         }
 
@@ -135,11 +138,22 @@ public class SeatActivity extends BaseActivty {
         confirm_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, String> map=new HashMap<>();
+                if (pay==1){
+                    //微信支付
+                    Map<String, String> map=new HashMap<>();
+                    map.put("payType",String.valueOf(pay));
+                    map.put("orderId",payBean.getOrderId());
+                    onPostRequest(Apis.URL_PAY_POST,map,WXPayBean.class);
+                }else if(pay==2){
+                   //支付宝支付
+                    ToastUtil.showToast("支付宝支付暂时未做");
+                }
+
+               /* Map<String, String> map=new HashMap<>();
                 map.put("scheduleId",String.valueOf(resultBean.getId()));
                 map.put("amount",String.valueOf(numCount));
                 map.put("sign",Md5Utils.MD5(preferences.getString("UserId",null)+resultBean.getId()+numCount+"movie"));
-                onPostRequest(Apis.URL_BUY_MOVIE_TICKET_POST,map,PayBean.class);
+                onPostRequest(Apis.URL_BUY_MOVIE_TICKET_POST,map,WXPayBean.class);*/
             }
         });
     }
@@ -260,27 +274,41 @@ public class SeatActivity extends BaseActivty {
     @Override
     protected void onNetSuccess(Object data) {
         if (data instanceof PayBean){
-            PayBean payBean = (PayBean) data;
-            if (payBean.isSuccess()&&payBean!=null){
+            payBean = (PayBean) data;
+            if (payBean.isSuccess()&& payBean !=null){
                 ToastUtil.showToast(payBean.getMessage());
+                //调用支付pop弹框
+                getPayPopvView();
+                //支付
+                popupWindow.showAtLocation(View.inflate(this,R.layout.activity_seat,null), Gravity.BOTTOM, 0, 0);
             }
             ToastUtil.showToast(payBean.getMessage());
+        }else if (data instanceof WXPayBean){
+            //微信支付
+            WXPayBean wxPayBean = (WXPayBean) data;
+            WeiXinUtil.weiXinPay(this, wxPayBean);
         }
     }
 
     @Override
     protected void onNetFail(String error) {
-
+        ToastUtil.showToast(error);
     }
 
     @OnClick({R.id.pay_ok, R.id.pay_fail})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.pay_ok:
-                //获取pop支付弹框
+                //下订单
+                Map<String, String> map=new HashMap<>();
+                map.put("scheduleId",String.valueOf(resultBean.getId()));
+                map.put("amount",String.valueOf(numCount));
+                map.put("sign",Md5Utils.MD5(preferences.getString("UserId",null)+resultBean.getId()+numCount+"movie"));
+                onPostRequest(Apis.URL_BUY_MOVIE_TICKET_POST,map,PayBean.class);
+               /*//获取pop支付弹框
                 getPayPopvView();
                 //支付
-                popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);*/
                 break;
             case R.id.pay_fail:
                 //取消
