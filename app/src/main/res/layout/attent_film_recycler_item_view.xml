@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/home_recycler_simple_bg"
-    android:padding="@dimen/dp_10"
-    >
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:padding="@dimen/dp_10">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/film_simple"
         android:layout_width="@dimen/dp_103"
         android:layout_height="@dimen/dp_128"
         android:layout_marginRight="@dimen/dp_10"
+        fresco:roundedCornerRadius="@dimen/dp_2"
         />
     <TextView
         android:id="@+id/film_name"
