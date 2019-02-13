@@ -63,22 +63,24 @@ public class AttentFilmFragment extends BaseFragment {
     protected void onNetSuccess(Object data) {
         if(data instanceof AttentFilmBean){
             AttentFilmBean filmBean= (AttentFilmBean) data;
-            List<AttentFilmBean.ResultBean> result = filmBean.getResult();
-            if(result.size()>0){
-                if(result.size()<10){
+            if(!filmBean.getMessage().equals("请先登陆")){
+                List<AttentFilmBean.ResultBean> result = filmBean.getResult();
+                if(result.size()>0){
+                    if(result.size()<10){
+                        ToastUtil.showToast("没有更多数据了");
+                    }
+                    if(page==1){
+                        attentFilmAdapter.setResultBeanList(result);
+                    }else{
+                        attentFilmAdapter.addResultBeanList(result);
+                    }
+                    page++;
+                }else{
                     ToastUtil.showToast("没有更多数据了");
                 }
-                if(page==1){
-                    attentFilmAdapter.setResultBeanList(result);
-                }else{
-                    attentFilmAdapter.addResultBeanList(result);
-                }
-                page++;
-            }else{
-                 ToastUtil.showToast("没有更多数据了");
+                filmXrecyclerview.loadMoreComplete();
+                filmXrecyclerview.refreshComplete();
             }
-            filmXrecyclerview.loadMoreComplete();
-            filmXrecyclerview.refreshComplete();
         }
     }
 

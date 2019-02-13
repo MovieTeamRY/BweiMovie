@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,18 +155,20 @@ public class UserInfoActivity extends BaseActivty {
         if (data instanceof UserInfoBean) {
             UserInfoBean userInfoBean = (UserInfoBean) data;
             UserInfoBean.ResultBean resultBean = userInfoBean.getResult();
-            userSimple.setImageURI(Uri.parse(resultBean.getHeadPic()));
-            userNikeName.setText(resultBean.getNickName());
-            if(resultBean.getSex()==1){
-                userSex.setText("男");
-            }else{
-                userSex.setText("女");
+            if(!userInfoBean.getMessage().equals("请先登陆")){
+                userSimple.setImageURI(Uri.parse(resultBean.getHeadPic()));
+                userNikeName.setText(resultBean.getNickName());
+                if(resultBean.getSex()==1){
+                    userSex.setText("男");
+                }else{
+                    userSex.setText("女");
+                }
+                userPhone.setText(resultBean.getPhone());
+                userEmail.setText(resultBean.getEmail());
+                SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String time = sDateFormat.format(resultBean.getBirthday());
+                userBrith.setText(time);
             }
-            userPhone.setText(resultBean.getPhone());
-            userEmail.setText(resultBean.getEmail());
-            SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String time = sDateFormat.format(resultBean.getBirthday());
-            userBrith.setText(time);
         }else if (data instanceof LoadHeadPicBean) {
             //上传头像
             LoadHeadPicBean headPicBean = (LoadHeadPicBean) data;
@@ -177,6 +180,7 @@ public class UserInfoActivity extends BaseActivty {
     @Override
     protected void onNetFail(String error) {
         ToastUtil.showToast(error);
+        Log.i("TAG",error);
     }
 
     @OnClick({R.id.user_simple, R.id.user_nikeName, R.id.user_sex, R.id.user_brith, R.id.user_phone, R.id.user_email, R.id.user_pwd,R.id.user_return})

@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_14"
             android:textColor="#fff"
-            android:text="未登录"
+            android:text="点击登录"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/user_simple"
             />
