@@ -114,7 +114,7 @@ public class ObligationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     @Override
                     public void onClick(View v) {
                         if(payClick!=null){
-                            payClick.onClick(list.get(i));
+                            payClick.onClick(list.get(i),pay);
                         }
                     }
                 });
@@ -157,6 +157,6 @@ public class ObligationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.payClick=payClick;
     }
     public interface PayClick{
-        void onClick(ObligationBean.ResultBean resultBean);
+        void onClick(ObligationBean.ResultBean resultBean, int pay);
     }
 }

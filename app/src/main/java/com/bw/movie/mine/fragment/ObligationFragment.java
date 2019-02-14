@@ -12,7 +12,12 @@ import com.bw.movie.base.BaseFragment;
 import com.bw.movie.mine.adapter.ObligationAdapter;
 import com.bw.movie.mine.bean.ObligationBean;
 import com.bw.movie.utils.ToastUtil;
+import com.bw.movie.utils.WeiXinUtil;
+import com.bw.movie.wxapi.bean.WXPayBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +38,12 @@ public class ObligationFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         obligationAdapter = new ObligationAdapter(getContext());
         obligationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         obligationRecycler.setAdapter(obligationAdapter);
@@ -53,9 +64,12 @@ public class ObligationFragment extends BaseFragment {
         onGetRequest(String.format(Apis.URL_FIND_USER_BUY_TICLET_RECORD_LIST_GET, status, mpage), ObligationBean.class);
         obligationAdapter.setOnClick(new ObligationAdapter.PayClick() {
             @Override
-            public void onClick(ObligationBean.ResultBean resultBean) {
-                //TODO 去支付创建订单
-
+            public void onClick(ObligationBean.ResultBean resultBean,int pay) {
+                //TODO 去支付
+                Map<String, String> map=new HashMap<>();
+                map.put("payType",String.valueOf(pay));
+                map.put("orderId",resultBean.getOrderId());
+                onPostRequest(Apis.URL_PAY_POST,map,WXPayBean.class);
             }
         });
     }
@@ -84,6 +98,10 @@ public class ObligationFragment extends BaseFragment {
             }
             obligationRecycler.loadMoreComplete();
             obligationRecycler.refreshComplete();
+        }else if (data instanceof WXPayBean){
+            //微信支付
+            WXPayBean wxPayBean = (WXPayBean) data;
+            WeiXinUtil.weiXinPay(getActivity(), wxPayBean);
         }
     }
 

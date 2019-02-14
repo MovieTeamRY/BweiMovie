@@ -31,6 +31,12 @@ public class CompletedFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         completedAdapter = new CompletedAdapter(getContext());
         completedXrecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         completedXrecycler.setAdapter(completedAdapter);
