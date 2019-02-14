@@ -3,6 +3,8 @@ package com.bw.movie.mine.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.bw.movie.R;
+
 public class PushActivity extends AppCompatActivity {
 
     @Override
