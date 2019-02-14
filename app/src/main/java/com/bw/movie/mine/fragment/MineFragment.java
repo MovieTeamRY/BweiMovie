@@ -229,7 +229,8 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.user_simple,R.id.user_name,R.id.user_message,R.id.user_attend, R.id.user_attention, R.id.user_record, R.id.user_feedback, R.id.user_version, R.id.user_logout})
+    @OnClick({R.id.user_simple,R.id.user_name,R.id.user_message,R.id.user_text_message,R.id.user_attend,R.id.user_text_attention, R.id.user_attention,
+            R.id.user_record,R.id.user_text_record, R.id.user_feedback,R.id.user_text_feedback, R.id.user_version,R.id.user_text_version ,R.id.user_logout,R.id.user_text_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_simple:
@@ -250,6 +251,7 @@ public class MineFragment extends BaseFragment {
                     onGetRequest(Apis.URL_USER_SIGN_IN_GET,AttendBean.class);
                 }
                 break;
+            case R.id.user_text_message:
             case R.id.user_message:
                 //获取我的信息
                 if(sessionId.equals("")){
@@ -258,6 +260,7 @@ public class MineFragment extends BaseFragment {
                     IntentUtils.getInstence().intent(getActivity(), UserInfoActivity.class);
                 }
                 break;
+            case R.id.user_text_attention:
             case R.id.user_attention:
                 //获取我的关注
                 if(sessionId.equals("")){
@@ -266,6 +269,7 @@ public class MineFragment extends BaseFragment {
                     IntentUtils.getInstence().intent(getActivity(), AttentActivity.class);
                 }
                 break;
+            case R.id.user_text_record:
             case R.id.user_record:
                 //获取购票记录
                 if(sessionId.equals("")){
@@ -274,6 +278,7 @@ public class MineFragment extends BaseFragment {
                     IntentUtils.getInstence().intent(getActivity(), RecordActivity.class);
                 }
                 break;
+            case R.id.user_text_feedback:
             case R.id.user_feedback:
                 //意见反馈
                 if(sessionId.equals("")){
@@ -282,10 +287,12 @@ public class MineFragment extends BaseFragment {
                     IntentUtils.getInstence().intent(getActivity(), FeedBackActivity.class);
                 }
                 break;
+            case R.id.user_text_version:
             case R.id.user_version:
                 //版本更新
                  onGetRequest(Apis.URL_FIND_NEW_VERSION_GET,VersionBean.class);
                 break;
+            case R.id.user_text_logout:
             case R.id.user_logout:
                 if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
