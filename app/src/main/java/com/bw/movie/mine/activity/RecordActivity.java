@@ -6,24 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
-import com.bw.movie.mine.adapter.ObligationAdapter;
-import com.bw.movie.mine.bean.ObligationBean;
 import com.bw.movie.mine.fragment.CompletedFragment;
-import com.bw.movie.mine.fragment.CompletedFragment_ViewBinding;
 import com.bw.movie.mine.fragment.ObligationFragment;
-import com.bw.movie.utils.ToastUtil;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,13 +38,13 @@ public class RecordActivity extends BaseActivty {
 
     @Override
     protected void initData() {
-        final String[] menu=new String[]{"电影","影院"};
+        final String[] menu = new String[]{"待付款", "已完成"};
         userViewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
-                if(i==0){
+                if (i == 0) {
                     return new ObligationFragment();
-                }else{
+                } else {
                     return new CompletedFragment();
                 }
             }
@@ -98,11 +87,15 @@ public class RecordActivity extends BaseActivty {
     protected void onNetFail(String error) {
         Log.i("TAG", error);
     }
-
+    @OnClick(R.id.user_return)
+    public void onViewClicked() {
+        finish();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         bind.unbind();
     }
+
 
 }

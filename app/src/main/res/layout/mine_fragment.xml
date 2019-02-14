@@ -118,6 +118,7 @@
                 android:background="@mipmap/my_icon_rccord_default"
                 />
             <TextView
+                android:id="@+id/user_text_record"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -160,6 +161,7 @@
                 android:background="@mipmap/my_icon_version_default"
                 />
             <TextView
+                android:id="@+id/user_text_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user_feedback"

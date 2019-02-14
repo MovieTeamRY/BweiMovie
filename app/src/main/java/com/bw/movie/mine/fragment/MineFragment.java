@@ -2,18 +2,15 @@ package com.bw.movie.mine.fragment;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +21,6 @@ import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.LoginActivity;
 import com.bw.movie.mine.activity.AttentActivity;
 import com.bw.movie.mine.activity.FeedBackActivity;
-import com.bw.movie.mine.activity.PushActivity;
 import com.bw.movie.mine.activity.RecordActivity;
 import com.bw.movie.mine.activity.UserInfoActivity;
 import com.bw.movie.mine.bean.AttendBean;
@@ -76,8 +72,8 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        sharedPreferences=getContext().getSharedPreferences("User",Context.MODE_PRIVATE);
+        editor=sharedPreferences.edit();
     }
 
     @Override
@@ -96,34 +92,33 @@ public class MineFragment extends BaseFragment {
         if (data instanceof UserInfoBean) {
             UserInfoBean userInfoBean = (UserInfoBean) data;
             UserInfoBean.ResultBean resultBean = userInfoBean.getResult();
-            if (userInfoBean.getMessage().equals("请先登陆")) {
-                editor.putString("SessionId", "").commit();
-            } else {
+            if(userInfoBean.getMessage().equals("请先登陆")){
+                editor.putString("SessionId","").commit();
+            }else{
                 userSimple.setImageURI(Uri.parse(resultBean.getHeadPic()));
                 userName.setText(resultBean.getNickName());
             }
             sessionId = sharedPreferences.getString("SessionId", null);
-        } else if (data instanceof AttendBean) {
-            AttendBean attendBean = (AttendBean) data;
-            if (attendBean.getMessage().equals("请先登陆")) {
-                IntentUtils.getInstence().intent(getContext(), LoginActivity.class);
+        }else if(data instanceof AttendBean){
+            AttendBean attendBean= (AttendBean) data;
+            if(attendBean.getMessage().equals("请先登陆")){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
             }
             ToastUtil.showToast(attendBean.getMessage());
-        } else if (data instanceof VersionBean) {
-            VersionBean versionBean = (VersionBean) data;
-            if (versionBean.isSuccess() || versionBean != null) {
-                if (versionBean.getFlag() == 1) {
+        }else if (data instanceof VersionBean){
+            VersionBean versionBean  = (VersionBean) data;
+            if (versionBean.isSuccess()||versionBean!=null){
+                if (versionBean.getFlag()==1){
                     showAlertDialog(versionBean.getDownloadUrl());
-                } else if (versionBean.getFlag() == 2) {
+                }else if (versionBean.getFlag()==2){
                     ToastUtil.showToast("已经是最新版本");
                 }
             }
         }
     }
-
     /**
      * 显示AlertDialog
-     */
+     * */
     private void showAlertDialog(final String downloadUrl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("版本升级");
@@ -145,7 +140,6 @@ public class MineFragment extends BaseFragment {
         dialog.show();
 
     }
-
     /**
      * 点击确定获取url下载
      */
@@ -167,12 +161,10 @@ public class MineFragment extends BaseFragment {
             }
         }.start();
     }
-
     /**
-     * 更新新版本
-     *
-     * @author Administrator
-     * @time 2019/2/13 0013 20:07
+     *更新新版本
+     *@author Administrator
+     *@time 2019/2/13 0013 20:07
      */
     private void startDownload(String downloadUrl, ProgressDialog progressDialog) throws Exception {
         URL url = new URL(downloadUrl);
@@ -184,16 +176,15 @@ public class MineFragment extends BaseFragment {
         File file = new File(mFilePath);
         writeFile(inputStream, file, progressDialog);
     }
-
     /**
      * 写入文件
-     */
+     * */
     public void writeFile(InputStream inputStream, File file, ProgressDialog progressDialog) throws Exception {
 //判断下载的文件是否已存在
         if (file.exists()) {
             file.delete();
         }
-        /* fos = null;*/
+       /* fos = null;*/
         FileOutputStream fos = new FileOutputStream(file);
         byte[] b = new byte[1024];
         int length;
@@ -238,87 +229,89 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.user_simple, R.id.user_name, R.id.user_message, R.id.user_attend, R.id.user_attention, R.id.user_record, R.id.user_feedback, R.id.user_version, R.id.user_logout,R.id.push})
+    @OnClick({R.id.user_simple,R.id.user_name,R.id.user_message,R.id.user_text_message,R.id.user_attend,R.id.user_text_attention, R.id.user_attention,
+            R.id.user_record,R.id.user_text_record, R.id.user_feedback,R.id.user_text_feedback, R.id.user_version,R.id.user_text_version, R.id.user_logout,R.id.user_text_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_simple:
-                if (sessionId.equals("")) {
-                    IntentUtils.getInstence().intent(getContext(), LoginActivity.class);
+                if(sessionId.equals("")){
+                    IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
                 }
                 break;
             case R.id.user_name:
-                if (sessionId.equals("")) {
-                    IntentUtils.getInstence().intent(getContext(), LoginActivity.class);
+                if(sessionId.equals("")){
+                    IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
                 }
                 break;
             case R.id.user_attend:
                 //点击用户签到
-                if (sessionId.equals("")) {
+                if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
-                } else {
-                    onGetRequest(Apis.URL_USER_SIGN_IN_GET, AttendBean.class);
+                }else{
+                    onGetRequest(Apis.URL_USER_SIGN_IN_GET,AttendBean.class);
                 }
                 break;
+            case R.id.user_text_message:
             case R.id.user_message:
                 //获取我的信息
-                if (sessionId.equals("")) {
+                if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
-                } else {
+                }else {
                     IntentUtils.getInstence().intent(getActivity(), UserInfoActivity.class);
                 }
                 break;
+            case R.id.user_text_attention:
             case R.id.user_attention:
                 //获取我的关注
-                if (sessionId.equals("")) {
+                if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
-                } else {
+                }else {
                     IntentUtils.getInstence().intent(getActivity(), AttentActivity.class);
                 }
                 break;
+            case R.id.user_text_record:
             case R.id.user_record:
                 //获取购票记录
-                if (sessionId.equals("")) {
+                if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
-                } else {
+                }else {
                     IntentUtils.getInstence().intent(getActivity(), RecordActivity.class);
                 }
                 break;
+            case R.id.user_text_feedback:
             case R.id.user_feedback:
                 //意见反馈
-                if (sessionId.equals("")) {
+                if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
-                } else {
+                }else {
                     IntentUtils.getInstence().intent(getActivity(), FeedBackActivity.class);
                 }
                 break;
+            case R.id.user_text_version:
             case R.id.user_version:
                 //版本更新
-                onGetRequest(Apis.URL_FIND_NEW_VERSION_GET, VersionBean.class);
+                 onGetRequest(Apis.URL_FIND_NEW_VERSION_GET,VersionBean.class);
                 break;
+            case R.id.user_text_logout:
             case R.id.user_logout:
-                if (sessionId.equals("")) {
+                if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
-                } else {
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivityForResult(intent, 100);
+                }else{
+                    Intent intent=new Intent(getContext(),LoginActivity.class);
+                    startActivityForResult(intent,100);
                 }
                 break;
-            case R.id.push:
-                IntentUtils.getInstence().intent(getActivity(),PushActivity.class);
-                break;
-            default:
-                break;
+            default:break;
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == 100) {
+        if(requestCode==100&&resultCode==100){
 
-        } else {
-            // getActivity().finish();
+        }else{
+           // getActivity().finish();
         }
     }
-
 }
