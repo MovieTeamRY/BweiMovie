@@ -64,13 +64,14 @@
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="wxb3852e6a6b7d9516"/>
+                <data android:scheme="wxb3852e6a6b7d9516" />
             </intent-filter>
         </activity>
+        <activity android:name=".mine.activity.PushActivity"></activity>
     </application>
 
 </manifest>

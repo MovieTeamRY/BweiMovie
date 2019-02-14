@@ -142,7 +142,7 @@ public class MineFragment extends BaseFragment {
     }
     /**
      * 点击确定获取url下载
-     * */
+     */
     private void startDialog(final String downloadUrl) {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

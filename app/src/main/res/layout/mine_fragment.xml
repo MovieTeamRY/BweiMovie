@@ -17,6 +17,7 @@
             android:background="@mipmap/my_back_image"
             />
         <ImageView
+            android:id="@+id/push"
             android:layout_width="@dimen/dp_24"
             android:layout_height="@dimen/dp_24"
             android:layout_marginTop="@dimen/dp_25"
