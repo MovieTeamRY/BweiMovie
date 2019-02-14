@@ -2,9 +2,6 @@ package com.bw.movie.guide;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bw.movie.R;
@@ -25,7 +20,6 @@ import com.bw.movie.base.BaseActivty;
 import com.bw.movie.guide.adapter.GuideAdapter;
 import com.bw.movie.guide.bean.GuideBean;
 import com.bw.movie.home.activity.HomeActivity;
-import com.bw.movie.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;

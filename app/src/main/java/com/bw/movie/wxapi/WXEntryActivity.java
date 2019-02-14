@@ -3,16 +3,12 @@ package com.bw.movie.wxapi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
-import com.bw.movie.home.activity.HomeActivity;
 import com.bw.movie.login.WXBean;
-import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.ToastUtil;
 import com.bw.movie.utils.WeiXinUtil;
 import com.tencent.mm.opensdk.modelbase.BaseReq;

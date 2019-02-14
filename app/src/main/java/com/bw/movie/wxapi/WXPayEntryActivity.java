@@ -1,7 +1,6 @@
 package com.bw.movie.wxapi;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
@@ -10,10 +9,7 @@ import com.bw.movie.utils.WeiXinUtil;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class WXPayEntryActivity extends BaseActivty implements IWXAPIEventHandler {
     @Override

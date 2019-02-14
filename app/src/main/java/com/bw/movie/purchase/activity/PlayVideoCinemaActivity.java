@@ -13,12 +13,9 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
-import com.bw.movie.cinema.activity.CinemaDetailActivity;
 import com.bw.movie.cinema.activity.SeatActivity;
-import com.bw.movie.cinema.adapter.CinemaFilmAdapter;
 import com.bw.movie.cinema.adapter.CinemaSchedulAdapter;
 import com.bw.movie.cinema.bean.FilmSchedulBean;
-import com.bw.movie.film.bean.DetailsBean;
 import com.bw.movie.film.bean.FilmDetailsBean;
 import com.bw.movie.purchase.bean.FilmSchedulingBean;
 import com.bw.movie.utils.IntentUtils;
@@ -26,7 +23,6 @@ import com.bw.movie.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -148,6 +144,7 @@ public class PlayVideoCinemaActivity extends BaseActivty {
             case R.id.return_image:
                 finish();
                 break;
+            default:break;
         }
     }
 }

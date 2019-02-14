@@ -1,19 +1,6 @@
 package com.bw.movie.wxapi.bean;
 
 public class WXPayBean {
-
-    /**
-     * appId : wxb3852e6a6b7d9516
-     * message : 支付成功
-     * nonceStr : WQ72A7mNfUaA05Gw
-     * partnerId : 1510865081
-     * prepayId : wx07084938610450dcaad697243945045542
-     * sign : 94F2FD993AB97C002E6CE898B04B578A
-     * status : 0000
-     * timeStamp : 1533602976
-     * packageValue : Sign=WXPay
-     */
-
     private String appId;
     private String message;
     private String nonceStr;
