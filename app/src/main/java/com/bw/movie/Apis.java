@@ -58,7 +58,7 @@ public class Apis {
      * 接口地址：http://172.17.8.100/movieApi/user/v1/verify/findUserBuyTicketRecordList
      * 请求方式：GET
      * */
-    public static final String URL_FIND_USER_BUY_TICLET_RECORD_LIST_GET = "user/v1/verify/findUserBuyTicketRecordList?page=%d&count=10";
+    public static final String URL_FIND_USER_BUY_TICLET_RECORD_LIST_GET = "user/v1/verify/findUserBuyTicketRecordList?status=%d&page=%d&count=10";
     /**
      * 10.微信登陆
      * 接口地址：http://172.17.8.100/movieApi/user/v1/weChatBindingLogin
