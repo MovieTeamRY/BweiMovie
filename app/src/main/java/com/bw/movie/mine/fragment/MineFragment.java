@@ -1,9 +1,14 @@
 package com.bw.movie.mine.fragment;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,9 +25,17 @@ import com.bw.movie.mine.activity.RecordActivity;
 import com.bw.movie.mine.activity.UserInfoActivity;
 import com.bw.movie.mine.bean.AttendBean;
 import com.bw.movie.mine.bean.UserInfoBean;
+import com.bw.movie.mine.bean.VersionBean;
 import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.ToastUtil;
+import com.bw.movie.utils.VersionUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +63,7 @@ public class MineFragment extends BaseFragment {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private String sessionId;
+    private String mFilePath;
 
     @Override
     protected int getLayoutResId() {
@@ -91,7 +105,117 @@ public class MineFragment extends BaseFragment {
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
             }
             ToastUtil.showToast(attendBean.getMessage());
+        }else if (data instanceof VersionBean){
+            VersionBean versionBean  = (VersionBean) data;
+            if (versionBean.isSuccess()||versionBean!=null){
+                if (versionBean.getFlag()==1){
+                    showAlertDialog(versionBean.getDownloadUrl());
+                }else if (versionBean.getFlag()==2){
+                    ToastUtil.showToast("已经是最新版本");
+                }
+            }
         }
+    }
+    /**
+     * 显示AlertDialog
+     * */
+    private void showAlertDialog(final String downloadUrl) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("版本升级");
+        builder.setMessage("软件更新");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startDialog(downloadUrl);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+    }
+    /**
+     * 点击确定获取url下载
+     * */
+    private void startDialog(final String downloadUrl) {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    startDownload(downloadUrl, progressDialog);
+                    progressDialog.dismiss();
+                } catch (Exception e) {
+
+                }
+            }
+        }.start();
+    }
+    /**
+     *更新新版本
+     *@author Administrator
+     *@time 2019/2/13 0013 20:07
+     */
+    private void startDownload(String downloadUrl, ProgressDialog progressDialog) throws Exception {
+        URL url = new URL(downloadUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setConnectTimeout(8000);
+        progressDialog.setMax(conn.getContentLength());
+        InputStream inputStream = conn.getInputStream();
+        mFilePath = VersionUtil.getSaveFilePath(downloadUrl);
+        File file = new File(mFilePath);
+        writeFile(inputStream, file, progressDialog);
+    }
+    /**
+     * 写入文件
+     * */
+    public void writeFile(InputStream inputStream, File file, ProgressDialog progressDialog) throws Exception {
+//判断下载的文件是否已存在
+        if (file.exists()) {
+            file.delete();
+        }
+       /* fos = null;*/
+        FileOutputStream fos = new FileOutputStream(file);
+        byte[] b = new byte[1024];
+        int length;
+        int total = 0;
+        while ((length = inputStream.read(b)) != -1) {
+            fos.write(b, 0, length);
+            total += length;
+            progressDialog.setProgress(total);
+        }
+        inputStream.close();
+        fos.close();
+        progressDialog.dismiss();
+        installApk(mFilePath);
+    }
+
+    private void installApk(String filePath) {
+        File file = new File(filePath);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //判断版本大于等于7.0
+            // "com.ansen.checkupdate.fileprovider"即是在清单文件中配置的authorities
+            // 通过FileProvider创建一个content类型的Uri
+            data = FileProvider.getUriForFile(getActivity(), "com.bw.movie.fileprovider", file);
+            // 给目标应用一个临时授权
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            data = Uri.fromFile(file);
+        }
+        intent.setDataAndType(data, "application/vnd.android.package-archive");
+        startActivity(intent);
     }
 
     @Override
@@ -160,7 +284,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.user_version:
                 //版本更新
-                ToastUtil.showToast("版本更新没有做");
+                 onGetRequest(Apis.URL_FIND_NEW_VERSION_GET,VersionBean.class);
                 break;
             case R.id.user_logout:
                 if(sessionId.equals("")){
