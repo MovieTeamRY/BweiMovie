@@ -166,11 +166,21 @@ public class MineFragment extends BaseFragment {
                 if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
                 }else{
-                    IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
-                    getActivity().finish();
+                    Intent intent=new Intent(getContext(),LoginActivity.class);
+                    startActivityForResult(intent,100);
                 }
                 break;
             default:break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100&&resultCode==100){
+
+        }else{
+           // getActivity().finish();
         }
     }
 }

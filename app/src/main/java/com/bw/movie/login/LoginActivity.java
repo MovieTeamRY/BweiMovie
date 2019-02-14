@@ -90,6 +90,7 @@ public class LoginActivity extends BaseActivty {
                 edit.putString("UserId",String.valueOf(loginBean.getResult().getUserId())).putString("SessionId",loginBean.getResult().getSessionId()).commit();
                 //登录成功后跳转首页
                 //IntentUtils.getInstence().intent(LoginActivity.this,HomeActivity.class);
+                setResult(100);
                 //销毁
                 finish();
                 ToastUtil.showToast(loginBean.getMessage());
