@@ -49,7 +49,7 @@ public class RecordActivity extends BaseActivty {
 
     @Override
     protected void initData() {
-        final String[] menu=new String[]{"电影","影院"};
+        final String[] menu=new String[]{"待付款","已完成"};
         userViewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
