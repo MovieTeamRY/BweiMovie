@@ -4,14 +4,16 @@ import java.util.List;
 
 public class ObligationBean {
 
+    /**
+     * result : [{"amount":1,"beginTime":"20:00:00","cinemaName":"大地影院-北京海淀西三旗物美","createTime":1550057574000,"endTime":"21:48:00","id":271,"movieName":"无双","orderId":"20190213193254750","price":0.15,"screeningHall":"10号厅","status":1,"userId":33}]
+     * message : 请求成功
+     * status : 0000
+     */
 
     private String message;
     private String status;
     private List<ResultBean> result;
-    private final String SUCCESS_STATUS = "0000";
-    public boolean isSuccess(){
-        return status.equals(SUCCESS_STATUS);
-    }
+
     public String getMessage() {
         return message;
     }
@@ -38,25 +40,25 @@ public class ObligationBean {
 
     public static class ResultBean {
         /**
-         * amount : 3
-         * beginTime : 40800000
-         * cinemaName : 青春光线电影院
-         * createTime : 1533805513000
-         * endTime : 47880000
-         * id : 52
-         * movieName : 西虹市首富
-         * orderId : 20180809170513183
-         * price : 66.5
-         * screeningHall : 2号厅
+         * amount : 1
+         * beginTime : 20:00:00
+         * cinemaName : 大地影院-北京海淀西三旗物美
+         * createTime : 1550057574000
+         * endTime : 21:48:00
+         * id : 271
+         * movieName : 无双
+         * orderId : 20190213193254750
+         * price : 0.15
+         * screeningHall : 10号厅
          * status : 1
-         * userId : 5
+         * userId : 33
          */
 
         private int amount;
-        private int beginTime;
+        private String beginTime;
         private String cinemaName;
         private long createTime;
-        private int endTime;
+        private String endTime;
         private int id;
         private String movieName;
         private String orderId;
@@ -73,11 +75,11 @@ public class ObligationBean {
             this.amount = amount;
         }
 
-        public int getBeginTime() {
+        public String getBeginTime() {
             return beginTime;
         }
 
-        public void setBeginTime(int beginTime) {
+        public void setBeginTime(String beginTime) {
             this.beginTime = beginTime;
         }
 
@@ -97,11 +99,11 @@ public class ObligationBean {
             this.createTime = createTime;
         }
 
-        public int getEndTime() {
+        public String getEndTime() {
             return endTime;
         }
 
-        public void setEndTime(int endTime) {
+        public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
 

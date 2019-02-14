@@ -6,53 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".mine.activity.RecordActivity">
 
-    <RadioGroup
-        android:id="@+id/record_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/user_tab"
         android:layout_marginTop="@dimen/dp_30"
-        android:gravity="center_horizontal"
-        >
-        <RadioButton
-            android:id="@+id/obligation_radio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_10"
-            android:paddingRight="@dimen/dp_10"
-            android:paddingTop="@dimen/dp_5"
-            android:paddingBottom="@dimen/dp_5"
-            android:textSize="@dimen/sp_14"
-            android:text="待付款"
-            android:checked="true"
-            android:textColor="@drawable/record_text_selector"
-            android:background="@drawable/record_bg_selector"
-            android:button="@null"
-            android:layout_marginRight="@dimen/dp_16"
-            />
-        <RadioButton
-            android:id="@+id/completed_radio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
-            android:paddingLeft="@dimen/dp_10"
-            android:paddingRight="@dimen/dp_10"
-            android:paddingTop="@dimen/dp_5"
-            android:paddingBottom="@dimen/dp_5"
-            android:button="@null"
-            android:text="已完成"
-            android:layout_marginLeft="@dimen/dp_16"
-            android:textColor="@drawable/record_text_selector"
-            android:background="@drawable/record_bg_selector"
-            />
-    </RadioGroup>
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/record_recycler"
-        android:layout_below="@+id/record_group"
-        android:layout_width="@dimen/dp_312"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
+        app:tabIndicatorColor="#00000000"
+        app:tabGravity="fill"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="#fff"
+        app:tabTextColor="#333333"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/user_viewpager"
+        android:layout_below="@id/user_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:overScrollMode="never"
         />
     <include layout="@layout/mine_bottom_return"/>
