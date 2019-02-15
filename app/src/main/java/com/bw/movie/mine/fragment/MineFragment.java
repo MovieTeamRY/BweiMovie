@@ -21,6 +21,7 @@ import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.LoginActivity;
 import com.bw.movie.mine.activity.AttentActivity;
 import com.bw.movie.mine.activity.FeedBackActivity;
+import com.bw.movie.mine.activity.PushActivity;
 import com.bw.movie.mine.activity.RecordActivity;
 import com.bw.movie.mine.activity.UserInfoActivity;
 import com.bw.movie.mine.bean.AttendBean;
@@ -230,7 +231,7 @@ public class MineFragment extends BaseFragment {
     }
 
     @OnClick({R.id.user_simple,R.id.user_name,R.id.user_message,R.id.user_text_message,R.id.user_attend,R.id.user_text_attention, R.id.user_attention,
-            R.id.user_record,R.id.user_text_record, R.id.user_feedback,R.id.user_text_feedback, R.id.user_version,R.id.user_text_version, R.id.user_logout,R.id.user_text_logout})
+            R.id.user_record,R.id.user_text_record, R.id.user_feedback,R.id.user_text_feedback, R.id.user_version,R.id.user_text_version, R.id.user_logout,R.id.user_text_logout,R.id.push})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_simple:
@@ -300,6 +301,9 @@ public class MineFragment extends BaseFragment {
                     Intent intent=new Intent(getContext(),LoginActivity.class);
                     startActivityForResult(intent,100);
                 }
+                break;
+            case R.id.push:
+                IntentUtils.getInstence().intent(getActivity(),PushActivity.class);
                 break;
             default:break;
         }
