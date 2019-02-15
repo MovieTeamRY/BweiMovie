@@ -2,8 +2,6 @@ package com.bw.movie.sign;
 
 public class SignBean {
 
-
-
     private String message;
     private String status;
 

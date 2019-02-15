@@ -29,7 +29,7 @@ public class ObligationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private Context context;
     private List<ObligationBean.ResultBean> list;
-    private PopupWindow popupWindow;
+    public PopupWindow popupWindow;
     private int pay=1;
 
     public ObligationAdapter(Context context) {

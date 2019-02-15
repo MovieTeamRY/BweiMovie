@@ -1,10 +1,7 @@
 package com.bw.movie.mine.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bw.movie.Apis;
 import com.bw.movie.R;
@@ -102,6 +99,10 @@ public class ObligationFragment extends BaseFragment {
             //微信支付
             WXPayBean wxPayBean = (WXPayBean) data;
             WeiXinUtil.weiXinPay(getActivity(), wxPayBean);
+            if(obligationAdapter.popupWindow.isShowing()){
+                obligationAdapter.popupWindow.dismiss();
+            }
+            getActivity().finish();
         }
     }
 

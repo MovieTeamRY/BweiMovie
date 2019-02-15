@@ -207,7 +207,6 @@ public class MineFragment extends BaseFragment {
         Uri data;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             //判断版本大于等于7.0
-            // "com.ansen.checkupdate.fileprovider"即是在清单文件中配置的authorities
             // 通过FileProvider创建一个content类型的Uri
             data = FileProvider.getUriForFile(getActivity(), "com.bw.movie.fileprovider", file);
             // 给目标应用一个临时授权
@@ -276,7 +275,9 @@ public class MineFragment extends BaseFragment {
                 if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
                 }else {
-                    IntentUtils.getInstence().intent(getActivity(), RecordActivity.class);
+                    Intent intent=new Intent(getActivity(),RecordActivity.class);
+                    intent.putExtra("status","");
+                    startActivity(intent);
                 }
                 break;
             case R.id.user_text_feedback:

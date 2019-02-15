@@ -1,6 +1,5 @@
 package com.bw.movie.mine.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -66,7 +65,6 @@ public class UserInfoActivity extends BaseActivty {
     private final int REQUESTCODE_CAMERA = 100;
     private final int REQUESTCODE_PICK = 300;
     private final int REQUESTCODE_SUCCESS = 200;
-    private AlertDialog dialog;
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_user_info;
@@ -76,16 +74,6 @@ public class UserInfoActivity extends BaseActivty {
     protected void initView(Bundle savedInstanceState) {
         bind = ButterKnife.bind(this);
         getInitPopupwindow();
-    }
-    /**
-     * 判断sd卡是否挂载
-     */
-    private boolean hasSdcard() {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /***
@@ -183,22 +171,12 @@ public class UserInfoActivity extends BaseActivty {
         Log.i("TAG",error);
     }
 
-    @OnClick({R.id.user_simple, R.id.user_nikeName, R.id.user_sex, R.id.user_brith, R.id.user_phone, R.id.user_email, R.id.user_pwd,R.id.user_return})
+    @OnClick({R.id.user_simple,R.id.user_pwd,R.id.user_return})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_simple:
                 window.showAtLocation(View.inflate(UserInfoActivity.this, R.layout.activity_user_info, null),
                         Gravity.BOTTOM, 0, 0);
-                break;
-            case R.id.user_nikeName:
-                break;
-            case R.id.user_sex:
-                break;
-            case R.id.user_brith:
-                break;
-            case R.id.user_phone:
-                break;
-            case R.id.user_email:
                 break;
             case R.id.user_pwd:
                 IntentUtils.getInstence().intent(UserInfoActivity.this,UpdatePassWordActivity.class);

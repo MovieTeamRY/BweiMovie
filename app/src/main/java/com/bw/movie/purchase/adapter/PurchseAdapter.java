@@ -1,9 +1,7 @@
 package com.bw.movie.purchase.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,9 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bw.movie.R;
-import com.bw.movie.purchase.activity.PlayVideoCinemaActivity;
 import com.bw.movie.purchase.bean.FilmSchedulingBean;
-import com.bw.movie.utils.IntentUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;

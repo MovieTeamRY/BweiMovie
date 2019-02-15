@@ -10,13 +10,10 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
-import com.bw.movie.cinema.bean.FilmSchedulBean;
 import com.bw.movie.purchase.adapter.PurchseAdapter;
 import com.bw.movie.purchase.bean.FilmSchedulingBean;
 import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.ToastUtil;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
