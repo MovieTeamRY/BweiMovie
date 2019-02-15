@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -10,6 +10,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        greendao {
+            schemaVersion 1  //版本
+            daoPackage 'com.bw.movie.greendao.greendao' // 一般为app包名+自动生成文件的包名
+            targetGenDir 'src/main/java' //生成文件路径
+        }
     }
     buildTypes {
         release {
@@ -90,4 +95,8 @@ dependencies {
     //检测内存险漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    //greendao
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
+
 }

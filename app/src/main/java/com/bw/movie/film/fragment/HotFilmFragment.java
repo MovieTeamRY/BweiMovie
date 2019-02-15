@@ -1,6 +1,7 @@
 package com.bw.movie.film.fragment;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -16,6 +17,11 @@ import com.bw.movie.film.adapter.MovieHotAdapter;
 import com.bw.movie.film.bean.CancalFollowMovieBean;
 import com.bw.movie.film.bean.FollowMovieBean;
 import com.bw.movie.film.bean.MovieFilmBean;
+import com.bw.movie.greendao.greendao.DaoMaster;
+import com.bw.movie.greendao.greendao.DaoSession;
+import com.bw.movie.greendao.greendao.HotFilmDaoBeanDao;
+import com.bw.movie.greendao.greendao.RelaeseFilmDaoBeanDao;
+import com.bw.movie.greendao.greendao.ScreenFilmDaoBeanDao;
 import com.bw.movie.utils.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -30,6 +36,7 @@ public class HotFilmFragment extends BaseFragment {
     private int mapge;
     private MovieHotAdapter movieHotAdapter;
     private int postion;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_hot_film_view;
@@ -37,22 +44,6 @@ public class HotFilmFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        //请求热门数据
-        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //请求热门数据
-        mapge=1;
-        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
-    }
-
-    @Override
-    protected void initView(View view) {
-        unbinder = ButterKnife.bind(this, view);
-        mapge=1;
         LinearLayoutManager hotFilmManager=new LinearLayoutManager(getContext());
         hotFilmManager.setOrientation(OrientationHelper.VERTICAL);
         hotXRecycleview.setLayoutManager(hotFilmManager);
@@ -95,6 +86,22 @@ public class HotFilmFragment extends BaseFragment {
                 getActivity().startActivity(intent);
             }
         });
+        mapge=1;
+        //请求热门数据
+        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //请求热门数据
+        mapge=1;
+        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
+    }
+
+    @Override
+    protected void initView(View view) {
+        unbinder = ButterKnife.bind(this, view);
     }
 
     @Override
@@ -125,7 +132,6 @@ public class HotFilmFragment extends BaseFragment {
             }
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());
         }
-
     }
 
     @Override
