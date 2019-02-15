@@ -43,10 +43,6 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
         }
    //支付
     public static void  weiXinPay(Context context, WXPayBean bean){
-//        IWXAPI wxapi = WXAPIFactory.createWXAPI(MyApplication.getApplication(), APP_ID, true);
-//        //注册到微信
-//        wxapi.registerApp(APP_ID);
-
         IWXAPI wxapi = reg(context);
 
         PayReq payReq = new PayReq();

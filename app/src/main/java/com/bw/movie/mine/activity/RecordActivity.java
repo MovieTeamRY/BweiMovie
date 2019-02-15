@@ -1,5 +1,6 @@
 package com.bw.movie.mine.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,11 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
 import com.bw.movie.mine.fragment.CompletedFragment;
 import com.bw.movie.mine.fragment.ObligationFragment;
+import com.bw.movie.utils.MessageBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +44,9 @@ public class RecordActivity extends BaseActivty {
 
     @Override
     protected void initData() {
+        Intent intent=getIntent();
+        String status = intent.getStringExtra("status");
+        Log.i("TAG",status);
         final String[] menu = new String[]{"待付款", "已完成"};
         userViewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -75,6 +84,13 @@ public class RecordActivity extends BaseActivty {
             TextView textView = tab.getCustomView().findViewById(R.id.cinema_tab_text);
             textView.setText(menu[i]);
             //设置tab上的文字
+        }
+        if(!status.equals("")){
+            if(status.equals("compeleted")){
+                userViewpager.setCurrentItem(1);
+            }else if(status.equals("obligation")){
+                userViewpager.setCurrentItem(0);
+            }
         }
     }
 

@@ -274,7 +274,9 @@ public class MineFragment extends BaseFragment {
                 if(sessionId.equals("")){
                     ToastUtil.showToast("请先登陆");
                 }else {
-                    IntentUtils.getInstence().intent(getActivity(), RecordActivity.class);
+                    Intent intent=new Intent(getActivity(),RecordActivity.class);
+                    intent.putExtra("status","");
+                    startActivity(intent);
                 }
                 break;
             case R.id.user_text_feedback:

@@ -99,6 +99,10 @@ public class ObligationFragment extends BaseFragment {
             //微信支付
             WXPayBean wxPayBean = (WXPayBean) data;
             WeiXinUtil.weiXinPay(getActivity(), wxPayBean);
+            if(obligationAdapter.popupWindow.isShowing()){
+                obligationAdapter.popupWindow.dismiss();
+            }
+            getActivity().finish();
         }
     }
 
