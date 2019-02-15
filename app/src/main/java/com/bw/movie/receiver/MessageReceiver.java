@@ -2,11 +2,6 @@ package com.bw.movie.receiver;
 
 import android.content.Context;
 
-import com.tencent.android.tpush.XGPushBaseReceiver;
-import com.tencent.android.tpush.XGPushClickedResult;
-import com.tencent.android.tpush.XGPushRegisterResult;
-import com.tencent.android.tpush.XGPushShowedResult;
-import com.tencent.android.tpush.XGPushTextMessage;
 
 public class MessageReceiver extends XGPushBaseReceiver {
     @Override
