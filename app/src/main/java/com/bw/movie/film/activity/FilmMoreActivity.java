@@ -21,6 +21,7 @@ import com.bw.movie.base.BaseActivty;
 import com.bw.movie.film.fragment.HotFilmFragment;
 import com.bw.movie.film.fragment.RelaeseFilmFragment;
 import com.bw.movie.film.fragment.ScreenFilmFragment;
+import com.bw.movie.utils.AddressUtils;
 import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
@@ -177,6 +178,7 @@ public class FilmMoreActivity extends BaseActivty {
     public void getAddress(MessageBean messageBean){
         if(messageBean.getId().equals("address")){
             textLoc.setText(String.valueOf(messageBean.getObject()));
+            AddressUtils.getAddressUtils().StopLocation();
         }else if(messageBean.getId().equals("isChange")){
             edit_search.setVisibility(View.GONE);
             text_search.setVisibility(View.GONE);

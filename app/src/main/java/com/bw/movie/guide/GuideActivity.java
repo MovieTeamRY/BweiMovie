@@ -1,5 +1,6 @@
 package com.bw.movie.guide;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -21,11 +22,13 @@ import com.bw.movie.guide.adapter.GuideAdapter;
 import com.bw.movie.guide.bean.GuideBean;
 import com.bw.movie.home.activity.HomeActivity;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class GuideActivity extends BaseActivty {
 
@@ -42,14 +45,22 @@ public class GuideActivity extends BaseActivty {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private List<GuideBean> list;
-    private Handler handler=new Handler(){
+    private static class MyHandler extends Handler {
+        private WeakReference<Context> reference;
+        public MyHandler(Context context) {
+            reference = new WeakReference<>(context);
+        }
         @Override
         public void handleMessage(Message msg) {
-            //获取数据
-            boolean is_guide = sharedPreferences.getBoolean("is_guide", false);
-            isGuide(is_guide);
+            GuideActivity activity = (GuideActivity) reference.get();
+            if(activity != null){
+                boolean is_guide = activity.sharedPreferences.getBoolean("is_guide", false);
+                activity.isGuide(is_guide);
+            }
         }
-    };
+    }
+    private Unbinder bind;
+    private MyHandler myHandler = new MyHandler(this);
 
     @Override
     protected void onNetSuccess(Object data) {
@@ -66,7 +77,7 @@ public class GuideActivity extends BaseActivty {
     protected void initData() {
         sharedPreferences=getSharedPreferences("User",MODE_PRIVATE);
         editor=sharedPreferences.edit();
-        handler.sendEmptyMessageDelayed(0,2000);
+        myHandler.sendEmptyMessageDelayed(0, 2000);
     }
     //判断是否是第一次下载
     private void isGuide(boolean is_guide){
@@ -101,6 +112,7 @@ public class GuideActivity extends BaseActivty {
                     if(i==list.size()){
                         Intent intent=new Intent(GuideActivity.this,HomeActivity.class);
                         startActivity(intent);
+                        guideGroup.removeAllViews();
                         finish();
                     }else{
                         if(i<list.size()){
@@ -137,13 +149,12 @@ public class GuideActivity extends BaseActivty {
             params.leftMargin=dimension;
             params.rightMargin=dimension;
             guideGroup.addView(imageView,params);
-
         }
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
     }
 
     @Override
@@ -152,8 +163,15 @@ public class GuideActivity extends BaseActivty {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        guideGroup.removeAllViews();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeMessages(0);
+        bind.unbind();
+        myHandler.removeCallbacksAndMessages(null);
     }
 }

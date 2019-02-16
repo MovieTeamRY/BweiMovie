@@ -15,6 +15,11 @@ android {
             daoPackage 'com.bw.movie.greendao.greendao' // 一般为app包名+自动生成文件的包名
             targetGenDir 'src/main/java' //生成文件路径
         }
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","x86_64"
+        }
+
     }
     buildTypes {
         release {
@@ -98,5 +103,7 @@ dependencies {
     //greendao
     implementation 'org.greenrobot:greendao:3.2.2' // add library
     implementation 'org.greenrobot:greendao-generator:3.2.2'
-
+//高德定位依赖
+    implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:map2d:latest.integration'
 }
