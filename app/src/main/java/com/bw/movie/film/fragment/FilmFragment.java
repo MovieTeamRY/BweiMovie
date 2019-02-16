@@ -2,6 +2,7 @@ package com.bw.movie.film.fragment;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -36,6 +37,11 @@ import com.bw.movie.film.adapter.ScreenFilmAdapter;
 import com.bw.movie.film.bean.HotFilmBean;
 import com.bw.movie.film.bean.RelaeseBean;
 import com.bw.movie.film.bean.ScreenFilmBean;
+import com.bw.movie.greendao.greendao.DaoMaster;
+import com.bw.movie.greendao.greendao.DaoSession;
+import com.bw.movie.greendao.greendao.HotFilmDaoBeanDao;
+import com.bw.movie.greendao.greendao.RelaeseFilmDaoBeanDao;
+import com.bw.movie.greendao.greendao.ScreenFilmDaoBeanDao;
 import com.bw.movie.utils.AddressUtils;
 import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.IntentUtils;
@@ -112,12 +118,33 @@ public class FilmFragment extends BaseFragment {
     private ScreenFilmAdapter screenFilmAdapter;
     private List<RelaeseBean.ResultBean> result;
     private Bundle bundle;
+    private HotFilmDaoBeanDao hotFilmDaoBeanDao;
+    private RelaeseFilmDaoBeanDao relaeseFilmDaoBeanDao;
+    private ScreenFilmDaoBeanDao screenFilmDaoBeanDao;
 
     @Override
     protected int getLayoutResId() {
         return R.layout.file_fragment;
     }
+    private void initDB() {
+        DaoMaster.DevOpenHelper hotHelper = new DaoMaster.DevOpenHelper(getContext(), "hotFilm");
+        SQLiteDatabase hotHelperWritableDatabase = hotHelper.getWritableDatabase();
+        DaoMaster hotDaoMaster = new DaoMaster(hotHelperWritableDatabase);
+        DaoSession hotDaoSession = hotDaoMaster.newSession();
+        hotFilmDaoBeanDao = hotDaoSession.getHotFilmDaoBeanDao();
 
+        DaoMaster.DevOpenHelper relaeseHelper = new DaoMaster.DevOpenHelper(getContext(), "relaeseFilm");
+        SQLiteDatabase relaeseHelperWritableDatabase = relaeseHelper.getWritableDatabase();
+        DaoMaster relaeseDaoMaster = new DaoMaster(relaeseHelperWritableDatabase);
+        DaoSession relaeseDaoSession = relaeseDaoMaster.newSession();
+        relaeseFilmDaoBeanDao = relaeseDaoSession.getRelaeseFilmDaoBeanDao();
+
+        DaoMaster.DevOpenHelper screenHelper = new DaoMaster.DevOpenHelper(getContext(), "screenFilm");
+        SQLiteDatabase screenHelperWritableDatabase = screenHelper.getWritableDatabase();
+        DaoMaster screenDaoMaster = new DaoMaster(screenHelperWritableDatabase);
+        DaoSession screenDaoSession = screenDaoMaster.newSession();
+        screenFilmDaoBeanDao = screenDaoSession.getScreenFilmDaoBeanDao();
+    }
     @Override
     protected void initData() {
         if(!EventBus.getDefault().isRegistered(this)){
