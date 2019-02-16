@@ -41,6 +41,16 @@ public class ScreenFilmBean {
         private String summary;
         private String releaseTimeShow;
 
+        public ResultBean(String followMovie, int id, String imageUrl, String name, int rank, String summary, String releaseTimeShow) {
+            this.followMovie = followMovie;
+            this.id = id;
+            this.imageUrl = imageUrl;
+            this.name = name;
+            this.rank = rank;
+            this.summary = summary;
+            this.releaseTimeShow = releaseTimeShow;
+        }
+
         public String isFollowMovie() {
             return followMovie;
         }

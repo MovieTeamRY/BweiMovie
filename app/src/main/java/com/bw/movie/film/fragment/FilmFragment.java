@@ -37,6 +37,9 @@ import com.bw.movie.film.adapter.ScreenFilmAdapter;
 import com.bw.movie.film.bean.HotFilmBean;
 import com.bw.movie.film.bean.RelaeseBean;
 import com.bw.movie.film.bean.ScreenFilmBean;
+import com.bw.movie.greendao.HotFilmDaoBean;
+import com.bw.movie.greendao.RelaeseFilmDaoBean;
+import com.bw.movie.greendao.ScreenFilmDaoBean;
 import com.bw.movie.greendao.greendao.DaoMaster;
 import com.bw.movie.greendao.greendao.DaoSession;
 import com.bw.movie.greendao.greendao.HotFilmDaoBeanDao;
@@ -56,7 +59,9 @@ import com.zaaach.citypicker.model.LocatedCity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -72,7 +77,6 @@ public class FilmFragment extends BaseFragment {
     private static final int COUNT_TWO =2 ;
     @BindView(R.id.film_group)
     RadioGroup filmGroup;
-
     @BindView(R.id.recycler_flow)
     RecyclerCoverFlow recyclerFlow;
     Unbinder unbinder;
@@ -88,7 +92,6 @@ public class FilmFragment extends BaseFragment {
     TextView textSearch;
     @BindView(R.id.film_search_linear)
     LinearLayout searchLinear;
-
     //热门电影
     @BindView(R.id.hot_film_more)
     ImageButton hotFilmMore;
@@ -117,6 +120,8 @@ public class FilmFragment extends BaseFragment {
     private RelaeseFilmAdapter relaeseFilmAdapter;
     private ScreenFilmAdapter screenFilmAdapter;
     private List<RelaeseBean.ResultBean> result;
+    private List<HotFilmBean.ResultBean> hotResult;
+    private List<ScreenFilmBean.ResultBean> screenResult;
     private Bundle bundle;
     private HotFilmDaoBeanDao hotFilmDaoBeanDao;
     private RelaeseFilmDaoBeanDao relaeseFilmDaoBeanDao;
@@ -150,27 +155,84 @@ public class FilmFragment extends BaseFragment {
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
+        //创建表数据库
+        initDB();
+        //加载热门电影布局
         LinearLayoutManager hotFilmManager=new LinearLayoutManager(getContext());
         hotFilmManager.setOrientation(OrientationHelper.HORIZONTAL);
         hotFilmRecycler.setLayoutManager(hotFilmManager);
         filmAdapter = new HotFilmAdapter(getContext());
         hotFilmRecycler.setAdapter(filmAdapter);
-
+        //加载正在热映布局
         LinearLayoutManager relaeseFilmManager=new LinearLayoutManager(getContext());
         relaeseFilmManager.setOrientation(OrientationHelper.HORIZONTAL);
         relaeseFilmRecycler.setLayoutManager(relaeseFilmManager);
         relaeseFilmAdapter = new RelaeseFilmAdapter(getContext());
         relaeseFilmRecycler.setAdapter(relaeseFilmAdapter);
-
+        //加载即将上映布局
         LinearLayoutManager screenFilmManager=new LinearLayoutManager(getContext());
         screenFilmManager.setOrientation(OrientationHelper.HORIZONTAL);
         screenFilmRecycler.setLayoutManager(screenFilmManager);
         screenFilmAdapter = new ScreenFilmAdapter(getContext());
         screenFilmRecycler.setAdapter(screenFilmAdapter);
-
-        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET,1),HotFilmBean.class);
-        onGetRequest(String.format(Apis.URL_FIND_RELEASE_MOVIE_LIST_GET, 1), RelaeseBean.class);
-        onGetRequest(String.format(Apis.URL_FIND_COMING_SOON_MOVIE_LIST_GET,1),ScreenFilmBean.class);
+        //读取数据库里热门电影的数据
+        QueryBuilder<HotFilmDaoBean> hotFilmDaoBeanQueryBuilder = hotFilmDaoBeanDao.queryBuilder();
+        List<HotFilmDaoBean> hotList = hotFilmDaoBeanQueryBuilder.list();
+        int hotSize = hotList.size();
+        if(hotSize>0){
+            hotResult=new ArrayList<>();
+            for (int i=0;i<hotSize;i++){
+                HotFilmDaoBean hotFilmDaoBean = hotList.get(i);
+                hotResult.add(new HotFilmBean.ResultBean(hotFilmDaoBean.getFollowMovie(),(int)hotFilmDaoBean.getId(),hotFilmDaoBean.getImageUrl(),hotFilmDaoBean.getName(),hotFilmDaoBean.getRank(),hotFilmDaoBean.getSummary()));
+            }
+            filmAdapter.setList(hotResult);
+        }else{
+            onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET,1),HotFilmBean.class);
+        }
+        //读取数据库里正在热映的数据
+        QueryBuilder<RelaeseFilmDaoBean> relaeseFilmDaoBeanQueryBuilder = relaeseFilmDaoBeanDao.queryBuilder();
+        List<RelaeseFilmDaoBean> relaeseList = relaeseFilmDaoBeanQueryBuilder.list();
+        int relaeseSize = relaeseList.size();
+        if(relaeseSize>0){
+            result=new ArrayList<>();
+            filmGroup.removeAllViews();
+            int childWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.dp_312) / relaeseSize;
+            for (int i=0;i<relaeseSize;i++){
+                RelaeseFilmDaoBean relaeseFilmDaoBean = relaeseList.get(i);
+                result.add(new RelaeseBean.ResultBean(relaeseFilmDaoBean.getFollowMovie(),(int)relaeseFilmDaoBean.getId(),relaeseFilmDaoBean.getImageUrl(),relaeseFilmDaoBean.getName(),relaeseFilmDaoBean.getRank(),relaeseFilmDaoBean.getSummary(),relaeseFilmDaoBean.getReleaseTimeShow()));
+                RadioButton radioButton=new RadioButton(getContext());
+                radioButton.setWidth(childWidth);
+                Bitmap a=null;
+                radioButton.setButtonDrawable(new BitmapDrawable(a));
+                radioButton.setBackgroundResource(R.drawable.home_film_divide_selected);
+                radioButton.setChecked(false);
+                filmGroup.addView(radioButton);
+            }
+            recyclerFlow.setVisibility(View.VISIBLE);
+            relaeseFilmAdapter.setList(result);
+            recyclerFlow.setAdapter(new RelaeseAdapter(result, getContext()));
+            current = relaeseSize/2;
+            RadioButton radioButton= (RadioButton) filmGroup.getChildAt(current);
+            radioButton.setChecked(true);
+            handler.sendEmptyMessage(0);
+        }else{
+            onGetRequest(String.format(Apis.URL_FIND_RELEASE_MOVIE_LIST_GET, 1), RelaeseBean.class);
+        }
+        //读取数据库里即将上映的数据
+        QueryBuilder<ScreenFilmDaoBean> screenFilmDaoBeanQueryBuilder = screenFilmDaoBeanDao.queryBuilder();
+        List<ScreenFilmDaoBean> screenList = screenFilmDaoBeanQueryBuilder.list();
+        int screenSize = screenList.size();
+        if(screenSize>0){
+            screenResult=new ArrayList<>();
+            for (int i=0;i<screenSize;i++){
+                ScreenFilmDaoBean screenFilmDaoBean = screenList.get(i);
+                screenResult.add(new ScreenFilmBean.ResultBean(screenFilmDaoBean.getFollowMovie(),(int)screenFilmDaoBean.getId(),screenFilmDaoBean.getImageUrl(),screenFilmDaoBean.getName(),screenFilmDaoBean.getRank(),screenFilmDaoBean.getSummary(),screenFilmDaoBean.getReleaseTimeShow()));
+            }
+            screenFilmAdapter.setList(screenResult);
+        }else{
+            onGetRequest(String.format(Apis.URL_FIND_COMING_SOON_MOVIE_LIST_GET,1),ScreenFilmBean.class);
+        }
+        //轮播图的滑动监听
         recyclerFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
             //滑动监听
             @Override
@@ -186,13 +248,14 @@ public class FilmFragment extends BaseFragment {
         });
 
     }
-
+    //定位发送的地址信息
     @Subscribe(threadMode=ThreadMode.MAIN,sticky = true)
     public void getAddress(MessageBean messageBean){
         if(messageBean.getId().equals("address")){
             textLoc.setText(String.valueOf(messageBean.getObject()));
         }else
         if(messageBean.getId().equals("isChange")){
+            //搜索框的来回变换
             editSearch.setVisibility(View.GONE);
             textSearch.setVisibility(View.GONE);
         }
@@ -265,15 +328,28 @@ public class FilmFragment extends BaseFragment {
         if (data instanceof RelaeseBean) {
             RelaeseBean relaeseBean = (RelaeseBean) data;
             if (relaeseBean.getMessage().equals("查询成功")) {
-                if (relaeseBean.getResult().size() > 0) {
+                result = relaeseBean.getResult();
+                int size = result.size();
+                if (size > 0) {
                     recyclerFlow.setVisibility(View.VISIBLE);
                     relaeseFilmAdapter.setList(relaeseBean.getResult());
-                    result = relaeseBean.getResult();
                     recyclerFlow.setAdapter(new RelaeseAdapter(result, getContext()));
                     filmGroup.removeAllViews();
                     int width = filmGroup.getWidth();
-                    int childWidth = width / result.size();
-                    for (int i=0;i<result.size();i++){
+                    int childWidth = width / size;
+                    for (int i = 0; i<size; i++){
+                        //存入数据库
+                        RelaeseFilmDaoBean relaeseFilmDaoBean=new RelaeseFilmDaoBean();
+                        RelaeseBean.ResultBean resultBean = result.get(i);
+                        relaeseFilmDaoBean.setFollowMovie(resultBean.isFollowMovie());
+                        relaeseFilmDaoBean.setId(resultBean.getId());
+                        relaeseFilmDaoBean.setImageUrl(resultBean.getImageUrl());
+                        relaeseFilmDaoBean.setName(resultBean.getName());
+                        relaeseFilmDaoBean.setRank(resultBean.getRank());
+                        relaeseFilmDaoBean.setReleaseTimeShow(resultBean.getReleaseTimeShow());
+                        relaeseFilmDaoBean.setSummary(resultBean.getSummary());
+                        relaeseFilmDaoBeanDao.insertOrReplace(relaeseFilmDaoBean);
+                        //创建radiogroup中的radiobutton 实现条目的滚动切换
                         RadioButton radioButton=new RadioButton(getContext());
                         radioButton.setWidth(childWidth);
                         Bitmap a=null;
@@ -282,7 +358,7 @@ public class FilmFragment extends BaseFragment {
                         radioButton.setChecked(false);
                         filmGroup.addView(radioButton);
                     }
-                    current = result.size()/2;
+                    current = size/2;
                     RadioButton radioButton= (RadioButton) filmGroup.getChildAt(current);
                     radioButton.setChecked(true);
                     handler.sendEmptyMessage(0);
@@ -291,14 +367,43 @@ public class FilmFragment extends BaseFragment {
         }else if(data instanceof HotFilmBean){
             HotFilmBean hotFilmBean= (HotFilmBean) data;
             if(hotFilmBean.getMessage().equals("查询成功")){
-                if(hotFilmBean.getResult().size()>0){
+                List<HotFilmBean.ResultBean> result = hotFilmBean.getResult();
+                int size = result.size();
+                if(size>0){
+                    for (int i=0;i<size;i++){
+                        //存入数据库
+                        HotFilmBean.ResultBean resultBean = result.get(i);
+                        HotFilmDaoBean hotFilmDaoBean=new HotFilmDaoBean();
+                        hotFilmDaoBean.setFollowMovie(resultBean.isFollowMovie());
+                        hotFilmDaoBean.setId(resultBean.getId());
+                        hotFilmDaoBean.setImageUrl(resultBean.getImageUrl());
+                        hotFilmDaoBean.setName(resultBean.getName());
+                        hotFilmDaoBean.setRank(resultBean.getRank());
+                        hotFilmDaoBean.setSummary(resultBean.getSummary());
+                        hotFilmDaoBeanDao.insertOrReplace(hotFilmDaoBean);
+                    }
                     filmAdapter.setList(hotFilmBean.getResult());
                 }
             }
         }else if(data instanceof ScreenFilmBean){
             ScreenFilmBean screenFilmBean= (ScreenFilmBean) data;
             if(screenFilmBean.getMessage().equals("查询成功")){
-                if(screenFilmBean.getResult().size()>0){
+                List<ScreenFilmBean.ResultBean> result = screenFilmBean.getResult();
+                int size = result.size();
+                if(size>0){
+                    for (int i=0;i<size;i++){
+                        //存入数据库
+                        ScreenFilmDaoBean screenFilmDaoBean=new ScreenFilmDaoBean();
+                        ScreenFilmBean.ResultBean resultBean = result.get(i);
+                        screenFilmDaoBean.setFollowMovie(resultBean.isFollowMovie());
+                        screenFilmDaoBean.setId(resultBean.getId());
+                        screenFilmDaoBean.setImageUrl(resultBean.getImageUrl());
+                        screenFilmDaoBean.setName(resultBean.getName());
+                        screenFilmDaoBean.setRank(resultBean.getRank());
+                        screenFilmDaoBean.setReleaseTimeShow(resultBean.getReleaseTimeShow());
+                        screenFilmDaoBean.setSummary(resultBean.getSummary());
+                        screenFilmDaoBeanDao.insertOrReplace(screenFilmDaoBean);
+                    }
                     screenFilmAdapter.setList(screenFilmBean.getResult());
                 }
             }

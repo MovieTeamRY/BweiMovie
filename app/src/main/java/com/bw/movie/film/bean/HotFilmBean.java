@@ -44,6 +44,15 @@ public class HotFilmBean {
         private int rank;
         private String summary;
 
+        public ResultBean(String followMovie, int id, String imageUrl, String name, int rank, String summary) {
+            this.followMovie = followMovie;
+            this.id = id;
+            this.imageUrl = imageUrl;
+            this.name = name;
+            this.rank = rank;
+            this.summary = summary;
+        }
+
         public String isFollowMovie() {
             return followMovie;
         }

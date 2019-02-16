@@ -15,7 +15,7 @@ import com.bw.movie.greendao.ScreenFilmDaoBean;
 /** 
  * DAO for table "SCREEN_FILM_DAO_BEAN".
 */
-public class ScreenFilmDaoBeanDao extends AbstractDao<ScreenFilmDaoBean, Integer> {
+public class ScreenFilmDaoBeanDao extends AbstractDao<ScreenFilmDaoBean, Long> {
 
     public static final String TABLENAME = "SCREEN_FILM_DAO_BEAN";
 
@@ -25,7 +25,7 @@ public class ScreenFilmDaoBeanDao extends AbstractDao<ScreenFilmDaoBean, Integer
      */
     public static class Properties {
         public final static Property FollowMovie = new Property(0, String.class, "followMovie", false, "FOLLOW_MOVIE");
-        public final static Property Id = new Property(1, int.class, "id", true, "ID");
+        public final static Property Id = new Property(1, long.class, "id", true, "_id");
         public final static Property ImageUrl = new Property(2, String.class, "imageUrl", false, "IMAGE_URL");
         public final static Property Name = new Property(3, String.class, "name", false, "NAME");
         public final static Property Rank = new Property(4, int.class, "rank", false, "RANK");
@@ -47,7 +47,7 @@ public class ScreenFilmDaoBeanDao extends AbstractDao<ScreenFilmDaoBean, Integer
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"SCREEN_FILM_DAO_BEAN\" (" + //
                 "\"FOLLOW_MOVIE\" TEXT," + // 0: followMovie
-                "\"ID\" INTEGER PRIMARY KEY NOT NULL ," + // 1: id
+                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 1: id
                 "\"IMAGE_URL\" TEXT," + // 2: imageUrl
                 "\"NAME\" TEXT," + // 3: name
                 "\"RANK\" INTEGER NOT NULL ," + // 4: rank
@@ -126,15 +126,15 @@ public class ScreenFilmDaoBeanDao extends AbstractDao<ScreenFilmDaoBean, Integer
     }
 
     @Override
-    public Integer readKey(Cursor cursor, int offset) {
-        return cursor.getInt(offset + 1);
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.getLong(offset + 1);
     }    
 
     @Override
     public ScreenFilmDaoBean readEntity(Cursor cursor, int offset) {
         ScreenFilmDaoBean entity = new ScreenFilmDaoBean( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // followMovie
-            cursor.getInt(offset + 1), // id
+            cursor.getLong(offset + 1), // id
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // imageUrl
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
             cursor.getInt(offset + 4), // rank
@@ -147,7 +147,7 @@ public class ScreenFilmDaoBeanDao extends AbstractDao<ScreenFilmDaoBean, Integer
     @Override
     public void readEntity(Cursor cursor, ScreenFilmDaoBean entity, int offset) {
         entity.setFollowMovie(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setId(cursor.getInt(offset + 1));
+        entity.setId(cursor.getLong(offset + 1));
         entity.setImageUrl(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setRank(cursor.getInt(offset + 4));
@@ -156,12 +156,13 @@ public class ScreenFilmDaoBeanDao extends AbstractDao<ScreenFilmDaoBean, Integer
      }
     
     @Override
-    protected final Integer updateKeyAfterInsert(ScreenFilmDaoBean entity, long rowId) {
-        return entity.getId();
+    protected final Long updateKeyAfterInsert(ScreenFilmDaoBean entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
     }
     
     @Override
-    public Integer getKey(ScreenFilmDaoBean entity) {
+    public Long getKey(ScreenFilmDaoBean entity) {
         if(entity != null) {
             return entity.getId();
         } else {

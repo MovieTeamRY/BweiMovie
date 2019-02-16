@@ -7,8 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 【必须】 信鸽SDK所需权限 -->
@@ -19,6 +17,18 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
@@ -54,18 +64,35 @@
         <activity
             android:name=".film.activity.FilmMoreActivity"
             android:theme="@style/DefaultCityPickerTheme" />
-        <activity android:name=".cinema.activity.CinemaDetailActivity" />
+        <activity android:name=".cinema.activity.CinemaDetailActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
-        <activity android:name=".cinema.activity.SeatActivity" />
-        <activity android:name=".purchase.activity.PurchaseActivity" />
-        <activity android:name=".purchase.activity.PlayVideoCinemaActivity" />
-        <activity android:name=".mine.activity.FeedBackActivity" />
-        <activity android:name=".mine.activity.UserInfoActivity" />
-        <activity android:name=".mine.activity.AttentActivity" />
-        <activity android:name=".mine.activity.RecordActivity" />
-        <activity android:name=".mine.activity.UpdatePassWordActivity" />
+        <activity
+            android:name=".cinema.activity.SeatActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen" />
+        <activity
+            android:name=".purchase.activity.PurchaseActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen" />
+        <activity
+            android:name=".purchase.activity.PlayVideoCinemaActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen" />
+        <activity
+            android:name=".mine.activity.FeedBackActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen" />
+        <activity
+            android:name=".mine.activity.UserInfoActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen" />
+        <activity
+            android:name=".mine.activity.AttentActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen" />
+        <activity
+            android:name=".mine.activity.RecordActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen" />
+        <activity
+            android:name=".mine.activity.UpdatePassWordActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -151,6 +178,16 @@
             android:name="XG_V2_ACCESS_KEY"
             android:value="AL9991RXAB7J" />
 
+        <activity
+            android:name=".mine.activity.PushActivity"
+            android:theme="@style/AppTheme.NoTitle_FullScreen"></activity>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="70b650feb5cdc72329ca64ce9528ee27">
+            <!--开发者申请的key-->
+        </meta-data>
+        <service android:name="com.amap.api.location.APSService"></service>
     </application>
 
 </manifest>

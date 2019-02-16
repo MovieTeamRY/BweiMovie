@@ -27,6 +27,11 @@ android {
             daoPackage 'com.bw.movie.greendao.greendao' // 一般为app包名+自动生成文件的包名
             targetGenDir 'src/main/java' //生成文件路径
         }
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","x86_64"
+        }
+
     }
     buildTypes {
         release {
@@ -70,67 +75,52 @@ dependencies {
     implementation "io.reactivex:rxjava:$rootProject.rxjava"
     implementation "com.hwangjr.rxbus:rxbus:$rootProject.rxbus"
     implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.adapterRxjava"
-
     //Fresco,无论使用哪个模块的功能,都必须要添加的基础依赖
     implementation 'com.facebook.fresco:fresco:0.14.1'
-
     // 在 API < 14 上的机器支持 WebP 时，需要添加
     implementation 'com.facebook.fresco:animated-base-support:0.14.1'
-
     // 支持 GIF 动图，需要添加
     implementation 'com.facebook.fresco:animated-gif:0.14.1'
     implementation 'com.facebook.fresco:webpsupport:0.14.1'
-
     // 支持 WebP 静态图及 WebP 动图，需要添加
     implementation 'com.facebook.fresco:animated-webp:0.14.1'
-
     //如果项目中使用了OkHttp需要进行替换(因为Fresco底层网络用的是okhttp,不做修改会出现jar包冲突)
     implementation 'com.facebook.fresco:imagepipeline-okhttp3:0.14.1'
-
     //butterknife依赖
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     //日期选择
     implementation 'com.contrarywind:Android-PickerView:4.1.7'
-
     //旋转木马recyclerview
     implementation 'com.chenlittleping:recyclercoverflow:1.0.6'
-
     //加载视频
+
     implementation 'cn.jzvd:jiaozivideoplayer:6.2.10'
     implementation 'com.github.bumptech.glide:glide:3.8.0'
-
     //Eventbus依赖
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.android.support:design:28.0.0'
-
     //动态权限
     implementation 'com.yanzhenjie:permission:1.0.4'
-
     //xRecyclerview依赖
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
-
     //定位 地址
     implementation 'com.zaaach:citypicker:2.0.3'
-
     /*微信登录*/
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-
     //输入框的依赖 可以一键删除 设置不可以输入表情
     implementation 'com.xw.repo:xedittext:2.2.4'
-
     //检测内存险漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-
-    //信鸽jar
-
     //greendao
     implementation 'org.greenrobot:greendao:3.2.2'
 
     // add library
     implementation 'org.greenrobot:greendao-generator:3.2.2'
+//高德定位依赖
+    implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:map2d:latest.integration'
     implementation files('libs/jg_filter_sdk_1.1.jar')
     implementation files('libs/mid-core-sdk-4.0.7.jar')
     implementation files('libs/wup-1.0.0.E-SNAPSHOT.jar')

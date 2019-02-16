@@ -69,17 +69,15 @@ public class NearFragment extends BaseFragment {
                 }
             }
         });
-        onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,116.30551391385724,40.04571807462411,1),NearCinemaBean.class);
+        //onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,116.30551391385724,40.04571807462411,1),NearCinemaBean.class);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void getLoacation(MessageBean messageBean){
         if(messageBean.getId().equals("location")){
             double[] location= (double[]) messageBean.getObject();
-            longtitude= String.valueOf(location[0]);
-            latitude= String.valueOf(location[1]);
             //请求数据
-            onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,longtitude,latitude,1),NearCinemaBean.class);
+            onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,location[0],location[1],1),NearCinemaBean.class);
         }else if(messageBean.getId().equals("recomm")){
             onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,116.30551391385724,40.04571807462411,1),NearCinemaBean.class);
         }

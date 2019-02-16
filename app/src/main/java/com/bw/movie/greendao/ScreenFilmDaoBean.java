@@ -8,7 +8,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class ScreenFilmDaoBean {
     String followMovie;
     @Id(autoincrement = false)
-    int id;
+    long id;
     String imageUrl;
     String name;
     int rank;
@@ -44,10 +44,10 @@ public class ScreenFilmDaoBean {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    public int getId() {
+    public long getId() {
         return this.id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     public String getFollowMovie() {
@@ -56,8 +56,8 @@ public class ScreenFilmDaoBean {
     public void setFollowMovie(String followMovie) {
         this.followMovie = followMovie;
     }
-    @Generated(hash = 1508674917)
-    public ScreenFilmDaoBean(String followMovie, int id, String imageUrl,
+    @Generated(hash = 913626457)
+    public ScreenFilmDaoBean(String followMovie, long id, String imageUrl,
             String name, int rank, String summary, String releaseTimeShow) {
         this.followMovie = followMovie;
         this.id = id;
