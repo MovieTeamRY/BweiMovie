@@ -105,7 +105,7 @@
                 <data android:scheme="wxb3852e6a6b7d9516" />
             </intent-filter>
         </activity>
-        <activity android:name=".mine.activity.PushActivity"></activity>
+       <!-- <activity android:name=".mine.activity.PushActivity"></activity>-->
 
         <receiver android:name=".receiver.MessageReceiver"
             android:exported="true" >
@@ -180,7 +180,8 @@
 
         <activity
             android:name=".mine.activity.PushActivity"
-            android:theme="@style/AppTheme.NoTitle_FullScreen"></activity>
+            android:theme="@style/AppTheme.NoTitle_FullScreen"
+            tools:ignore="DuplicateActivity"></activity>
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
