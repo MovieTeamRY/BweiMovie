@@ -1,5 +1,6 @@
 package com.bw.movie.film.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -83,6 +85,20 @@ public class FilmMoreActivity extends BaseActivty {
 
     @Override
     protected void initData() {
+        //edittext焦点事件
+        edit_search.setOnFocusChangeListener(new android.view.View.
+                OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                    //收回软件盘
+                    Log.i("TAG","失去焦点");
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
         imageLoc.setBackgroundResource(R.mipmap.cinema_detail_icon_location_default);
         textLoc.setTextColor(Color.parseColor("#333333"));
         final String[] menu = new String[]{"热门电影", "正在热映", "即将上映"};

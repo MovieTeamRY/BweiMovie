@@ -51,6 +51,10 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         initView(savedInstanceState);
         //添加数据
         initData();
+        //信鸽推送
+        XGPushConfig.enableDebug(this,true);
+        XGPushConfig.enableOtherPush(getApplicationContext(), true);
+        XGPushConfig.setHuaweiDebug(true);
         XGPushManager.registerPush(getApplicationContext(),
                 new XGIOperateCallback() {
                     @Override

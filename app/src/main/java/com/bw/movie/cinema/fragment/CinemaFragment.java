@@ -2,6 +2,7 @@ package com.bw.movie.cinema.fragment;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -74,6 +76,20 @@ public class CinemaFragment extends BaseFragment {
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
+        //edittext焦点事件
+        editSearch.setOnFocusChangeListener(new android.view.View.
+                OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                    //收回软件盘
+                    Log.i("TAG","失去焦点");
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
         imageLoc.setBackgroundResource(R.mipmap.cinema_detail_icon_location_default);
         textLoc.setTextColor(Color.parseColor("#333333"));
         //添加fragment

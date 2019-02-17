@@ -1,25 +1,20 @@
 package com.bw.movie.film.fragment;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
+
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AnimationUtils;
-import android.widget.EditText;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -45,6 +40,7 @@ import com.bw.movie.greendao.greendao.DaoSession;
 import com.bw.movie.greendao.greendao.HotFilmDaoBeanDao;
 import com.bw.movie.greendao.greendao.RelaeseFilmDaoBeanDao;
 import com.bw.movie.greendao.greendao.ScreenFilmDaoBeanDao;
+import com.bw.movie.sign.SignActivity;
 import com.bw.movie.utils.AddressUtils;
 import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.IntentUtils;
@@ -155,6 +151,20 @@ public class FilmFragment extends BaseFragment {
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
+        //edittext焦点事件
+        editSearch.setOnFocusChangeListener(new android.view.View.
+                OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                    //收回软件盘
+                    Log.i("TAG","失去焦点");
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
         //创建表数据库
         initDB();
         //加载热门电影布局
