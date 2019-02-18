@@ -25,7 +25,6 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
         android:hint="昵称"
-        app:x_disableClear="true"
         android:inputType="text"
         android:textColor="#fff"
         android:textColorHint="#fff"
@@ -52,25 +51,41 @@
         android:layout_marginTop="@dimen/dp_20"
         app:layout_constraintTop_toBottomOf="@id/sign_view_nick"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/sign_text_sex"
+        app:layout_constraintRight_toLeftOf="@+id/sign_group_sex"
         android:background="@mipmap/register_icon_sex_default"
         />
-    <com.xw.repo.XEditText
-        android:id="@+id/sign_text_sex"
+    <RadioGroup
+        android:id="@+id/sign_group_sex"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
-        android:hint="性别"
-        app:x_disableClear="true"
-        android:digits="男女"
         android:textColor="#fff"
         android:textColorHint="#fff"
         android:textSize="@dimen/sp_16"
-        android:background="@null"
+        android:orientation="horizontal"
         android:layout_marginTop="@dimen/dp_20"
         app:layout_constraintTop_toBottomOf="@id/sign_view_nick"
         app:layout_constraintLeft_toRightOf="@+id/sign_image_sex"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        >
+        <RadioButton
+            android:id="@+id/sign_radio_man"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男"
+            android:buttonTint="#fff"
+            android:textColor="#fff"
+            android:checked="true"
+            android:layout_marginRight="@dimen/dp_20"
+            />
+        <RadioButton
+            android:id="@+id/sign_radio_woman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="女"
+            android:buttonTint="#fff"
+            android:textColor="#fff"
+            />
+    </RadioGroup>
     <View
         android:id="@+id/sign_view_sex"
         android:layout_width="match_parent"
@@ -129,7 +144,6 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
         android:hint="手机号"
-        app:x_disableClear="true"
         android:textColor="#fff"
         android:textColorHint="#fff"
         android:inputType="number"
@@ -165,7 +179,6 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
         android:hint="邮箱"
-        app:x_disableClear="true"
         android:inputType="text"
         android:textColor="#fff"
         android:textColorHint="#fff"
@@ -201,7 +214,6 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_20"
         android:hint="登录密码"
-        app:x_disableClear="true"
         android:textColor="#fff"
         android:textColorHint="#fff"
         android:textSize="@dimen/sp_16"

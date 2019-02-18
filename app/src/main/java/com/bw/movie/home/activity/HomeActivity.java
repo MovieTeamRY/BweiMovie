@@ -1,5 +1,6 @@
 package com.bw.movie.home.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -136,6 +137,10 @@ public class HomeActivity extends BaseActivty {
                 ToastUtil.showToast("再按一次退出程序");
                 exitTime = System.currentTimeMillis();
             } else {
+                SharedPreferences sharedPreferences=getSharedPreferences("User",MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString("SessionId","");
+                editor.commit();
                 finish();
                 System.exit(0);
             }

@@ -91,7 +91,7 @@ public class ObligationFragment extends BaseFragment {
                 }
                 mpage++;
             }else{
-                ToastUtil.showToast(obligationBean.getMessage());
+                ToastUtil.showToast("没有更多数据了");
             }
             obligationRecycler.loadMoreComplete();
             obligationRecycler.refreshComplete();

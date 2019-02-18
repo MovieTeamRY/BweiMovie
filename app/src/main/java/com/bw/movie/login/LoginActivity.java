@@ -45,8 +45,6 @@ public class LoginActivity extends BaseActivty {
     XEditText loginTextPhone;
     @BindView(R.id.login_text_pwd)
     XEditText loginTextPwd;
-    @BindView(R.id.login_image_eye)
-    ImageButton loginImageEye;
     @BindView(R.id.login_check_rem)
     CheckBox loginCheckRem;
     @BindView(R.id.login_check_auto)
@@ -141,17 +139,6 @@ public class LoginActivity extends BaseActivty {
         //创建map集合，存放请求参数
         map = new HashMap<>();
         //显示与隐藏密码
-        loginImageEye.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN){
-                    loginTextPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }else if (event.getAction()==MotionEvent.ACTION_UP){
-                    loginTextPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
-                return false;
-            }
-        });
     }
 
 

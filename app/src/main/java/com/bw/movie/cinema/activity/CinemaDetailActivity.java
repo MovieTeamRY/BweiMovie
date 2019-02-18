@@ -221,7 +221,7 @@ public class CinemaDetailActivity extends BaseActivty {
         }
     }
 
-    @OnClick({R.id.cinema_film_return,R.id.cinema_name,R.id.cinema_logo,R.id.cinema_address})
+    @OnClick({R.id.cinema_film_return,R.id.cinema_name,R.id.cinema_logo,R.id.cinema_address,R.id.cinema_navigation})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.cinema_film_return:

@@ -17,6 +17,8 @@ import com.bw.movie.cinema.bean.NearCinemaBean;
 import com.bw.movie.cinema.bean.RecommCinemaBean;
 import com.bw.movie.film.bean.CancalFollowMovieBean;
 import com.bw.movie.film.bean.FollowMovieBean;
+import com.bw.movie.login.LoginActivity;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
 
@@ -104,6 +106,9 @@ public class RecommFragment extends BaseFragment {
             }
         }else if(data instanceof FollowMovieBean){
             FollowMovieBean followMovieBean= (FollowMovieBean) data;
+            if(followMovieBean.getMessage().equals("请先登陆")){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }
             ToastUtil.showToast(followMovieBean.getMessage());
             resultList.get(index).setFollowCinema(1);
             recommAdapter.setList(resultList);
@@ -111,6 +116,9 @@ public class RecommFragment extends BaseFragment {
         }else if(data instanceof CancalFollowMovieBean){
             CancalFollowMovieBean cancalFollowMovieBean= (CancalFollowMovieBean) data;
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());
+            if(cancalFollowMovieBean.getMessage().equals("请先登陆")){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }
             resultList.get(index).setFollowCinema(2);
             recommAdapter.setList(resultList);
             EventBus.getDefault().postSticky(new MessageBean("recomm",null));

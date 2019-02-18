@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
@@ -40,8 +41,8 @@ import butterknife.OnClick;
 public class SignActivity extends BaseActivty {
     @BindView(R.id.sign_text_nick)
     XEditText signTextNick;
-    @BindView(R.id.sign_text_sex)
-    XEditText signTextSex;
+    @BindView(R.id.sign_group_sex)
+    RadioGroup signGroupSex;
     @BindView(R.id.sign_text_date)
     TextView signTextDate;
     @BindView(R.id.sign_text_phone)
@@ -112,7 +113,7 @@ public class SignActivity extends BaseActivty {
 
     @OnClick({R.id.sign_but,R.id.sign_text_date})
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.sign_text_date:
                 //收回软件盘
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -125,15 +126,15 @@ public class SignActivity extends BaseActivty {
 
                 Calendar startDate = Calendar.getInstance();
                 Calendar endDate = Calendar.getInstance();
-                calendar.set(year-10,month,day);
-                startDate.set(year-100,0,1);
-                endDate.set(year,month,day);
+                calendar.set(year - 10, month, day);
+                startDate.set(year - 100, 0, 1);
+                endDate.set(year, month, day);
                 TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
                         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         String time = sDateFormat.format(date);
-                        signTextDate.setText(time+"");
+                        signTextDate.setText(time + "");
                     }
                 })
                         .setType(new boolean[]{true, true, true, false, false, false})
@@ -144,7 +145,7 @@ public class SignActivity extends BaseActivty {
                         //确认按钮文字
                         .setOutSideCancelable(true)
                         //点击屏幕，点在控件外部范围时，是否取消显示
-                        .setRangDate(startDate,endDate)
+                        .setRangDate(startDate, endDate)
                         //起始终止年月日设定
                         .setDate(calendar)
                         //设置默认时间
@@ -155,43 +156,41 @@ public class SignActivity extends BaseActivty {
                 break;
             case R.id.sign_but:
                 String name = signTextNick.getText().toString().trim();
-                String sex = signTextSex.getText().toString().trim();
+                int radioButtonId = signGroupSex.getCheckedRadioButtonId();
+                int sex = 0;
+                if (radioButtonId == R.id.sign_radio_man) {
+                    sex = 1;
+                } else if (radioButtonId == R.id.sign_radio_woman) {
+                    sex = 2;
+                }
                 String data = signTextDate.getText().toString().trim();
                 phone = signTextPhone.getText().toString().trim();
                 String email = signTextEmail.getText().toString().trim();
                 pwd = signTextPwd.getText().toString().trim();
-                if (name.equals("")||sex.equals("")||data.equals("")|| phone.equals("")||email.equals("")|| pwd.equals("")){
+                if (name.equals("") || data.equals("") || phone.equals("") || email.equals("") || pwd.equals("")) {
                     ToastUtil.showToast("请确认输入框是否为空");
-                }else{
-                    if (sex.equals("男")||sex.equals("女")){
-                        if (RegularUtils.isMobile(phone)){
-                            if (RegularUtils.isEmail(email)){
-                                if (RegularUtils.isPassword(pwd)){
-                                    int sexx=1;
-                                    if (sex.equals("女")){
-                                        sexx=2;
-                                    }
-                                    //请求注册接口
-                                    Map<String,String> map = new HashMap<>();
-                                    map.put("nickName",name);
-                                    map.put("phone", phone);
-                                    map.put("pwd",EncryptUtil.encrypt(pwd));
-                                    map.put("pwd2",EncryptUtil.encrypt(pwd));
-                                    map.put("sex",String.valueOf(sexx));
-                                    map.put("birthday",data);
-                                    map.put("email",email);
-                                    onPostRequest(Apis.URL_REGISTER_USER_POST,map,SignBean.class);
-                                } else{
-                                    ToastUtil.showToast("密码长度为6-20的数字或字母");
-                                }
-                            } else{
-                                ToastUtil.showToast("请输入合法的邮箱号");
+                } else {
+                    if (RegularUtils.isMobile(phone)) {
+                        if (RegularUtils.isEmail(email)) {
+                            if (RegularUtils.isPassword(pwd)) {
+                                //请求注册接口
+                                Map<String, String> map = new HashMap<>();
+                                map.put("nickName", name);
+                                map.put("phone", phone);
+                                map.put("pwd", EncryptUtil.encrypt(pwd));
+                                map.put("pwd2", EncryptUtil.encrypt(pwd));
+                                map.put("sex", sex + "");
+                                map.put("birthday", data);
+                                map.put("email", email);
+                                onPostRequest(Apis.URL_REGISTER_USER_POST, map, SignBean.class);
+                            } else {
+                                ToastUtil.showToast("密码长度为6-20的数字或字母");
                             }
-                        } else{
-                            ToastUtil.showToast("请输入合法的手机号");
+                        } else {
+                            ToastUtil.showToast("请输入合法的邮箱号");
                         }
-                    } else{
-                        ToastUtil.showToast("亲，只能填写男或女哦");
+                    } else {
+                        ToastUtil.showToast("请输入合法的手机号");
                     }
                 }
                 break;

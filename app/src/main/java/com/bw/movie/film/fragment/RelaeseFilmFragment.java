@@ -13,6 +13,8 @@ import com.bw.movie.film.adapter.MovieHotAdapter;
 import com.bw.movie.film.bean.CancalFollowMovieBean;
 import com.bw.movie.film.bean.FollowMovieBean;
 import com.bw.movie.film.bean.MovieFilmBean;
+import com.bw.movie.login.LoginActivity;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -111,12 +113,18 @@ public class RelaeseFilmFragment extends BaseFragment {
            /* ToastUtil.showToast(movieFilmBean.getMessage());*/
         }else if (data instanceof FollowMovieBean) {
             FollowMovieBean followMovieBean = (FollowMovieBean) data;
+            if(followMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }else
             if (followMovieBean != null && followMovieBean.isSuccess()) {
                 movieHotAdapter.setAttentionScccess(postion);
             }
             ToastUtil.showToast(followMovieBean.getMessage());
         } else if (data instanceof CancalFollowMovieBean) {
             CancalFollowMovieBean cancalFollowMovieBean = (CancalFollowMovieBean) data;
+            if(cancalFollowMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }else
             if (cancalFollowMovieBean != null && cancalFollowMovieBean.isSuccess()) {
                 movieHotAdapter.setCancelAttention(postion);
             }

@@ -22,6 +22,8 @@ import com.bw.movie.greendao.greendao.DaoSession;
 import com.bw.movie.greendao.greendao.HotFilmDaoBeanDao;
 import com.bw.movie.greendao.greendao.RelaeseFilmDaoBeanDao;
 import com.bw.movie.greendao.greendao.ScreenFilmDaoBeanDao;
+import com.bw.movie.login.LoginActivity;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -121,13 +123,17 @@ public class HotFilmFragment extends BaseFragment {
            /* ToastUtil.showToast(movieFilmBean.getMessage());*/
         }else if (data instanceof FollowMovieBean) {
             FollowMovieBean followMovieBean = (FollowMovieBean) data;
-            if (followMovieBean != null && followMovieBean.isSuccess()) {
+            if(followMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }else if (followMovieBean != null && followMovieBean.getStatus().equals(followMovieBean.isSuccess())) {
                 movieHotAdapter.setAttentionScccess(postion);
             }
             ToastUtil.showToast(followMovieBean.getMessage());
         } else if (data instanceof CancalFollowMovieBean) {
             CancalFollowMovieBean cancalFollowMovieBean = (CancalFollowMovieBean) data;
-            if (cancalFollowMovieBean != null && cancalFollowMovieBean.isSuccess()) {
+            if(cancalFollowMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }else if (cancalFollowMovieBean != null && cancalFollowMovieBean.isSuccess()) {
                 movieHotAdapter.setCancelAttention(postion);
             }
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());

@@ -93,8 +93,10 @@ public class MineFragment extends BaseFragment {
         if (data instanceof UserInfoBean) {
             UserInfoBean userInfoBean = (UserInfoBean) data;
             UserInfoBean.ResultBean resultBean = userInfoBean.getResult();
-            if(userInfoBean.getMessage().equals("请先登陆")){
+            if(userInfoBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 editor.putString("SessionId","").commit();
+                userSimple.setImageURI(Uri.parse(String.valueOf(R.mipmap.login)));
+                userName.setText(R.string.not_login);
             }else{
                 userSimple.setImageURI(Uri.parse(resultBean.getHeadPic()));
                 userName.setText(resultBean.getNickName());
@@ -102,7 +104,7 @@ public class MineFragment extends BaseFragment {
             sessionId = sharedPreferences.getString("SessionId", null);
         }else if(data instanceof AttendBean){
             AttendBean attendBean= (AttendBean) data;
-            if(attendBean.getMessage().equals("请先登陆")){
+            if(attendBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
             }
             ToastUtil.showToast(attendBean.getMessage());
@@ -122,8 +124,8 @@ public class MineFragment extends BaseFragment {
      * */
     private void showAlertDialog(final String downloadUrl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("版本升级");
-        builder.setMessage("软件更新");
+        builder.setTitle(getString(R.string.version_text_title));
+        builder.setMessage(getString(R.string.version_text_message));
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -229,15 +231,9 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.user_simple,R.id.user_name,R.id.user_message,R.id.user_text_message,R.id.user_attend,R.id.user_text_attention, R.id.user_attention,
-            R.id.user_record,R.id.user_text_record, R.id.user_feedback,R.id.user_text_feedback, R.id.user_version,R.id.user_text_version, R.id.user_logout,R.id.user_text_logout,R.id.push})
+    @OnClick({R.id.user_name,R.id.relative_user_attention,R.id.relative_user_message,R.id.relative_user_record,R.id.relative_user_feedback,R.id.relative_user_version,R.id.relative_user_logout,R.id.user_attend,R.id.push})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.user_simple:
-                if(sessionId.equals("")){
-                    IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
-                }
-                break;
             case R.id.user_name:
                 if(sessionId.equals("")){
                     IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
@@ -246,77 +242,66 @@ public class MineFragment extends BaseFragment {
             case R.id.user_attend:
                 //点击用户签到
                 if(sessionId.equals("")){
-                    ToastUtil.showToast("请先登陆");
+                    ToastUtil.showToast(getResources().getString(R.string.please_login));
                 }else{
                     onGetRequest(Apis.URL_USER_SIGN_IN_GET,AttendBean.class);
                 }
                 break;
-            case R.id.user_text_message:
-            case R.id.user_message:
+            case R.id.relative_user_message:
                 //获取我的信息
                 if(sessionId.equals("")){
-                    ToastUtil.showToast("请先登陆");
+                    ToastUtil.showToast(getResources().getString(R.string.please_login));
                 }else {
                     IntentUtils.getInstence().intent(getActivity(), UserInfoActivity.class);
                 }
                 break;
-            case R.id.user_text_attention:
-            case R.id.user_attention:
+            case R.id.relative_user_attention:
                 //获取我的关注
                 if(sessionId.equals("")){
-                    ToastUtil.showToast("请先登陆");
+                    ToastUtil.showToast(getResources().getString(R.string.please_login));
                 }else {
                     IntentUtils.getInstence().intent(getActivity(), AttentActivity.class);
                 }
                 break;
-            case R.id.user_text_record:
-            case R.id.user_record:
+            case R.id.relative_user_record:
                 //获取购票记录
                 if(sessionId.equals("")){
-                    ToastUtil.showToast("请先登陆");
+                    ToastUtil.showToast(getResources().getString(R.string.please_login));
                 }else {
                     Intent intent=new Intent(getActivity(),RecordActivity.class);
                     intent.putExtra("status","");
                     startActivity(intent);
                 }
                 break;
-            case R.id.user_text_feedback:
-            case R.id.user_feedback:
+            case R.id.relative_user_feedback:
                 //意见反馈
                 if(sessionId.equals("")){
-                    ToastUtil.showToast("请先登陆");
+                    ToastUtil.showToast(getResources().getString(R.string.please_login));
                 }else {
                     IntentUtils.getInstence().intent(getActivity(), FeedBackActivity.class);
                 }
                 break;
-            case R.id.user_text_version:
-            case R.id.user_version:
+            case R.id.relative_user_version:
                 //版本更新
                  onGetRequest(Apis.URL_FIND_NEW_VERSION_GET,VersionBean.class);
                 break;
-            case R.id.user_text_logout:
-            case R.id.user_logout:
+            case R.id.relative_user_logout:
                 if(sessionId.equals("")){
-                    ToastUtil.showToast("请先登陆");
+                    ToastUtil.showToast(getResources().getString(R.string.please_login));
                 }else{
-                    Intent intent=new Intent(getContext(),LoginActivity.class);
-                    startActivityForResult(intent,100);
+                    editor.putString("SessionId","").commit();
+                    sessionId = sharedPreferences.getString("SessionId", null);
+                    IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
                 }
                 break;
             case R.id.push:
-                IntentUtils.getInstence().intent(getActivity(),PushActivity.class);
+                if(sessionId.equals("")){
+                    ToastUtil.showToast(getResources().getString(R.string.please_login));
+                }else {
+                    IntentUtils.getInstence().intent(getActivity(), PushActivity.class);
+                }
                 break;
             default:break;
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==100&&resultCode==100){
-
-        }else{
-           // getActivity().finish();
         }
     }
 }

@@ -77,7 +77,7 @@ public class CompletedFragment extends BaseFragment {
                 }
                 mpage++;
             }else{
-                ToastUtil.showToast(obligationBean.getMessage());
+                ToastUtil.showToast("没有更多数据了");
             }
             completedXrecycler.loadMoreComplete();
             completedXrecycler.refreshComplete();
