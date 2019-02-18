@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.film.adapter.ActorAdapter;
 import com.bw.movie.film.adapter.FilmCommentAdapter;
 import com.bw.movie.film.adapter.NoticeAdapter;
 import com.bw.movie.film.adapter.RevirwAdapter;
@@ -45,6 +46,7 @@ import com.bw.movie.utils.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +109,7 @@ public class FilmDetailsActivity extends BaseActivty {
     private TextView but_write;
     private LinearLayout linearLayout;
     private String name;
+    private ActorAdapter actorAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -295,7 +298,15 @@ public class FilmDetailsActivity extends BaseActivty {
         plot_name_text = detail_view.findViewById(R.id.plot_name_text);
         image_detail_three = detail_view.findViewById(R.id.image_detail_three);
         detail_down = detail_view.findViewById(R.id.detail_down);
+        RecyclerView actor_recyclerview = detail_view.findViewById(R.id.actor_recyclerview);
         getDetailsPopView(detail_view);
+        //电影详情展示演员名字
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        actor_recyclerview.setLayoutManager(linearLayoutManager);
+        //创建适配器
+        actorAdapter = new ActorAdapter(this);
+        actor_recyclerview.setAdapter(actorAdapter);
     }
 
     /**
@@ -405,7 +416,19 @@ public class FilmDetailsActivity extends BaseActivty {
         mpage = 1;
         onGetRequest(String.format(Apis.URL_FIND_MOVIE_COMMENT_GET, movieId, mpage, COUNT), RevirwBean.class);
     }
-
+    /**截取字符串是方法*/
+    private List<String> image= new ArrayList<>();
+    public void sub(String url){
+        //获取以“|”为截取的下标位置
+        int i = url.indexOf(",");
+        if (i>=0){
+            String substring = url.substring(0, i);
+            image.add(substring);
+            sub(url.substring(i+1,url.length()));
+        }else{
+            image.add(url);
+        }
+    }
     @Override
     protected void onNetSuccess(Object data) {
         if (data instanceof DetailsBean) {
@@ -423,6 +446,8 @@ public class FilmDetailsActivity extends BaseActivty {
             filmDetailsBean = (FilmDetailsBean) data;
             result = filmDetailsBean.getResult();
             if (filmDetailsBean.isSuccess() && filmDetailsBean != null) {
+                sub(result.getStarring());
+                actorAdapter.setList(image);
                 //TODO 设置值详细
                 Uri uri = Uri.parse(filmDetailsBean.getResult().getImageUrl());
                 image_detail_three.setImageURI(uri);

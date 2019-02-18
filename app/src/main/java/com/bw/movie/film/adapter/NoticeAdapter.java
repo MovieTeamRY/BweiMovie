@@ -15,7 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.jzvd.JZVideoPlayerStandard;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder> {
 
@@ -40,8 +40,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.notice_image.setUp(list.get(position).getVideoUrl(),
-                JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL);
+        holder.notice_image.setUp(list.get(position).getVideoUrl(),JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,"");
         Glide.with(context).load(list.get(position).getImageUrl()).crossFade()
                 .into(holder.notice_image.thumbImageView);
         holder.notice_image.thumbImageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -53,7 +52,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.notice_image)
-        JZVideoPlayerStandard notice_image;
+        JCVideoPlayerStandard notice_image;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

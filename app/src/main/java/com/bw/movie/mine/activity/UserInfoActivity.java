@@ -1,5 +1,6 @@
 package com.bw.movie.mine.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -13,14 +14,18 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
 import com.bw.movie.mine.bean.LoadHeadPicBean;
+import com.bw.movie.mine.bean.UpdateUserInfoBean;
 import com.bw.movie.mine.bean.UserInfoBean;
 import com.bw.movie.utils.ImageFileUtil;
 import com.bw.movie.utils.IntentUtils;
@@ -65,6 +70,8 @@ public class UserInfoActivity extends BaseActivty {
     private final int REQUESTCODE_CAMERA = 100;
     private final int REQUESTCODE_PICK = 300;
     private final int REQUESTCODE_SUCCESS = 200;
+    private AlertDialog dialog;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_user_info;
@@ -137,6 +144,52 @@ public class UserInfoActivity extends BaseActivty {
     protected void initData() {
         onGetRequest(Apis.URL_GET_USER_INFO_BY_USERID_GET, UserInfoBean.class);
     }
+    public void getUpdateNickName() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(UserInfoActivity.this);
+        View viewname = View.inflate(this, R.layout.alertdialog_nickname_item, null);
+        builder.setView(viewname);
+        Button update = viewname.findViewById(R.id.updata_btn);
+        Button cencal = viewname.findViewById(R.id.cancal_btn);
+        final EditText updateName = viewname.findViewById(R.id.updata_edix);
+        final RadioButton man = viewname.findViewById(R.id.manbutton);
+        final RadioButton woman = viewname.findViewById(R.id.womanbutton);
+        final EditText updateEmail = viewname.findViewById(R.id.updata_edix_email);
+        //修改
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = updateName.getText().toString().trim();
+                String email = updateEmail.getText().toString().trim();
+                if (name.equals("") || email.equals("")) {
+                    ToastUtil.showToast("输入不能为空");
+                } else {
+                    Map<String, String> map = new HashMap<>();
+                    boolean checked = man.isChecked();
+                    map.put("sex", String.valueOf(2));
+                    userSex.setText("女");
+                    if (checked) {
+                        map.put("sex", String.valueOf(1));
+                        userSex.setText("男");
+                    }
+                    map.put("nickName", name);
+                    map.put("email", email);
+                    onPostRequest(Apis.URL_MODIFY_USER_INFO_POST, map, UpdateUserInfoBean.class);
+                    userNikeName.setText(name);
+                    userEmail.setText(email);
+                }
+                dialog.dismiss();
+            }
+        });
+        //取消
+        cencal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
+    }
 
     @Override
     protected void onNetSuccess(Object data) {
@@ -162,6 +215,10 @@ public class UserInfoActivity extends BaseActivty {
             LoadHeadPicBean headPicBean = (LoadHeadPicBean) data;
             ToastUtil.showToast(headPicBean.getMessage());
             onGetRequest(Apis.URL_GET_USER_INFO_BY_USERID_GET, UserInfoBean.class);
+        }else if (data instanceof UpdateUserInfoBean) {
+            //上传头像
+            UpdateUserInfoBean updateUserInfoBean = (UpdateUserInfoBean) data;
+            ToastUtil.showToast(updateUserInfoBean.getMessage());
         }
     }
 
@@ -171,7 +228,7 @@ public class UserInfoActivity extends BaseActivty {
         Log.i("TAG",error);
     }
 
-    @OnClick({R.id.user_simple,R.id.user_pwd,R.id.user_return})
+    @OnClick({R.id.user_simple,R.id.user_pwd,R.id.user_return,R.id.update_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_simple:
@@ -183,6 +240,9 @@ public class UserInfoActivity extends BaseActivty {
                 break;
             case R.id.user_return:
                 finish();
+                break;
+            case R.id.update_info:
+                getUpdateNickName();
                 break;
             default:break;
         }

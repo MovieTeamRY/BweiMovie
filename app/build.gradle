@@ -93,8 +93,7 @@ dependencies {
     //旋转木马recyclerview
     implementation 'com.chenlittleping:recyclercoverflow:1.0.6'
     //加载视频
-
-    implementation 'cn.jzvd:jiaozivideoplayer:6.2.10'
+    implementation 'fm.jiecao:jiecaovideoplayer:5.5'
     implementation 'com.github.bumptech.glide:glide:3.8.0'
     //Eventbus依赖
     implementation 'org.greenrobot:eventbus:3.0.0'
