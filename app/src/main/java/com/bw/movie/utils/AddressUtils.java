@@ -102,7 +102,7 @@ public class AddressUtils {
         mlocationClient.stopLocation();
     }
     //放入经纬度就可以了
-    public String getAddress(double latitude, double longitude) {
+    /*public String getAddress(double latitude, double longitude) {
         String latLongString = null;
         try {
             List<Address> addList = null;
@@ -123,6 +123,6 @@ public class AddressUtils {
             e.printStackTrace();
         }
         return latLongString;
-    }
+    }*/
 
 }

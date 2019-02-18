@@ -155,12 +155,15 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         if(loadDialog!=null){
             CircularLoading.closeDialog(loadDialog);
         }
-        if(failDialog!=null){
-            CircularLoading.closeDialog(failDialog);
-        }
+
         if(error.equals("当前网络不可用，请检查网络状态")){
-            failDialog = CircularLoading.getInstance().showFailDialog(this, "糟糕，网络不给力呀！", true);
+            if(failDialog==null){
+                failDialog = CircularLoading.getInstance().showFailDialog(this, "糟糕，网络不给力呀！", true);
+            }
         }else{
+            if(failDialog!=null){
+                CircularLoading.closeDialog(failDialog);
+            }
             onNetFail(error);
         }
     }
