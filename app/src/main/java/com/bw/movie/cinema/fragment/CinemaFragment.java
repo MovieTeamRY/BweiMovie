@@ -85,8 +85,12 @@ public class CinemaFragment extends BaseFragment {
                     // 此处为得到焦点时的处理内容
                     //收回软件盘
                     Log.i("TAG","失去焦点");
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    //收起软键盘
+                    InputMethodManager imm = ( InputMethodManager ) v.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
+                    if ( imm.isActive( ) ) {
+                        imm.hideSoftInputFromWindow( v.getApplicationWindowToken( ) , 0 );
+
+                    }
                 }
             }
         });
@@ -147,6 +151,12 @@ public class CinemaFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.image_loc:
+                //收起软键盘
+                InputMethodManager imm = ( InputMethodManager ) view.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
+                if ( imm.isActive( ) ) {
+                    imm.hideSoftInputFromWindow( view.getApplicationWindowToken( ) , 0 );
+
+                }
                 //点击搜索地址
                 CityPicker.from(getActivity())
                     //activity或者fragment

@@ -94,8 +94,12 @@ public class FilmMoreActivity extends BaseActivty {
                     // 此处为得到焦点时的处理内容
                     //收回软件盘
                     Log.i("TAG","失去焦点");
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    //收起软键盘
+                    InputMethodManager imm = ( InputMethodManager ) v.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
+                    if ( imm.isActive( ) ) {
+                        imm.hideSoftInputFromWindow( v.getApplicationWindowToken( ) , 0 );
+
+                    }
                 }
             }
         });
@@ -208,6 +212,12 @@ public class FilmMoreActivity extends BaseActivty {
                 finish();
                 break;
             case R.id.image_loc:
+                //收起软键盘
+                InputMethodManager imm = ( InputMethodManager ) view.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
+                if ( imm.isActive( ) ) {
+                    imm.hideSoftInputFromWindow( view.getApplicationWindowToken( ) , 0 );
+
+                }
                 //TODO 点击定位
                 CityPicker.from(FilmMoreActivity.this)
                         //activity或者fragment

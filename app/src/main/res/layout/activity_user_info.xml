@@ -18,7 +18,18 @@
         android:layout_alignLeft="@id/user_relative_top"
         android:layout_marginTop="@dimen/dp_30"
         />
-
+        <TextView
+            android:id="@+id/update_info"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#fff"
+            android:text="修改信息"
+            android:gravity="center"
+            android:background="@drawable/cinema_tab_bg_slected"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_24"/>
     <RelativeLayout
         android:id="@+id/user_relative_top"
         android:layout_below="@id/text_user"
@@ -44,6 +55,8 @@
             android:id="@+id/user_simple"
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
+            fresco:roundAsCircle="true"
+            android:background="#ffffff"
             android:layout_alignParentRight="true"/>
         <View
             android:id="@+id/view01"

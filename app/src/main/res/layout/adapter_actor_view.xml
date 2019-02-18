@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_10">
+    <TextView
+        android:id="@+id/actor_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="演员"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#333333"
+        />
+    <TextView
+        android:id="@+id/actor_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="演员"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#333333"
+        android:layout_alignParentRight="true"
+        />
+</RelativeLayout>

@@ -107,7 +107,9 @@ public class PushActivity extends BaseActivty {
         }else if (data instanceof UpdateMessageBean) {
             UpdateMessageBean updateMessageBean = (UpdateMessageBean) data;
             if (updateMessageBean.isSuccess()||updateMessageBean!=null) {
-                count--;
+                if (count>0) {
+                    count--;
+                }
                 message.setText("系统消息（"+count+"条未读）");
                 pushAdapter.notif(position);
             }
