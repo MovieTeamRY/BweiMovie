@@ -55,6 +55,7 @@
             android:name=".film.activity.FilmDetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".home.activity.HomeActivity"
@@ -64,6 +65,7 @@
             android:name=".film.activity.FilmMoreActivity"
             android:theme="@style/DefaultCityPickerTheme" />
         <activity android:name=".cinema.activity.CinemaDetailActivity"
+            android:hardwareAccelerated="true"
             android:theme="@style/AppTheme.NoTitle_FullScreen" />
         <activity
             android:name=".wxapi.WXEntryActivity"
