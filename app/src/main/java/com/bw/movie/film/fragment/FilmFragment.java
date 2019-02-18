@@ -159,14 +159,11 @@ public class FilmFragment extends BaseFragment {
                 if (!hasFocus) {
                     // 此处为得到焦点时的处理内容
                     //收回软件盘
-                    Log.i("TAG","失去焦点");
                     InputMethodManager imm = ( InputMethodManager ) v.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
                     if ( imm.isActive( ) ) {
                         imm.hideSoftInputFromWindow( v.getApplicationWindowToken( ) , 0 );
 
                     }
-                   /* InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);*/
                 }
             }
         });
@@ -303,7 +300,7 @@ public class FilmFragment extends BaseFragment {
 
                         @Override
                         public void onCancel(){
-                            ToastUtil.showToast("取消选择");
+                            ToastUtil.showToast(getString(R.string.address_cancel_check));
                         }
 
                         @Override
@@ -348,7 +345,7 @@ public class FilmFragment extends BaseFragment {
     protected void onNetSuccess(Object data) {
         if (data instanceof RelaeseBean) {
             RelaeseBean relaeseBean = (RelaeseBean) data;
-            if (relaeseBean.getMessage().equals("查询成功")) {
+            if (relaeseBean.getMessage().equals(getString(R.string.selected_success))) {
                 result = relaeseBean.getResult();
                 int size = result.size();
                 if (size > 0) {
@@ -387,7 +384,7 @@ public class FilmFragment extends BaseFragment {
             }
         }else if(data instanceof HotFilmBean){
             HotFilmBean hotFilmBean= (HotFilmBean) data;
-            if(hotFilmBean.getMessage().equals("查询成功")){
+            if(hotFilmBean.getMessage().equals(getResources().getString(R.string.selected_success))){
                 List<HotFilmBean.ResultBean> result = hotFilmBean.getResult();
                 int size = result.size();
                 if(size>0){
@@ -408,7 +405,7 @@ public class FilmFragment extends BaseFragment {
             }
         }else if(data instanceof ScreenFilmBean){
             ScreenFilmBean screenFilmBean= (ScreenFilmBean) data;
-            if(screenFilmBean.getMessage().equals("查询成功")){
+            if(screenFilmBean.getMessage().equals(getResources().getString(R.string.selected_success))){
                 List<ScreenFilmBean.ResultBean> result = screenFilmBean.getResult();
                 int size = result.size();
                 if(size>0){

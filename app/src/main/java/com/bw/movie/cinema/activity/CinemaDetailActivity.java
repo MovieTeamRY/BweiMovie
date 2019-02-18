@@ -123,7 +123,7 @@ public class CinemaDetailActivity extends BaseActivty {
                 }
             }
         });
-        final String[] menu=new String[]{"详情","评论"};
+        final String[] menu=new String[]{getString(R.string.detail),getString(R.string.comment)};
         cinemaDetailFragment = new CinemaDetailFragment();
         cinemaCommentFragment = new CinemaCommentFragment();
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -286,7 +286,7 @@ public class CinemaDetailActivity extends BaseActivty {
                     RadioButton radioButton= (RadioButton) cinemaGroup.getChildAt(movieList.size()/2);
                     radioButton.setChecked(true);
                 }else{
-                    ToastUtil.showToast("没有影片信息");
+                    ToastUtil.showToast(getString(R.string.film_not_data));
                 }
             }
         }else if(data instanceof FilmSchedulBean){

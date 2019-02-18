@@ -160,7 +160,7 @@ public class LoginActivity extends BaseActivty {
                 phone = loginTextPhone.getText().toString().trim();
                 pwd = loginTextPwd.getText().toString().trim();
                 if (phone.equals("")|| pwd.equals("")){
-                    ToastUtil.showToast("账号或密码不能为空");
+                    ToastUtil.showToast(getString(R.string.login_rule));
                 }else {
                     if (RegularUtils.isMobile(phone)){
                         if (RegularUtils.isPassword(pwd)){
@@ -169,17 +169,17 @@ public class LoginActivity extends BaseActivty {
                             map.put("pwd", EncryptUtil.encrypt(pwd));
                             onPostRequest(Apis.URL_LOGIN_POST, map, LoginBean.class);
                         }else{
-                            ToastUtil.showToast("密码格式不正确，请重新输入");
+                            ToastUtil.showToast(getString(R.string.login_pwd_rule));
                         }
                     }else{
-                        ToastUtil.showToast("手机号格式不正确，请重新输入");
+                        ToastUtil.showToast(getString(R.string.login_phone_rule));
                     }
                 }
                 break;
             case R.id.login_weixin:
                 //微信登录
                 if (!WeiXinUtil.success(this)) {
-                    ToastUtil.showToast("请先安装应用");
+                    ToastUtil.showToast(getString(R.string.please_install));
                 } else {
                     //  验证
                     SendAuth.Req req = new SendAuth.Req();

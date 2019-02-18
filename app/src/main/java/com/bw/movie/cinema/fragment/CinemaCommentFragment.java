@@ -1,13 +1,9 @@
 package com.bw.movie.cinema.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bw.movie.Apis;
 import com.bw.movie.R;
@@ -74,8 +70,8 @@ public class CinemaCommentFragment extends BaseFragment {
     protected void onNetSuccess(Object data) {
         if(data instanceof CinemaCommentBean){
             CinemaCommentBean cinemaCommentBean= (CinemaCommentBean) data;
-            if(cinemaCommentBean.getMessage().equals("无数据")){
-                ToastUtil.showToast("没有更多数据了");
+            if(cinemaCommentBean.getMessage().equals(getString(R.string.none_data))){
+                ToastUtil.showToast(getString(R.string.not_has_more));
             }else if(cinemaCommentBean.getResult().size()>0){
                 if(page==1){
                     cinemaCommentAdapter.setList(cinemaCommentBean.getResult());

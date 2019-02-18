@@ -15,10 +15,7 @@ import android.widget.TextView;
 import com.bw.movie.R;
 import com.bw.movie.cinema.activity.CinemaDetailActivity;
 import com.bw.movie.cinema.bean.RecommCinemaBean;
-import com.bw.movie.utils.MessageBean;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +62,6 @@ public class RecommAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context,CinemaDetailActivity.class);
-                //EventBus.getDefault().postSticky(new MessageBean("detail_cinemaId",result.getId()));
                 intent.putExtra("id",result.getId());
                 context.startActivity(intent);
             }

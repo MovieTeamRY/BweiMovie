@@ -74,7 +74,7 @@ public class FeedBackActivity extends BaseActivty {
             case R.id.submission:
                 String trim = editFeedback.getText().toString().trim();
                 if (trim.equals("")) {
-                    ToastUtil.showToast("请输入意见反馈内容");
+                    ToastUtil.showToast(getString(R.string.feedback_text_toast));
                 } else {
                     Map<String, String> map = new HashMap<>();
                     map.put("content", trim);

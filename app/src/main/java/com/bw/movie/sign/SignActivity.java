@@ -139,9 +139,9 @@ public class SignActivity extends BaseActivty {
                 })
                         .setType(new boolean[]{true, true, true, false, false, false})
                         // 默认全部显示
-                        .setCancelText("取消")
+                        .setCancelText(getString(R.string.alter_pop_cancel))
                         //取消按钮文字
-                        .setSubmitText("确定")
+                        .setSubmitText(getString(R.string.alter_pop_sure))
                         //确认按钮文字
                         .setOutSideCancelable(true)
                         //点击屏幕，点在控件外部范围时，是否取消显示
@@ -168,7 +168,7 @@ public class SignActivity extends BaseActivty {
                 String email = signTextEmail.getText().toString().trim();
                 pwd = signTextPwd.getText().toString().trim();
                 if (name.equals("") || data.equals("") || phone.equals("") || email.equals("") || pwd.equals("")) {
-                    ToastUtil.showToast("请确认输入框是否为空");
+                    ToastUtil.showToast(getString(R.string.edit_not_can_empty));
                 } else {
                     if (RegularUtils.isMobile(phone)) {
                         if (RegularUtils.isEmail(email)) {
@@ -184,13 +184,13 @@ public class SignActivity extends BaseActivty {
                                 map.put("email", email);
                                 onPostRequest(Apis.URL_REGISTER_USER_POST, map, SignBean.class);
                             } else {
-                                ToastUtil.showToast("密码长度为6-20的数字或字母");
+                                ToastUtil.showToast(getString(R.string.pwd_rule));
                             }
                         } else {
-                            ToastUtil.showToast("请输入合法的邮箱号");
+                            ToastUtil.showToast(getString(R.string.email_rule));
                         }
                     } else {
-                        ToastUtil.showToast("请输入合法的手机号");
+                        ToastUtil.showToast(getString(R.string.phone_rule));
                     }
                 }
                 break;
