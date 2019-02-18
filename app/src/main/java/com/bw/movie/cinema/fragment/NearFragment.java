@@ -15,6 +15,8 @@ import com.bw.movie.cinema.adapter.NearAdapter;
 import com.bw.movie.cinema.bean.NearCinemaBean;
 import com.bw.movie.film.bean.CancalFollowMovieBean;
 import com.bw.movie.film.bean.FollowMovieBean;
+import com.bw.movie.login.LoginActivity;
+import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
 
@@ -102,12 +104,18 @@ public class NearFragment extends BaseFragment {
         }else if(data instanceof FollowMovieBean){
             FollowMovieBean followMovieBean= (FollowMovieBean) data;
             ToastUtil.showToast(followMovieBean.getMessage());
+            if(followMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }
             results.get(index).setFollowCinema(1);
             nearAdapter.setList(results);
             EventBus.getDefault().postSticky(new MessageBean("near",null));
         }else if(data instanceof CancalFollowMovieBean){
             CancalFollowMovieBean cancalFollowMovieBean= (CancalFollowMovieBean) data;
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());
+            if(cancalFollowMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
+                IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }
             results.get(index).setFollowCinema(2);
             nearAdapter.setList(results);
             EventBus.getDefault().postSticky(new MessageBean("near",null));

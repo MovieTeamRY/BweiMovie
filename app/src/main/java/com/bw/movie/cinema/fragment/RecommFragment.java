@@ -106,7 +106,7 @@ public class RecommFragment extends BaseFragment {
             }
         }else if(data instanceof FollowMovieBean){
             FollowMovieBean followMovieBean= (FollowMovieBean) data;
-            if(followMovieBean.getMessage().equals("请先登陆")){
+            if(followMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
             }
             ToastUtil.showToast(followMovieBean.getMessage());
@@ -116,7 +116,7 @@ public class RecommFragment extends BaseFragment {
         }else if(data instanceof CancalFollowMovieBean){
             CancalFollowMovieBean cancalFollowMovieBean= (CancalFollowMovieBean) data;
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());
-            if(cancalFollowMovieBean.getMessage().equals("请先登陆")){
+            if(cancalFollowMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
             }
             resultList.get(index).setFollowCinema(2);

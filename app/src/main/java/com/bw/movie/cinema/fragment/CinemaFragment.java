@@ -1,7 +1,5 @@
 package com.bw.movie.cinema.fragment;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
@@ -11,9 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -84,8 +80,6 @@ public class CinemaFragment extends BaseFragment {
                 if (!hasFocus) {
                     // 此处为得到焦点时的处理内容
                     //收回软件盘
-                    Log.i("TAG","失去焦点");
-                    //收起软键盘
                     InputMethodManager imm = ( InputMethodManager ) v.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
                     if ( imm.isActive( ) ) {
                         imm.hideSoftInputFromWindow( v.getApplicationWindowToken( ) , 0 );
@@ -97,7 +91,7 @@ public class CinemaFragment extends BaseFragment {
         imageLoc.setBackgroundResource(R.mipmap.cinema_detail_icon_location_default);
         textLoc.setTextColor(Color.parseColor("#333333"));
         //添加fragment
-        final String[] menu=new String[]{"推荐影院","附近影院"};
+        final String[] menu=new String[]{getString(R.string.recomm_cinema),getString(R.string.near_cinema)};
         cinemaViewpager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
@@ -174,7 +168,7 @@ public class CinemaFragment extends BaseFragment {
 
                         @Override
                         public void onCancel(){
-                            ToastUtil.showToast("取消选择");
+                            ToastUtil.showToast(getString(R.string.address_cancel_check));
                         }
 
                         @Override

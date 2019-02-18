@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -16,9 +15,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -148,7 +145,7 @@ public class SeatActivity extends BaseActivty {
                     onPostRequest(Apis.URL_PAY_POST, map, WXPayBean.class);
                 } else if (pay == 2) {
                     //支付宝支付
-                    ToastUtil.showToast("支付宝支付暂时未做");
+                    ToastUtil.showToast(getString(R.string.zhi_pay_non_support));
                 }
             }
         });
@@ -271,7 +268,7 @@ public class SeatActivity extends BaseActivty {
     protected void onNetSuccess(Object data) {
         if (data instanceof PayBean) {
             payBean = (PayBean) data;
-            if (payBean.getMessage().equals("请先登陆")) {
+            if (payBean.getMessage().equals(getString(R.string.please_login))) {
                 IntentUtils.getInstence().intent(this, LoginActivity.class);
             } else if (payBean.isSuccess() && payBean != null) {
                 ToastUtil.showToast(payBean.getMessage());
@@ -306,10 +303,6 @@ public class SeatActivity extends BaseActivty {
                 map.put("amount", String.valueOf(numCount));
                 map.put("sign", Md5Utils.MD5(preferences.getString("UserId", null) + resultBean.getId() + numCount + "movie"));
                 onPostRequest(Apis.URL_BUY_MOVIE_TICKET_POST, map, PayBean.class);
-               /*//获取pop支付弹框
-                getPayPopvView();
-                //支付
-                popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);*/
                 break;
             case R.id.pay_fail:
                 //取消

@@ -1,7 +1,6 @@
 package com.bw.movie.cinema.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -15,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bw.movie.R;
-import com.bw.movie.cinema.activity.SeatActivity;
 import com.bw.movie.cinema.bean.FilmSchedulBean;
 
 import java.util.ArrayList;
@@ -51,7 +49,7 @@ public class CinemaSchedulAdapter extends RecyclerView.Adapter<RecyclerView.View
         final FilmSchedulBean.ResultBean resultBean = list.get(i);
         ViewHolder holder= (ViewHolder) viewHolder;
         if(resultBean.getStatus()==2){
-            holder.schedulingLoc.setText("影片已过期");
+            holder.schedulingLoc.setText(context.getString(R.string.film_overdue));
         }else if(resultBean.getStatus()==1){
             holder.schedulingLoc.setText(resultBean.getScreeningHall());
             holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -60,9 +58,6 @@ public class CinemaSchedulAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (click!=null){
                         click.onClick(list.get(i));
                     }
-//                    Intent intent=new Intent(context,SeatActivity.class);
-//                    intent.putExtra("scheduleId",resultBean.getId());
-//                    context.startActivity(intent);
                 }
             });
             holder.schedulingNext.setOnClickListener(new View.OnClickListener() {
@@ -71,9 +66,6 @@ public class CinemaSchedulAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (click!=null){
                         click.onClick(list.get(i));
                     }
-                    /*Intent intent=new Intent(context,SeatActivity.class);
-                    intent.putExtra("scheduleId",resultBean.getId());
-                    context.startActivity(intent);*/
                 }
             });
         }
