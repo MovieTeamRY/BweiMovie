@@ -50,13 +50,19 @@ public class RecommFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        //请求数据
+        onGetRequest(String.format(Apis.URL_FIND_RECOMMEND_CINEMAS_GET, 1), RecommCinemaBean.class);
+    }
+
+    @Override
     protected void initData() {
         resultList=new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recommCinemaRecycler.setLayoutManager(linearLayoutManager);
         recommAdapter = new RecommAdapter(getContext());
         recommCinemaRecycler.setAdapter(recommAdapter);
-
         recommAdapter.setPriseClick(new RecommAdapter.PriseClick() {
             @Override
             public void onClick(int position, List<RecommCinemaBean.Result> list, int followCinema) {
@@ -71,8 +77,6 @@ public class RecommFragment extends BaseFragment {
                 }
             }
         });
-        //请求数据
-        onGetRequest(String.format(Apis.URL_FIND_RECOMMEND_CINEMAS_GET, 1), RecommCinemaBean.class);
     }
 
     @Override
