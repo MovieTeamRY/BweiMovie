@@ -53,13 +53,14 @@ public class RevirwAdapter extends RecyclerView.Adapter<RevirwAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Uri uri =Uri.parse(list.get(position).getCommentHeadPic());
+        final RevirwBean.ResultBean resultBean = list.get(position);
+        Uri uri =Uri.parse(resultBean.getCommentHeadPic());
         holder.imageHeader.setImageURI(uri);
-        holder.name.setText(list.get(position).getCommentUserName());
-        holder.contentText.setText(list.get(position).getCommentContent());
-        holder.dateText.setText(DateTimeUtil.changeTime(list.get(position).getCommentTime()));
-        holder.pariseNum.setText(list.get(position).getGreatNum()+"");
-        holder.commentNum.setText(list.get(position).getReplyNum()+"");
+        holder.name.setText(resultBean.getCommentUserName());
+        holder.contentText.setText(resultBean.getCommentContent());
+        holder.dateText.setText(DateTimeUtil.changeTime(resultBean.getCommentTime()));
+        holder.pariseNum.setText(resultBean.getGreatNum()+"");
+        holder.commentNum.setText(resultBean.getReplyNum()+"");
         if (list.get(position).getIsGreat()==0){
             holder.praise.setBackgroundResource(R.mipmap.com_icon_praise_default);
         }else if(list.get(position).getIsGreat()==1){
@@ -78,9 +79,10 @@ public class RevirwAdapter extends RecyclerView.Adapter<RevirwAdapter.ViewHolder
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //holder.film_comment_recyclerview.setVisibility(View.VISIBLE);
                 if (click!=null){
-                    click.onClick(list.get(position).getCommentId(),holder.film_comment_recyclerview);
+                    if(resultBean.getReplyNum()>0){
+                        click.onClick( resultBean.getCommentId(),holder.film_comment_recyclerview);
+                    }
                 }
             }
         });
