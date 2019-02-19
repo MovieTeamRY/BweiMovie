@@ -96,7 +96,7 @@ public class MineFragment extends BaseFragment {
             if(userInfoBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 editor.putString("SessionId","").commit();
                 userSimple.setImageURI(Uri.parse(String.valueOf(R.mipmap.login)));
-                userName.setText(R.string.not_login);
+                userName.setText(R.string.click_login);
             }else{
                 userSimple.setImageURI(Uri.parse(resultBean.getHeadPic()));
                 userName.setText(resultBean.getNickName());

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,8 +13,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -118,6 +115,19 @@ public class FilmDetailsActivity extends BaseActivty {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        movieId = intent.getIntExtra("id", 0);
+        //请求查看电影信息的接口
+        onGetRequest(String.format(Apis.URL_FIND_MOVIE_BY_ID_GET, movieId), DetailsBean.class);
+        //请求电影详情接口
+        onGetRequest(String.format(Apis.URL_FIND_MOVIE_DETAIL_GET, movieId), FilmDetailsBean.class);
+        //请求电影评论接口
+        init();
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
         //绑定控件
         ButterKnife.bind(this);
@@ -208,7 +218,7 @@ public class FilmDetailsActivity extends BaseActivty {
                 write.setVisibility(View.VISIBLE);
                 String trim = edit_write.getText().toString().trim();
                 if (trim.equals("")) {
-                    ToastUtil.showToast("评论内容不能为空");
+                    ToastUtil.showToast(getString(R.string.review_not_rule));
                 } else {
                     Map<String, String> map = new HashMap<>();
                     map.put("movieId", String.valueOf(movieId));
@@ -260,7 +270,6 @@ public class FilmDetailsActivity extends BaseActivty {
         //TODO 创建适配器
         stillsAdapter = new StillsAdapter(this);
         stills_recyclerview.setAdapter(stillsAdapter);
-
     }
 
     /**
@@ -280,7 +289,6 @@ public class FilmDetailsActivity extends BaseActivty {
         //TODO 创建适配器
         noticeAdapter = new NoticeAdapter(this);
         notice_recyclerview.setAdapter(noticeAdapter);
-
     }
 
     /**
@@ -398,14 +406,7 @@ public class FilmDetailsActivity extends BaseActivty {
 
     @Override
     protected void initData() {
-        Intent intent = getIntent();
-        movieId = intent.getIntExtra("id", 0);
-        //请求查看电影信息的接口
-        onGetRequest(String.format(Apis.URL_FIND_MOVIE_BY_ID_GET, movieId), DetailsBean.class);
-        //请求电影详情接口
-        onGetRequest(String.format(Apis.URL_FIND_MOVIE_DETAIL_GET, movieId), FilmDetailsBean.class);
-        //请求电影评论接口
-        init();
+
     }
 
     /**
@@ -486,13 +487,16 @@ public class FilmDetailsActivity extends BaseActivty {
             ToastUtil.showToast(revirwBean.getMessage());
         } else if (data instanceof PraiseBean) {
             PraiseBean praiseBean = (PraiseBean) data;
+            if(praiseBean.getMessage().equals(getString(R.string.please_login))){
+                IntentUtils.getInstence().intent(this,LoginActivity.class);
+            }else
             if (praiseBean != null && praiseBean.isSuccess()) {
                 revirwAdapter.addWhetherGreat(i);
             }
             ToastUtil.showToast(praiseBean.getMessage());
         } else if (data instanceof FollowMovieBean) {
             FollowMovieBean followMovieBean = (FollowMovieBean) data;
-            if(followMovieBean.getMessage().equals("请先登陆")){
+            if(followMovieBean.getMessage().equals(getString(R.string.please_login))){
                 IntentUtils.getInstence().intent(this,LoginActivity.class);
             }else
             if (followMovieBean != null && followMovieBean.isSuccess()) {
@@ -502,7 +506,9 @@ public class FilmDetailsActivity extends BaseActivty {
             ToastUtil.showToast(followMovieBean.getMessage());
         } else if (data instanceof CancalFollowMovieBean) {
             CancalFollowMovieBean cancalFollowMovieBean = (CancalFollowMovieBean) data;
-            if (cancalFollowMovieBean != null && cancalFollowMovieBean.isSuccess()) {
+            if(cancalFollowMovieBean.getMessage().equals(getString(R.string.please_login))){
+                IntentUtils.getInstence().intent(this,LoginActivity.class);
+            }else if (cancalFollowMovieBean != null && cancalFollowMovieBean.isSuccess()) {
                 result.setFollowMovie(2);
                 imageDetailSelect.setBackgroundResource(R.mipmap.com_icon_heart_default);
             }

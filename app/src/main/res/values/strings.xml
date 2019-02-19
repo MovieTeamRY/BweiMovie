@@ -56,4 +56,8 @@
     <string name="auto_login">自动登录</string>
     <string name="fast_sign">快速注册</string>
     <string name="login_pwd">登录密码</string>
+    <string name="send">发送</string>
+    <string name="write_review">写评论</string>
+    <string name="film_review">影评</string>
+    <string name="review_not_rule">评论内容不能为空</string>
 </resources>
