@@ -85,6 +85,7 @@ public class FilmMoreActivity extends BaseActivty {
 
     @Override
     protected void initData() {
+
         //edittext焦点事件
         edit_search.setOnFocusChangeListener(new android.view.View.
                 OnFocusChangeListener() {
@@ -193,11 +194,13 @@ public class FilmMoreActivity extends BaseActivty {
         super.onDestroy();
         bind.unbind();
         EventBus.getDefault().unregister(this);
+        AddressUtils.getAddressUtils().StopLocation();
     }
     @Subscribe(threadMode=ThreadMode.MAIN,sticky = true)
     public void getAddress(MessageBean messageBean){
         if(messageBean.getId().equals("address")){
-            textLoc.setText(String.valueOf(messageBean.getObject()));
+            String[] str = (String[]) messageBean.getObject();
+            textLoc.setText(str[0]);
             AddressUtils.getAddressUtils().StopLocation();
         }else if(messageBean.getId().equals("isChange")){
             edit_search.setVisibility(View.GONE);
@@ -218,6 +221,7 @@ public class FilmMoreActivity extends BaseActivty {
                     imm.hideSoftInputFromWindow( view.getApplicationWindowToken( ) , 0 );
 
                 }
+                AddressUtils.getAddressUtils().getAddressDetail(this);
                 //TODO 点击定位
                 CityPicker.from(FilmMoreActivity.this)
                         //activity或者fragment
@@ -228,7 +232,7 @@ public class FilmMoreActivity extends BaseActivty {
                         .setOnPickListener(new OnPickListener() {
                             @Override
                             public void onPick(int position, City data) {
-                                EventBus.getDefault().postSticky(new MessageBean("address", data.getName()));
+                                EventBus.getDefault().postSticky(new MessageBean("address",new String[]{data.getName()}));
                                 textLoc.setText(data.getName());
                                 ToastUtil.showToast(data.getName());
                             }
@@ -255,5 +259,4 @@ public class FilmMoreActivity extends BaseActivty {
         }
 
     }
-
 }

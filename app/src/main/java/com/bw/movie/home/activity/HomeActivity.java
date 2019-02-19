@@ -4,20 +4,30 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
 import com.bw.movie.cinema.fragment.CinemaFragment;
 import com.bw.movie.film.fragment.FilmFragment;
+import com.bw.movie.home.bean.TokenPushBean;
 import com.bw.movie.mine.fragment.MineFragment;
 import com.bw.movie.utils.AddressUtils;
 import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.ToastUtil;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.common.Constants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,23 +49,58 @@ public class HomeActivity extends BaseActivty {
     private FilmFragment filmFragment;
     private CinemaFragment cinemaFragment;
     private MineFragment mineFragment;
+    private String token;
 
     @Override
     protected void onNetSuccess(Object data) {
-
+        if (data instanceof TokenPushBean){
+            TokenPushBean tokenPushBean  = (TokenPushBean) data;
+            ToastUtil.showToast(tokenPushBean.getMessage());
+        }
     }
-
     @Override
     protected void onNetFail(String error) {
 
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        //获取token值
+        Map<String, String> map=new HashMap<>();
+        map.put("token",token);
+        map.put("os",String.valueOf(1));
+        onPostRequest(Apis.URL_UP_LOAD_PUSH_TOKEN_POST,map,TokenPushBean.class);
+    }
+
+    @Override
     protected void initData() {
+        //信鸽推送
+        XGPushConfig.enableDebug(this,true);
+        XGPushConfig.enableOtherPush(getApplicationContext(), true);
+        XGPushConfig.setHuaweiDebug(true);
+        XGPushManager.registerPush(getApplicationContext(),
+                new XGIOperateCallback() {
+                    @Override
+                    public void onSuccess(Object data, int flag) {
+                        token = (String) data;
+                        Log.w(Constants.LogTag, "+++ register push sucess. token:" + data + "flag" + flag);
+                    }
+                    @Override
+                    public void onFail(Object data, int errCode, String msg) {
+                        Log.w(Constants.LogTag,
+                                "+++ register push fail. token:" + data
+                                        + ", errCode:" + errCode + ",msg:"
+                                        + msg);
+                    }
+                });
+        // 获取token
+        XGPushConfig.getToken(this);
+        //创建fragment
         filmFragment = new FilmFragment();
         cinemaFragment = new CinemaFragment();
         mineFragment = new MineFragment();
-        AddressUtils.getAddressUtils().getAddressDetail(this);
+        //AddressUtils.getAddressUtils().getAddressDetail(this);
         //fragment管理器
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

@@ -25,8 +25,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 
     // 通知展示
     @Override
-    public void onNotifactionShowedResult(Context context,
-                                          XGPushShowedResult notifiShowedRlt) {
+    public void onNotifactionShowedResult(Context context, XGPushShowedResult notifiShowedRlt) {
         if (context == null || notifiShowedRlt == null) {
             return;
         }
@@ -156,7 +155,6 @@ public class MessageReceiver extends XGPushBaseReceiver {
                     String value = obj.getString("key");
                     Log.d(LogTag, "get custom value:" + value);
                 }
-                // ...
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -51,34 +51,6 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         initView(savedInstanceState);
         //添加数据
         initData();
-        //信鸽推送
-        XGPushConfig.enableDebug(this,true);
-        XGPushConfig.enableOtherPush(getApplicationContext(), true);
-        XGPushConfig.setHuaweiDebug(true);
-        XGPushManager.registerPush(getApplicationContext(),
-                new XGIOperateCallback() {
-                    @Override
-                    public void onSuccess(Object data, int flag) {
-                        Log.w(Constants.LogTag, "+++ register push sucess. token:" + data + "flag" + flag);
-
-                      /*  m.obj = "+++ register push sucess. token:" + data;
-                        m.sendToTarget();*/
-                    }
-
-                    @Override
-                    public void onFail(Object data, int errCode, String msg) {
-                        Log.w(Constants.LogTag,
-                                "+++ register push fail. token:" + data
-                                        + ", errCode:" + errCode + ",msg:"
-                                        + msg);
-                       /* m.obj = "+++ register push fail. token:" + data
-                                + ", errCode:" + errCode + ",msg:" + msg;
-                        m.sendToTarget();*/
-                    }
-                });
-
-        // 获取token
-        XGPushConfig.getToken(this);
     }
     /**
      * 注销页面 解绑

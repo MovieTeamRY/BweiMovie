@@ -54,6 +54,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class FilmDetailsActivity extends BaseActivty {
     @BindView(R.id.bg_image_detail)
@@ -348,6 +349,7 @@ public class FilmDetailsActivity extends BaseActivty {
             @Override
             public void onClick(View v) {
                 nopicePop.dismiss();
+                JCVideoPlayerStandard.releaseAllVideos();
             }
         });
     }
@@ -589,4 +591,9 @@ public class FilmDetailsActivity extends BaseActivty {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JCVideoPlayerStandard.releaseAllVideos();
+    }
 }

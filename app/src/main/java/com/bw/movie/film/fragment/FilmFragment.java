@@ -151,6 +151,8 @@ public class FilmFragment extends BaseFragment {
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
+        //定位
+        AddressUtils.getAddressUtils().getAddressDetail(getActivity());
         //edittext焦点事件
         editSearch.setOnFocusChangeListener(new android.view.View.
                 OnFocusChangeListener() {
@@ -264,7 +266,9 @@ public class FilmFragment extends BaseFragment {
     @Subscribe(threadMode=ThreadMode.MAIN,sticky = true)
     public void getAddress(MessageBean messageBean){
         if(messageBean.getId().equals("address")){
-            textLoc.setText(String.valueOf(messageBean.getObject()));
+            String[] str = (String[]) messageBean.getObject();
+            textLoc.setText(str[0]);
+            AddressUtils.getAddressUtils().StopLocation();
         }else
         if(messageBean.getId().equals("isChange")){
             //搜索框的来回变换
@@ -283,6 +287,7 @@ public class FilmFragment extends BaseFragment {
                     imm.hideSoftInputFromWindow( view.getApplicationWindowToken( ) , 0 );
 
                 }
+                AddressUtils.getAddressUtils().getAddressDetail(getActivity());
                 //TODO 点击定位
                 CityPicker.from(getActivity())
                     //activity或者fragment
@@ -293,7 +298,7 @@ public class FilmFragment extends BaseFragment {
                     .setOnPickListener(new OnPickListener() {
                         @Override
                         public void onPick(int position, City data) {
-                            EventBus.getDefault().postSticky(new MessageBean("address",data.getName()));
+                            EventBus.getDefault().postSticky(new MessageBean("address",new String[]{data.getName()}));
                             textLoc.setText(data.getName());
                             ToastUtil.showToast(data.getName());
                         }
@@ -440,5 +445,6 @@ public class FilmFragment extends BaseFragment {
         unbinder.unbind();
         EventBus.getDefault().unregister(this);
         handler.removeMessages(0);
+        AddressUtils.getAddressUtils().StopLocation();
     }
 }

@@ -65,8 +65,8 @@ public class AddressUtils {
                         cityCode = aMapLocation.getCityCode();
                         CityPicker.from((BaseActivty) activity).locateComplete(new LocatedCity(city, province,cityCode), LocateState.SUCCESS);
                         //String address = getAddress(longitude,latitude);
-                        EventBus.getDefault().postSticky(new MessageBean("address",city));
-                        EventBus.getDefault().postSticky(new MessageBean("location",new double[]{latitude,longitude}));
+                        EventBus.getDefault().postSticky(new MessageBean("address",new String[]{city,String.valueOf(latitude),String.valueOf(longitude)}));
+                       // EventBus.getDefault().postSticky(new MessageBean("location",new double[]{latitude,longitude}));
                     }
                 }
             }

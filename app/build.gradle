@@ -17,10 +17,10 @@ android {
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
         }*/
 
-        manifestPlaceholders = [
+      /*  manifestPlaceholders = [
                 XG_ACCESS_ID:"2100300660",
                 XG_ACCESS_KEY :"A44FJ9N7N9EY",
-        ]
+        ]*/
         greendao {
             schemaVersion 1  //版本
             daoPackage 'com.bw.movie.greendao.greendao' // 一般为app包名+自动生成文件的包名

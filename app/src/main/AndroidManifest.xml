@@ -63,6 +63,7 @@
             android:theme="@style/DefaultCityPickerTheme" />
         <activity
             android:name=".film.activity.FilmMoreActivity"
+            android:hardwareAccelerated="true"
             android:theme="@style/DefaultCityPickerTheme" />
         <activity android:name=".cinema.activity.CinemaDetailActivity"
             android:hardwareAccelerated="true"

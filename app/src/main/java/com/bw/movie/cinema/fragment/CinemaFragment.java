@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.utils.AddressUtils;
 import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
@@ -134,7 +135,9 @@ public class CinemaFragment extends BaseFragment {
     @Subscribe(threadMode=ThreadMode.MAIN,sticky = true)
     public void getAddress(MessageBean messageBean){
         if(messageBean.getId().equals("address")){
-            textLoc.setText(String.valueOf(messageBean.getObject()));
+            String[] str = (String[]) messageBean.getObject();
+            textLoc.setText(str[0]);
+            AddressUtils.getAddressUtils().StopLocation();
         }else if(messageBean.getId().equals("isChange")){
             editSearch.setVisibility(View.GONE);
             textSearch.setVisibility(View.GONE);
@@ -149,8 +152,8 @@ public class CinemaFragment extends BaseFragment {
                 InputMethodManager imm = ( InputMethodManager ) view.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
                 if ( imm.isActive( ) ) {
                     imm.hideSoftInputFromWindow( view.getApplicationWindowToken( ) , 0 );
-
                 }
+                AddressUtils.getAddressUtils().getAddressDetail(getActivity());
                 //点击搜索地址
                 CityPicker.from(getActivity())
                     //activity或者fragment
@@ -162,7 +165,8 @@ public class CinemaFragment extends BaseFragment {
                         @Override
                         public void onPick(int position, City data) {
                             textLoc.setText(data.getName());
-                            EventBus.getDefault().postSticky(new MessageBean("address",data.getName()));
+                            EventBus.getDefault().postSticky(new MessageBean("address",new String[]{data.getName()}));
+                            //EventBus.getDefault().postSticky(new MessageBean("address",data.getName()));
                             ToastUtil.showToast(data.getName());
                         }
 
@@ -208,5 +212,6 @@ public class CinemaFragment extends BaseFragment {
         super.onDestroyView();
         unbinder.unbind();
         EventBus.getDefault().unregister(this);
+        AddressUtils.getAddressUtils().StopLocation();
     }
 }
