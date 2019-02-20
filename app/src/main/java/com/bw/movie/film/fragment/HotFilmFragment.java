@@ -46,6 +46,21 @@ public class HotFilmFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //请求热门数据
+        mapge=1;
+        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
+    }
+
+    @Override
+    protected void initView(View view) {
+        unbinder = ButterKnife.bind(this, view);
+        mapge=1;
         LinearLayoutManager hotFilmManager=new LinearLayoutManager(getContext());
         hotFilmManager.setOrientation(OrientationHelper.VERTICAL);
         hotXRecycleview.setLayoutManager(hotFilmManager);
@@ -55,12 +70,12 @@ public class HotFilmFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 mapge=1;
-                initData();
+               initData();
             }
 
             @Override
             public void onLoadMore() {
-                initData();
+               initData();
             }
         });
         //创建适配器
@@ -88,22 +103,7 @@ public class HotFilmFragment extends BaseFragment {
                 getActivity().startActivity(intent);
             }
         });
-        mapge=1;
         //请求热门数据
-        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //请求热门数据
-        mapge=1;
-        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
-    }
-
-    @Override
-    protected void initView(View view) {
-        unbinder = ButterKnife.bind(this, view);
     }
 
     @Override

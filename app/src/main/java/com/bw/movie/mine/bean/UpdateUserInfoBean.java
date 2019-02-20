@@ -49,6 +49,7 @@ public class UpdateUserInfoBean {
         private int id;
         private String nickName;
         private int sex;
+        private String email;
 
         public int getId() {
             return id;
@@ -72,6 +73,14 @@ public class UpdateUserInfoBean {
 
         public void setSex(int sex) {
             this.sex = sex;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
         }
     }
 }

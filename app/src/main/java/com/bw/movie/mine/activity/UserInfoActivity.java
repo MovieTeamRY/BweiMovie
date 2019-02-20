@@ -71,6 +71,7 @@ public class UserInfoActivity extends BaseActivty {
     private final int REQUESTCODE_PICK = 300;
     private final int REQUESTCODE_SUCCESS = 200;
     private AlertDialog dialog;
+    private UserInfoBean.ResultBean resultBean;
 
     @Override
     protected int getLayoutResId() {
@@ -154,6 +155,15 @@ public class UserInfoActivity extends BaseActivty {
         final RadioButton man = viewname.findViewById(R.id.manbutton);
         final RadioButton woman = viewname.findViewById(R.id.womanbutton);
         final EditText updateEmail = viewname.findViewById(R.id.updata_edix_email);
+        updateName.setText(resultBean.getNickName());
+        if (resultBean.getSex()==1){
+            man.setChecked(true);
+            woman.setChecked(false);
+        }else if (resultBean.getSex()==2){
+            man.setChecked(false);
+            woman.setChecked(true);
+        }
+        updateEmail.setText(resultBean.getEmail());
         //修改
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +205,7 @@ public class UserInfoActivity extends BaseActivty {
     protected void onNetSuccess(Object data) {
         if (data instanceof UserInfoBean) {
             UserInfoBean userInfoBean = (UserInfoBean) data;
-            UserInfoBean.ResultBean resultBean = userInfoBean.getResult();
+            resultBean = userInfoBean.getResult();
             if(!userInfoBean.getMessage().equals("请先登陆")){
                 userSimple.setImageURI(Uri.parse(resultBean.getHeadPic()));
                 userNikeName.setText(resultBean.getNickName());
@@ -216,8 +226,12 @@ public class UserInfoActivity extends BaseActivty {
             ToastUtil.showToast(headPicBean.getMessage());
             onGetRequest(Apis.URL_GET_USER_INFO_BY_USERID_GET, UserInfoBean.class);
         }else if (data instanceof UpdateUserInfoBean) {
-            //上传头像
+            //修改信息
             UpdateUserInfoBean updateUserInfoBean = (UpdateUserInfoBean) data;
+            UpdateUserInfoBean.ResultBean result = updateUserInfoBean.getResult();
+            resultBean.setSex(result.getSex());
+            resultBean.setNickName(result.getNickName());
+            resultBean.setEmail(result.getEmail());
             ToastUtil.showToast(updateUserInfoBean.getMessage());
         }
     }
