@@ -8,6 +8,7 @@ import android.view.View;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.base.MyApplication;
 import com.bw.movie.cinema.adapter.NearAdapter;
 import com.bw.movie.cinema.bean.NearCinemaBean;
 import com.bw.movie.film.bean.CancalFollowMovieBean;
@@ -56,7 +57,7 @@ public class NearFragment extends BaseFragment {
     @Override
     protected void initData() {
         results=new ArrayList<>();
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MyApplication.getApplication());
         nearCinemaRecycler.setLayoutManager(linearLayoutManager);
         nearAdapter = new NearAdapter(getContext());
         nearCinemaRecycler.setAdapter(nearAdapter);
@@ -84,6 +85,8 @@ public class NearFragment extends BaseFragment {
             latitude=str[1];
             longtitude=str[2];
             //请求数据
+            onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,Double.valueOf(latitude),Double.valueOf(longtitude),1),NearCinemaBean.class);
+        }else if(messageBean.getId().equals("recom")){
             onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,Double.valueOf(latitude),Double.valueOf(longtitude),1),NearCinemaBean.class);
         }
     }
@@ -113,6 +116,7 @@ public class NearFragment extends BaseFragment {
                 results.get(index).setFollowCinema(1);
                 nearAdapter.setList(results);
             }
+            EventBus.getDefault().post(new MessageBean("near",""));
         }else if(data instanceof CancalFollowMovieBean){
             CancalFollowMovieBean cancalFollowMovieBean= (CancalFollowMovieBean) data;
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());
@@ -122,6 +126,7 @@ public class NearFragment extends BaseFragment {
                 results.get(index).setFollowCinema(2);
                 nearAdapter.setList(results);
             }
+            EventBus.getDefault().post(new MessageBean("near",""));
         }
     }
 

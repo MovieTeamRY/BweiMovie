@@ -8,6 +8,7 @@ import android.view.View;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.base.MyApplication;
 import com.bw.movie.cinema.adapter.RecommAdapter;
 import com.bw.movie.cinema.bean.RecommCinemaBean;
 import com.bw.movie.film.bean.CancalFollowMovieBean;
@@ -16,6 +17,7 @@ import com.bw.movie.login.LoginActivity;
 import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,7 +58,7 @@ public class RecommFragment extends BaseFragment {
     @Override
     protected void initData() {
         resultList=new ArrayList<>();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyApplication.getApplication());
         recommCinemaRecycler.setLayoutManager(linearLayoutManager);
         recommAdapter = new RecommAdapter(getContext());
         recommCinemaRecycler.setAdapter(recommAdapter);
@@ -85,8 +87,10 @@ public class RecommFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    public void getMessage(MessageBean messageBean){
-
+    public void getData(MessageBean messageBean){
+        if(messageBean.getId().equals("near")){
+            onGetRequest(String.format(Apis.URL_FIND_RECOMMEND_CINEMAS_GET, 1), RecommCinemaBean.class);
+        }
     }
 
     @Override
@@ -105,6 +109,7 @@ public class RecommFragment extends BaseFragment {
                 resultList.get(index).setFollowCinema(1);
                 recommAdapter.setList(resultList);
             }
+            EventBus.getDefault().post(new MessageBean("recom",""));
             ToastUtil.showToast(followMovieBean.getMessage());
         }else if(data instanceof CancalFollowMovieBean){
             CancalFollowMovieBean cancalFollowMovieBean= (CancalFollowMovieBean) data;
@@ -115,6 +120,7 @@ public class RecommFragment extends BaseFragment {
                 resultList.get(index).setFollowCinema(2);
                 recommAdapter.setList(resultList);
             }
+            EventBus.getDefault().post(new MessageBean("recom",""));
         }
     }
 

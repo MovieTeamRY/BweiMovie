@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.base.MyApplication;
 import com.bw.movie.purchase.adapter.PurchseAdapter;
 import com.bw.movie.purchase.bean.FilmSchedulingBean;
 import com.bw.movie.utils.IntentUtils;
@@ -39,7 +40,7 @@ public class PurchaseActivity extends BaseActivty {
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyApplication.getApplication());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         fillRecyclerview.setLayoutManager(linearLayoutManager);
         //创建适配器
