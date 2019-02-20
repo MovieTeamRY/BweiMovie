@@ -1,19 +1,14 @@
 package com.bw.movie.cinema.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.cinema.adapter.NearAdapter;
 import com.bw.movie.cinema.adapter.RecommAdapter;
-import com.bw.movie.cinema.bean.NearCinemaBean;
 import com.bw.movie.cinema.bean.RecommCinemaBean;
 import com.bw.movie.film.bean.CancalFollowMovieBean;
 import com.bw.movie.film.bean.FollowMovieBean;
@@ -91,9 +86,7 @@ public class RecommFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     public void getMessage(MessageBean messageBean){
-        if(messageBean.getId().equals("near")){
-            onGetRequest(String.format(Apis.URL_FIND_RECOMMEND_CINEMAS_GET, 1), RecommCinemaBean.class);
-        }
+
     }
 
     @Override
@@ -108,20 +101,20 @@ public class RecommFragment extends BaseFragment {
             FollowMovieBean followMovieBean= (FollowMovieBean) data;
             if(followMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }else if(followMovieBean.getMessage().equals(getString(R.string.success_attent))){
+                resultList.get(index).setFollowCinema(1);
+                recommAdapter.setList(resultList);
             }
             ToastUtil.showToast(followMovieBean.getMessage());
-            resultList.get(index).setFollowCinema(1);
-            recommAdapter.setList(resultList);
-            EventBus.getDefault().postSticky(new MessageBean("recomm",null));
         }else if(data instanceof CancalFollowMovieBean){
             CancalFollowMovieBean cancalFollowMovieBean= (CancalFollowMovieBean) data;
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());
             if(cancalFollowMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }else if(cancalFollowMovieBean.getMessage().equals(getString(R.string.cancel_attent))){
+                resultList.get(index).setFollowCinema(2);
+                recommAdapter.setList(resultList);
             }
-            resultList.get(index).setFollowCinema(2);
-            recommAdapter.setList(resultList);
-            EventBus.getDefault().postSticky(new MessageBean("recomm",null));
         }
     }
 

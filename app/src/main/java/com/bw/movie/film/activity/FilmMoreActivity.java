@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -221,7 +220,7 @@ public class FilmMoreActivity extends BaseActivty {
                     imm.hideSoftInputFromWindow( view.getApplicationWindowToken( ) , 0 );
 
                 }
-                AddressUtils.getAddressUtils().getAddressDetail(this);
+                //AddressUtils.getAddressUtils().getAddressDetail(this);
                 //TODO 点击定位
                 CityPicker.from(FilmMoreActivity.this)
                         //activity或者fragment
@@ -234,7 +233,7 @@ public class FilmMoreActivity extends BaseActivty {
                             public void onPick(int position, City data) {
                                 EventBus.getDefault().postSticky(new MessageBean("address",new String[]{data.getName()}));
                                 textLoc.setText(data.getName());
-                                ToastUtil.showToast(data.getName());
+                                //ToastUtil.showToast(data.getName());
                             }
                             @Override
                             public void onCancel() {

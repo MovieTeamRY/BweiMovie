@@ -60,4 +60,6 @@
     <string name="write_review">写评论</string>
     <string name="film_review">影评</string>
     <string name="review_not_rule">评论内容不能为空</string>
+    <string name="success_attent">关注成功</string>
+    <string name="cancel_attent">取消关注成功</string>
 </resources>
