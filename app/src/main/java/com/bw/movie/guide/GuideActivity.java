@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.base.MyApplication;
 import com.bw.movie.guide.adapter.GuideAdapter;
 import com.bw.movie.guide.bean.GuideBean;
 import com.bw.movie.home.activity.HomeActivity;
@@ -140,7 +141,7 @@ public class GuideActivity extends BaseActivty {
     private void initDot(int size) {
         guideGroup.removeAllViews();
         for (int i=0;i<size;i++){
-            ImageView imageView=new ImageView(this);
+            ImageView imageView=new ImageView(MyApplication.getApplication());
             imageView.setBackgroundResource(R.drawable.guide_selector);
             LinearLayout.LayoutParams params=
                     new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,

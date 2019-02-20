@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivty;
+import com.bw.movie.base.MyApplication;
 import com.bw.movie.cinema.adapter.CinemaFilmAdapter;
 import com.bw.movie.cinema.adapter.CinemaSchedulAdapter;
 import com.bw.movie.cinema.bean.CinemaFilmBean;
@@ -185,7 +186,7 @@ public class CinemaDetailActivity extends BaseActivty {
             }
         });
 
-        LinearLayoutManager schedulLayoutManager=new LinearLayoutManager(this);
+        LinearLayoutManager schedulLayoutManager=new LinearLayoutManager(MyApplication.getApplication());
         cinemaFilmScheduling.setLayoutManager(schedulLayoutManager);
         cinemaSchedulAdapter = new CinemaSchedulAdapter(this);
         cinemaFilmScheduling.setAdapter(cinemaSchedulAdapter);
@@ -274,7 +275,7 @@ public class CinemaDetailActivity extends BaseActivty {
                     int width = cinemaGroup.getWidth();
                     int childWidth = width / movieList.size();
                     for (int i=0;i<movieList.size();i++){
-                        RadioButton radioButton=new RadioButton(this);
+                        RadioButton radioButton=new RadioButton(MyApplication.getApplication());
                         radioButton.setWidth(childWidth);
                         radioButton.setBackgroundResource(R.drawable.home_film_divide_selected);
                         Bitmap a=null;

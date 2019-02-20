@@ -47,6 +47,7 @@
             android:id="@+id/film_recyclerview"
             android:layout_width="@dimen/dp_0"
             android:layout_height="@dimen/dp_0"
+            android:overScrollMode="never"
             app:layout_constraintTop_toBottomOf="@id/view_film"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
