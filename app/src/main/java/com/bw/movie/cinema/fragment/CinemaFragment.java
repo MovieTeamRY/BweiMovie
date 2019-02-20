@@ -14,6 +14,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeAddress;
+import com.amap.api.services.geocoder.GeocodeQuery;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.utils.AddressUtils;
@@ -29,6 +35,7 @@ import com.zaaach.citypicker.model.LocatedCity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +46,7 @@ import butterknife.Unbinder;
  * @author YU
  * @date 2019.01.27
  */
-public class CinemaFragment extends BaseFragment {
+public class CinemaFragment extends BaseFragment implements GeocodeSearch.OnGeocodeSearchListener {
     @BindView(R.id.image_loc)
     ImageButton imageLoc;
     @BindView(R.id.text_loc)
@@ -57,6 +64,8 @@ public class CinemaFragment extends BaseFragment {
     @BindView(R.id.cinema_viewpager)
     ViewPager cinemaViewpager;
     Unbinder unbinder;
+    private GeocodeSearch geocodeSearch;
+    private String dataName;
 
     @Override
     protected int getLayoutResId() {
@@ -73,6 +82,8 @@ public class CinemaFragment extends BaseFragment {
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
+        geocodeSearch = new GeocodeSearch(getContext());
+        geocodeSearch.setOnGeocodeSearchListener(this);
         //edittext焦点事件
         editSearch.setOnFocusChangeListener(new android.view.View.
                 OnFocusChangeListener() {
@@ -153,7 +164,7 @@ public class CinemaFragment extends BaseFragment {
                 if ( imm.isActive( ) ) {
                     imm.hideSoftInputFromWindow( view.getApplicationWindowToken( ) , 0 );
                 }
-                AddressUtils.getAddressUtils().getAddressDetail(getActivity());
+                //AddressUtils.getAddressUtils().getAddressDetail(getActivity());
                 //点击搜索地址
                 CityPicker.from(getActivity())
                     //activity或者fragment
@@ -164,10 +175,9 @@ public class CinemaFragment extends BaseFragment {
                     .setOnPickListener(new OnPickListener() {
                         @Override
                         public void onPick(int position, City data) {
-                            textLoc.setText(data.getName());
-                            EventBus.getDefault().postSticky(new MessageBean("address",new String[]{data.getName()}));
-                            //EventBus.getDefault().postSticky(new MessageBean("address",data.getName()));
-                            ToastUtil.showToast(data.getName());
+                            dataName = data.getName();
+                            GeocodeQuery query = new GeocodeQuery(data.getName(), data.getCode());
+                            geocodeSearch.getFromLocationNameAsyn(query);
                         }
 
                         @Override
@@ -213,5 +223,25 @@ public class CinemaFragment extends BaseFragment {
         unbinder.unbind();
         EventBus.getDefault().unregister(this);
         AddressUtils.getAddressUtils().StopLocation();
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+        List<GeocodeAddress> geocodeAddressList = geocodeResult.getGeocodeAddressList();
+        if(geocodeAddressList.size()>0){
+            LatLonPoint latLonPoint = geocodeAddressList.get(0).getLatLonPoint();
+            double latitude = latLonPoint.getLatitude();
+            double longitude = latLonPoint.getLongitude();
+            textLoc.setText(dataName);
+            EventBus.getDefault().postSticky(new MessageBean("address",new String[]{dataName,String.valueOf(latitude),String.valueOf(longitude)}));
+        }else{
+            ToastUtil.showToast("查无信息");
+        }
+
     }
 }

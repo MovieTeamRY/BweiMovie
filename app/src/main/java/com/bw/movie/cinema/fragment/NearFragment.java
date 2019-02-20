@@ -1,12 +1,9 @@
 package com.bw.movie.cinema.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bw.movie.Apis;
 import com.bw.movie.R;
@@ -51,6 +48,12 @@ public class NearFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,Double.valueOf(latitude),Double.valueOf(longtitude),1),NearCinemaBean.class);
+    }
+
+    @Override
     protected void initData() {
         results=new ArrayList<>();
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
@@ -78,10 +81,10 @@ public class NearFragment extends BaseFragment {
     public void getLoacation(MessageBean messageBean){
         if(messageBean.getId().equals("address")){
             String[] str = (String[]) messageBean.getObject();
+            latitude=str[1];
+            longtitude=str[2];
             //请求数据
-            onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,116.30551391385724,40.04571807462411,1),NearCinemaBean.class);
-        }else if(messageBean.getId().equals("recomm")){
-            onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,116.30551391385724,40.04571807462411,1),NearCinemaBean.class);
+            onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,Double.valueOf(latitude),Double.valueOf(longtitude),1),NearCinemaBean.class);
         }
     }
 
@@ -106,19 +109,19 @@ public class NearFragment extends BaseFragment {
             ToastUtil.showToast(followMovieBean.getMessage());
             if(followMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }else if(followMovieBean.getMessage().equals(getString(R.string.success_attent))){
+                results.get(index).setFollowCinema(1);
+                nearAdapter.setList(results);
             }
-            results.get(index).setFollowCinema(1);
-            nearAdapter.setList(results);
-            EventBus.getDefault().postSticky(new MessageBean("near",null));
         }else if(data instanceof CancalFollowMovieBean){
             CancalFollowMovieBean cancalFollowMovieBean= (CancalFollowMovieBean) data;
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());
             if(cancalFollowMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
+            }else if(cancalFollowMovieBean.getMessage().equals(getString(R.string.cancel_attent))){
+                results.get(index).setFollowCinema(2);
+                nearAdapter.setList(results);
             }
-            results.get(index).setFollowCinema(2);
-            nearAdapter.setList(results);
-            EventBus.getDefault().postSticky(new MessageBean("near",null));
         }
     }
 

@@ -1,28 +1,18 @@
 package com.bw.movie.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
-import android.support.v4.app.FragmentActivity;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.bw.movie.base.BaseActivty;
-import com.bw.movie.base.MyApplication;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.model.LocateState;
 import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.IOException;
-import java.util.List;
 
 public class AddressUtils {
     public static AddressUtils addressUtils;
@@ -54,9 +44,9 @@ public class AddressUtils {
                 if(aMapLocation!=null){
                     if(aMapLocation.getErrorCode() == 0){
                         //获取纬度
-                        double latitude = aMapLocation.getLatitude();
+                        latitude = aMapLocation.getLatitude();
                         //获取经度
-                        double longitude = aMapLocation.getLongitude();
+                        longitude = aMapLocation.getLongitude();
                         //城市信息
                         city = aMapLocation.getCity();
                         //省信息
@@ -100,6 +90,10 @@ public class AddressUtils {
     }
     public void StopLocation(){
         mlocationClient.stopLocation();
+    }
+
+    public void getGeocodeSearch(){
+
     }
     //放入经纬度就可以了
     /*public String getAddress(double latitude, double longitude) {

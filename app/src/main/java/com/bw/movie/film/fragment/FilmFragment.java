@@ -40,7 +40,6 @@ import com.bw.movie.greendao.greendao.DaoSession;
 import com.bw.movie.greendao.greendao.HotFilmDaoBeanDao;
 import com.bw.movie.greendao.greendao.RelaeseFilmDaoBeanDao;
 import com.bw.movie.greendao.greendao.ScreenFilmDaoBeanDao;
-import com.bw.movie.sign.SignActivity;
 import com.bw.movie.utils.AddressUtils;
 import com.bw.movie.utils.AnimatorUtils;
 import com.bw.movie.utils.IntentUtils;
@@ -287,7 +286,7 @@ public class FilmFragment extends BaseFragment {
                     imm.hideSoftInputFromWindow( view.getApplicationWindowToken( ) , 0 );
 
                 }
-                AddressUtils.getAddressUtils().getAddressDetail(getActivity());
+                //AddressUtils.getAddressUtils().getAddressDetail(getActivity());
                 //TODO 点击定位
                 CityPicker.from(getActivity())
                     //activity或者fragment
@@ -300,7 +299,7 @@ public class FilmFragment extends BaseFragment {
                         public void onPick(int position, City data) {
                             EventBus.getDefault().postSticky(new MessageBean("address",new String[]{data.getName()}));
                             textLoc.setText(data.getName());
-                            ToastUtil.showToast(data.getName());
+                            //ToastUtil.showToast(data.getName());
                         }
 
                         @Override

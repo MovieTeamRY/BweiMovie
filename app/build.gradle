@@ -119,6 +119,7 @@ dependencies {
 //高德定位依赖
     implementation 'com.amap.api:location:latest.integration'
     implementation 'com.amap.api:map2d:latest.integration'
+    implementation 'com.amap.api:search:latest.integration'
     implementation files('libs/jg_filter_sdk_1.1.jar')
     implementation files('libs/mid-core-sdk-4.0.7.jar')
     implementation files('libs/wup-1.0.0.E-SNAPSHOT.jar')
