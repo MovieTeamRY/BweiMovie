@@ -67,17 +67,13 @@ public class CompletedFragment extends BaseFragment {
         if(data instanceof ObligationBean){
             ObligationBean obligationBean= (ObligationBean) data;
             if(obligationBean.getMessage().equals("请求成功")){
-                if(obligationBean.getResult().size()<10){
-                    ToastUtil.showToast("没有更多数据了");
-                }
+
                 if(mpage==1){
                     completedAdapter.setList(obligationBean.getResult());
                 }else{
                     completedAdapter.addList(obligationBean.getResult());
                 }
                 mpage++;
-            }else{
-                ToastUtil.showToast("没有更多数据了");
             }
             completedXrecycler.loadMoreComplete();
             completedXrecycler.refreshComplete();
