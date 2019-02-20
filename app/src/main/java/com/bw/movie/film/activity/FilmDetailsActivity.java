@@ -7,12 +7,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -152,6 +155,7 @@ public class FilmDetailsActivity extends BaseActivty {
         linearLayout = review_view.findViewById(R.id.layout_write);
         edit_write = review_view.findViewById(R.id.edit_write);
         but_write = review_view.findViewById(R.id.but_write);
+        ConstraintLayout constraintLayout = review_view.findViewById(R.id.popview);
         getReviewPopView(review_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -206,7 +210,6 @@ public class FilmDetailsActivity extends BaseActivty {
                 linearLayout.setVisibility(View.VISIBLE);
                 but_write.setVisibility(View.VISIBLE);
                 write.setVisibility(View.GONE);
-
             }
         });
         //评论
@@ -216,6 +219,11 @@ public class FilmDetailsActivity extends BaseActivty {
                 linearLayout.setVisibility(View.GONE);
                 but_write.setVisibility(View.GONE);
                 write.setVisibility(View.VISIBLE);
+                //收回软件盘
+                InputMethodManager imm = ( InputMethodManager ) getSystemService( Context.INPUT_METHOD_SERVICE );
+                if ( imm.isActive( ) ) {
+                    imm.hideSoftInputFromWindow( v.getWindowToken() , 0 );
+                }
                 String trim = edit_write.getText().toString().trim();
                 if (trim.equals("")) {
                     ToastUtil.showToast(getString(R.string.review_not_rule));
@@ -228,7 +236,19 @@ public class FilmDetailsActivity extends BaseActivty {
                 }
             }
         });
-
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout.setVisibility(View.GONE);
+                but_write.setVisibility(View.GONE);
+                write.setVisibility(View.VISIBLE);
+                //收回软件盘
+                InputMethodManager imm = ( InputMethodManager ) getSystemService( Context.INPUT_METHOD_SERVICE );
+                if ( imm.isActive( ) ) {
+                    imm.hideSoftInputFromWindow( v.getWindowToken() , 0 );
+                }
+            }
+        });
     }
 
     private void getcommetView(final int commentId) {
@@ -400,6 +420,14 @@ public class FilmDetailsActivity extends BaseActivty {
             @Override
             public void onClick(View v) {
                 reviewPop.dismiss();
+                linearLayout.setVisibility(View.GONE);
+                but_write.setVisibility(View.GONE);
+                write.setVisibility(View.VISIBLE);
+                //收回软件盘
+                InputMethodManager imm = ( InputMethodManager ) getSystemService( Context.INPUT_METHOD_SERVICE );
+                if ( imm.isActive( ) ) {
+                    imm.hideSoftInputFromWindow( v.getWindowToken() , 0 );
+                }
             }
         });
     }
