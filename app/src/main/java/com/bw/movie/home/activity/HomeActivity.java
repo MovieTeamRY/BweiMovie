@@ -55,7 +55,6 @@ public class HomeActivity extends BaseActivty {
     protected void onNetSuccess(Object data) {
         if (data instanceof TokenPushBean){
             TokenPushBean tokenPushBean  = (TokenPushBean) data;
-            ToastUtil.showToast(tokenPushBean.getMessage());
         }
     }
     @Override

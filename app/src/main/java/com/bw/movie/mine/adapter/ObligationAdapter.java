@@ -107,6 +107,7 @@ public class ObligationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     confirm_pay.setText("微信支付"+resultBean.getPrice()*resultBean.getAmount()+"元");
                 }else if(pay==2){
                     confirm_pay.setText("支付宝支付"+resultBean.getPrice()*resultBean.getAmount()+"元");
+                    pay=1;
                 }
 
                 //TODO  购买下单

@@ -112,6 +112,8 @@ public class RecordActivity extends BaseActivty {
         super.onDestroy();
         bind.unbind();
     }
-
+    public void oBligation(){
+        userViewpager.setCurrentItem(1);
+    }
 
 }

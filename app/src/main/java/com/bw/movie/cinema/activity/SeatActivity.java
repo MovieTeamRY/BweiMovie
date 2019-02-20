@@ -1,11 +1,14 @@
 package com.bw.movie.cinema.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -19,13 +22,17 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
 import com.bw.movie.Apis;
 import com.bw.movie.R;
+import com.bw.movie.ali.AliPayBean;
+import com.bw.movie.ali.Result;
 import com.bw.movie.base.BaseActivty;
 import com.bw.movie.cinema.bean.FilmSchedulBean;
 import com.bw.movie.cinema.bean.PayBean;
 import com.bw.movie.cinema.view.SeatTable;
 import com.bw.movie.login.LoginActivity;
+import com.bw.movie.mine.activity.RecordActivity;
 import com.bw.movie.utils.IntentUtils;
 import com.bw.movie.utils.Md5Utils;
 import com.bw.movie.utils.ToastUtil;
@@ -131,6 +138,7 @@ public class SeatActivity extends BaseActivty {
             confirm_pay.setText("微信支付" + totalPrice + "元");
         } else if (pay == 2) {
             confirm_pay.setText("支付宝支付" + totalPrice + "元");
+            pay=1;
         }
 
         //TODO  购买下单
@@ -145,8 +153,12 @@ public class SeatActivity extends BaseActivty {
                     onPostRequest(Apis.URL_PAY_POST, map, WXPayBean.class);
                 } else if (pay == 2) {
                     //支付宝支付
-                    ToastUtil.showToast(getString(R.string.zhi_pay_non_support));
+                    Map<String, String> map=new HashMap<>();
+                    map.put("payType",String.valueOf(pay));
+                    map.put("orderId",payBean.getOrderId());
+                    onPostRequest(Apis.URL_PAY_POST,map,AliPayBean.class);
                 }
+
             }
         });
     }
@@ -285,9 +297,55 @@ public class SeatActivity extends BaseActivty {
             if (popupWindow.isShowing()) {
                 popupWindow.dismiss();
             }
+        }else if (data instanceof AliPayBean) {
+            //支付宝支付
+            AliPayBean aliPayBean = (AliPayBean) data;
+            if (aliPayBean != null || aliPayBean.isSuccess()) {
+                pay=1;
+                final String orderInfo = aliPayBean.getResult();
+                Runnable payRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        PayTask alipay = new PayTask(SeatActivity.this);
+                        Map<String, String> result = alipay.payV2(orderInfo, true);
+
+                        Message msg = new Message();
+                        // msg.what = SDK_PAY_FLAG;
+                        msg.obj = result;
+                        mHandler.sendMessage(msg);
+                    }
+                };
+                // 必须异步调用
+                Thread payThread = new Thread(payRunnable);
+                payThread.start();
+
+                if (popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                }
+            }
         }
     }
-
+    //通过handler发送支付结果
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Result result = new Result((Map<String, String>) msg.obj);
+            ToastUtil.showToast(result.getMemo());
+            String resultStatus = result.getResultStatus();
+            //根据支付结果码跳转到相应的页面
+            Intent intent=new Intent(SeatActivity.this,RecordActivity.class);
+            if (resultStatus.equals("6001")){
+                intent.putExtra("status","obligation");
+            }else if (resultStatus.equals("9000")){
+                intent.putExtra("status","compeleted");
+            }else if (resultStatus.equals("4000")){
+                intent.putExtra("status","obligation");
+            }
+            startActivity(intent);
+        }
+    };
     @Override
     protected void onNetFail(String error) {
         ToastUtil.showToast(error);

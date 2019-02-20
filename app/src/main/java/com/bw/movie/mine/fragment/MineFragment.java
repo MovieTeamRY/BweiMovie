@@ -271,6 +271,7 @@ public class MineFragment extends BaseFragment {
                     Intent intent=new Intent(getActivity(),RecordActivity.class);
                     intent.putExtra("status","");
                     startActivity(intent);
+                    //getActivity().finish();
                 }
                 break;
             case R.id.relative_user_feedback:
