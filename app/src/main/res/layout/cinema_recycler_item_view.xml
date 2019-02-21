@@ -17,6 +17,8 @@
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_70"
         android:layout_marginRight="@dimen/dp_20"
+        fresco:placeholderImage="@drawable/loading_image"
+        fresco:placeholderImageScaleType="fitCenter"
         fresco:actualImageScaleType="fitCenter"
         />
     <TextView

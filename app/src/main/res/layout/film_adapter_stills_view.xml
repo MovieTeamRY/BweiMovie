@@ -8,5 +8,7 @@
         android:id="@+id/stills_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        fresco:placeholderImage="@drawable/loading_image"
+        fresco:placeholderImageScaleType="fitCenter"
         fresco:actualImageScaleType="focusCrop"/>
 </RelativeLayout>

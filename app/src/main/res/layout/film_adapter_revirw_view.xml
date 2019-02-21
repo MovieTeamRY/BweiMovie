@@ -10,6 +10,8 @@
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         fresco:roundAsCircle="true"
+        fresco:placeholderImage="@drawable/loading_image"
+        fresco:placeholderImageScaleType="fitCenter"
         fresco:layout_constraintTop_toTopOf="parent"
         fresco:layout_constraintLeft_toLeftOf="parent"/>
     <TextView

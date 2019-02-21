@@ -99,7 +99,6 @@ public class HomeActivity extends BaseActivty {
         filmFragment = new FilmFragment();
         cinemaFragment = new CinemaFragment();
         mineFragment = new MineFragment();
-        //AddressUtils.getAddressUtils().getAddressDetail(this);
         //fragment管理器
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

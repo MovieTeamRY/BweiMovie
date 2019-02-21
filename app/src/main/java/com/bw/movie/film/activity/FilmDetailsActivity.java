@@ -158,7 +158,7 @@ public class FilmDetailsActivity extends BaseActivty {
         but_write = review_view.findViewById(R.id.but_write);
         ConstraintLayout constraintLayout = review_view.findViewById(R.id.popview);
         getReviewPopView(review_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyApplication.getApplication());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         film_recyclerview.setLayoutManager(linearLayoutManager);
         film_recyclerview.setPullRefreshEnabled(true);
@@ -253,7 +253,7 @@ public class FilmDetailsActivity extends BaseActivty {
     }
 
     private void getcommetView(final int commentId) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyApplication.getApplication());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         film_comment_recycler.setLayoutManager(linearLayoutManager);
         //创建评论回复适配器
@@ -304,7 +304,7 @@ public class FilmDetailsActivity extends BaseActivty {
         detail_down = notice_view.findViewById(R.id.notice_down);
         getNoticePopView(notice_view);
         RecyclerView notice_recyclerview = notice_view.findViewById(R.id.notice_recyclerview);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyApplication.getApplication());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         notice_recyclerview.setLayoutManager(linearLayoutManager);
         //TODO 创建适配器
@@ -331,7 +331,7 @@ public class FilmDetailsActivity extends BaseActivty {
         RecyclerView actor_recyclerview = detail_view.findViewById(R.id.actor_recyclerview);
         getDetailsPopView(detail_view);
         //电影详情展示演员名字
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyApplication.getApplication());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         actor_recyclerview.setLayoutManager(linearLayoutManager);
         //创建适配器
@@ -557,7 +557,6 @@ public class FilmDetailsActivity extends BaseActivty {
                 film_comment_recycler.loadMoreComplete();
                 film_comment_recycler.refreshComplete();
             } else {
-                // film_comment_recycler.setVisibility(View.GONE);
                 ToastUtil.showToast(filmCommentBean.getMessage());
             }
 
