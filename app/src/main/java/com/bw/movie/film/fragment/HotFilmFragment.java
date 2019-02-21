@@ -3,6 +3,7 @@ package com.bw.movie.film.fragment;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.LayoutInflater;
@@ -56,6 +57,8 @@ public class HotFilmFragment extends BaseFragment {
         mapge=1;
         onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
     }
+
+
 
     @Override
     protected void initView(View view) {
@@ -125,7 +128,7 @@ public class HotFilmFragment extends BaseFragment {
             FollowMovieBean followMovieBean = (FollowMovieBean) data;
             if(followMovieBean.getMessage().equals(getResources().getString(R.string.please_login))){
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
-            }else if (followMovieBean != null && followMovieBean.getStatus().equals(followMovieBean.isSuccess())) {
+            }else if (followMovieBean != null && followMovieBean.isSuccess()) {
                 movieHotAdapter.setAttentionScccess(postion);
             }
             ToastUtil.showToast(followMovieBean.getMessage());
