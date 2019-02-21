@@ -51,7 +51,9 @@ public class NearFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,Double.valueOf(latitude),Double.valueOf(longtitude),1),NearCinemaBean.class);
+        if(!longtitude.equals("")&&!latitude.equals("")){
+            onGetRequest(String.format(Apis.URL_FIND_NEAR_BY_CINEMAS_GET,Double.valueOf(latitude),Double.valueOf(longtitude),1),NearCinemaBean.class);
+        }
     }
 
     @Override
