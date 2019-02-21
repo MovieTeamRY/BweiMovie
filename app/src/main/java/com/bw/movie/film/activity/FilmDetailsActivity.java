@@ -630,4 +630,10 @@ public class FilmDetailsActivity extends BaseActivty {
         super.onDestroy();
         JCVideoPlayerStandard.releaseAllVideos();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayerStandard.releaseAllVideos();
+    }
 }
