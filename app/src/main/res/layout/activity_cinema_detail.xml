@@ -22,6 +22,8 @@
         fresco:roundedCornerRadius="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_33"
         android:layout_marginLeft="@dimen/dp_24"
+        fresco:placeholderImage="@drawable/loading_image"
+        fresco:placeholderImageScaleType="fitCenter"
         fresco:actualImageScaleType="fitCenter"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"

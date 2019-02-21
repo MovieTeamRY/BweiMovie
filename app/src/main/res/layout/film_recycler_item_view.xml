@@ -10,7 +10,8 @@
         android:id="@+id/image_simple"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        fresco:placeholderImage="@mipmap/login"
+        fresco:placeholderImage="@drawable/loading_image"
+        fresco:placeholderImageScaleType="fitCenter"
         android:background="@drawable/home_recycler_simple_bg"
         fresco:roundedCornerRadius="@dimen/dp_8"
         />

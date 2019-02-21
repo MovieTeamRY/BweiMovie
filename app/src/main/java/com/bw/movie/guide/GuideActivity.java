@@ -141,7 +141,7 @@ public class GuideActivity extends BaseActivty {
     private void initDot(int size) {
         guideGroup.removeAllViews();
         for (int i=0;i<size;i++){
-            ImageView imageView=new ImageView(MyApplication.getApplication());
+            ImageView imageView=new ImageView(this);
             imageView.setBackgroundResource(R.drawable.guide_selector);
             LinearLayout.LayoutParams params=
                     new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
