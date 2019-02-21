@@ -19,7 +19,7 @@ import com.bw.movie.mvp.presenter.IpresenterImpl;
 import com.bw.movie.mvp.view.Iview;
 import com.bw.movie.utils.ToastUtil;
 import com.bw.movie.view.CircularLoading;
-import com.squareup.leakcanary.RefWatcher;
+//import com.squareup.leakcanary.RefWatcher;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -61,9 +61,9 @@ public abstract class BaseActivty extends AppCompatActivity implements Iview {
         ipresenter.onDetach();
         CircularLoading.closeDialog(loadDialog);
         CircularLoading.closeDialog(failDialog);
-        //检测activity内存泄漏
+        /*//检测activity内存泄漏
         RefWatcher refWatcher = MyApplication.getRefWatcher(this);
-        refWatcher.watch(this);
+        refWatcher.watch(this);*/
     }
 
 

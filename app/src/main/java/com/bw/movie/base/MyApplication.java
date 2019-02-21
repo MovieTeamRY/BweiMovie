@@ -11,8 +11,8 @@ import android.util.Log;
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
+/*import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;*/
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -21,12 +21,12 @@ import com.tencent.android.tpush.common.Constants;
 public class MyApplication extends Application {
 
     private static Context context;
-    private RefWatcher refWatcher;
+   /* private RefWatcher refWatcher;
 
     public static RefWatcher getRefWatcher(Context context) {
         MyApplication application = (MyApplication) context.getApplicationContext();
         return application.refWatcher;
-    }
+    }*/
 
     public static Context getApplication() {
         return context;
@@ -52,6 +52,6 @@ public class MyApplication extends Application {
             StrictMode.setVmPolicy(builder.build());
         }
         //检测内存险漏
-        refWatcher = LeakCanary.install(this);
+        //refWatcher = LeakCanary.install(this);
     }
 }

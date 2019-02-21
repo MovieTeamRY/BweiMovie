@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.bw.movie.mvp.presenter.IpresenterImpl;
 import com.bw.movie.mvp.view.Iview;
 import com.bw.movie.view.CircularLoading;
-import com.squareup.leakcanary.RefWatcher;
+//import com.squareup.leakcanary.RefWatcher;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -110,9 +110,9 @@ public abstract class BaseFragment extends Fragment implements Iview{
         if(failDialog!=null){
             CircularLoading.closeDialog(failDialog);
         }
-        //检测内存险漏
+        /*//检测内存险漏
         RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+        refWatcher.watch(this);*/
     }
 
     protected abstract int getLayoutResId();

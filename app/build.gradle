@@ -109,8 +109,8 @@ dependencies {
     //输入框的依赖 可以一键删除 设置不可以输入表情
     implementation 'com.xw.repo:xedittext:2.2.4'
     //检测内存险漏
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    /*debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'*/
     //greendao
     implementation 'org.greenrobot:greendao:3.2.2'
 
