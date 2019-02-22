@@ -13,12 +13,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bw.movie.Apis;
@@ -62,6 +64,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 import butterknife.Unbinder;
 import recycler.coverflow.CoverFlowLayoutManger;
 import recycler.coverflow.RecyclerCoverFlow;
@@ -70,6 +73,8 @@ public class FilmFragment extends BaseFragment {
     private static final int COUNT_ZERO =0 ;
     private static final int COUNT_ONE =1 ;
     private static final int COUNT_TWO =2 ;
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
     @BindView(R.id.film_group)
     RadioGroup filmGroup;
     @BindView(R.id.recycler_flow)
@@ -337,6 +342,30 @@ public class FilmFragment extends BaseFragment {
                 break;
             default:break;
         }
+    }
+
+    private float x1 = 0;
+    private float x2 = 0;
+    private float y1 = 0;
+    private float y2 = 0;
+
+    @OnTouch(R.id.recycler_flow)
+    public boolean OnTouchListener(MotionEvent event,View view){
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            //当手指按下的时候
+            x1 = event.getRawX();
+            y1 = event.getRawY();
+        }else if(event.getAction() == MotionEvent.ACTION_MOVE) {
+            //当手指离开的时候
+            x2 = event.getRawX();
+            y2 = event.getRawY();
+            if(Math.abs(x1-x2)>50){
+                return false;
+            }
+            scrollView.scrollTo(0, scrollView.getScrollY() + (int) (y1-y2));
+            y1 = y2;
+        }
+        return true;
     }
 
     @Override
