@@ -17,6 +17,7 @@ import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.common.Constants;
+import com.tencent.bugly.crashreport.CrashReport;
 
 public class MyApplication extends Application {
 
@@ -53,5 +54,7 @@ public class MyApplication extends Application {
         }
         //检测内存险漏
         //refWatcher = LeakCanary.install(this);
+        //腾讯bugly
+        CrashReport.initCrashReport(getApplicationContext(), "9aa9b85a5f", false);
     }
 }

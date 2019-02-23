@@ -27,7 +27,8 @@
     <!--用于申请获取蓝牙信息进行室内定位-->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
@@ -191,6 +192,15 @@
             <!--开发者申请的key-->
         </meta-data>
         <service android:name="com.amap.api.location.APSService"></service>
+
+        <!-- 配置APP ID -->
+        <meta-data
+            android:name="BUGLY_APPID"
+            android:value="9aa9b85a5f" />
+        <!-- 配置APP版本号 -->
+        <meta-data
+            android:name="BUGLY_APP_VERSION"
+            android:value="10d82684-6f7c-4789-9992-11c6ed02d245" />
     </application>
 
 </manifest>
