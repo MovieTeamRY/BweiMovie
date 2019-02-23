@@ -58,8 +58,8 @@ public class HotFilmFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         //请求热门数据
-
-        //onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
+        mapge=1;
+        onGetRequest(String.format(Apis.URL_FIND_HOT_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)

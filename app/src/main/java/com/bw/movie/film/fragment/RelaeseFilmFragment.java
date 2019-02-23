@@ -57,9 +57,9 @@ public class RelaeseFilmFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        //mapge=1;
+        mapge=1;
         //请求正在热映的数据
-        //onGetRequest(String.format(Apis.URL_FIND_RELEASE_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
+        onGetRequest(String.format(Apis.URL_FIND_RELEASE_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
     }
 
     @Override

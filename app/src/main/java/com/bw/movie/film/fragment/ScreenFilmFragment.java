@@ -40,6 +40,14 @@ public class ScreenFilmFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mapge=1;
+        //请求正在热映的数据
+        onGetRequest(String.format(Apis.URL_FIND_COMING_SOON_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
+    }
+
+    @Override
     protected void initData() {
         //请求正在热映的数据
         onGetRequest(String.format(Apis.URL_FIND_COMING_SOON_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
