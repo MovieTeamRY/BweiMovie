@@ -56,13 +56,13 @@ public class MovieHotAdapter extends RecyclerView.Adapter<MovieHotAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-        Uri uri = Uri.parse(mList.get(i).getImageUrl());
+        final MovieFilmBean.ResultBean resultBean = mList.get(i);
+        Uri uri = Uri.parse(resultBean.getImageUrl());
         viewHolder.image.setImageURI(uri);
-        viewHolder.name.setText(mList.get(i).getName());
-        viewHolder.contentText.setText(mList.get(i).getSummary());
+        viewHolder.name.setText(resultBean.getName());
+        viewHolder.contentText.setText(resultBean.getSummary());
         //取出状态值判断是否已关注
-        final boolean followMovie = mList.get(i).isFollowMovie();
-        if(followMovie){
+        if(resultBean.getFollowMovie().equals("1")){
             viewHolder.attentionImage.setChecked(true);
         }else{
             viewHolder.attentionImage.setChecked(false);
@@ -71,19 +71,19 @@ public class MovieHotAdapter extends RecyclerView.Adapter<MovieHotAdapter.ViewHo
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hotCallBack.skipDetails(mList.get(i).getId());
+                hotCallBack.skipDetails(resultBean.getId());
             }
         });
         viewHolder.attentionImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(viewHolder.attentionImage.isChecked()){
-                    if(!followMovie){
-                        hotCallBack.hotCallBack(mList.get(i).getId(),i,true);
+                    if(resultBean.getFollowMovie().equals("2")){
+                        hotCallBack.hotCallBack(resultBean.getId(),i,true);
                     }
                 }else{
-                    if(followMovie){
-                        hotCallBack.hotCallBack(mList.get(i).getId(),i,false);
+                    if(resultBean.getFollowMovie().equals("1")){
+                        hotCallBack.hotCallBack(resultBean.getId(),i,false);
                     }
                 }
             }

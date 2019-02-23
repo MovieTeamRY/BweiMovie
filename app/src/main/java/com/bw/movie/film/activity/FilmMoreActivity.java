@@ -111,7 +111,7 @@ public class FilmMoreActivity extends BaseActivty {
         relaeseFilmFragment = new RelaeseFilmFragment();
         screenFilmFragment = new ScreenFilmFragment();
         //设置热映和正在上映关注联动
-        hotFilmFragment.setListHotCallBack(new HotFilmFragment.ListHotCallBack() {
+        /*hotFilmFragment.setListHotCallBack(new HotFilmFragment.ListHotCallBack() {
             @Override
             public void callBack() {
                 relaeseFilmFragment.onResume();
@@ -122,7 +122,7 @@ public class FilmMoreActivity extends BaseActivty {
             public void callBack() {
                 hotFilmFragment.onResume();
             }
-        });
+        });*/
         filmViewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int i) {

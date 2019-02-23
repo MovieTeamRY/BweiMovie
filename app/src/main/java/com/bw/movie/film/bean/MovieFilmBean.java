@@ -44,10 +44,9 @@ public class MovieFilmBean {
         private int rank;
         private String summary;
 
-        public boolean isFollowMovie() {
-            return followMovie.equals("1");
+        public String getFollowMovie() {
+            return followMovie;
         }
-
         public void setFollowMovie(String followMovie) {
             this.followMovie = followMovie;
         }

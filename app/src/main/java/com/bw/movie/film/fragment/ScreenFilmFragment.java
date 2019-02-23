@@ -15,8 +15,13 @@ import com.bw.movie.film.bean.FollowMovieBean;
 import com.bw.movie.film.bean.MovieFilmBean;
 import com.bw.movie.login.LoginActivity;
 import com.bw.movie.utils.IntentUtils;
+import com.bw.movie.utils.MessageBean;
 import com.bw.movie.utils.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,9 +45,21 @@ public class ScreenFilmFragment extends BaseFragment {
         onGetRequest(String.format(Apis.URL_FIND_COMING_SOON_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void getFilmData(MessageBean messageBean){
+        if(messageBean.getId().equals("relasefilm")||messageBean.getId().equals("hotfilm")){
+            mapge=1;
+            //请求正在热映的数据
+            onGetRequest(String.format(Apis.URL_FIND_COMING_SOON_MOVIE_LIST_GET, mapge), MovieFilmBean.class);
+        }
+    }
+
     @Override
     protected void initView(View view) {
         unbinder = ButterKnife.bind(this, view);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
         mapge=1;
         LinearLayoutManager hotFilmManager=new LinearLayoutManager(getContext());
         hotFilmManager.setOrientation(OrientationHelper.VERTICAL);
@@ -74,9 +91,7 @@ public class ScreenFilmFragment extends BaseFragment {
                 } else {
                     onGetRequest(String.format(Apis.URL_CANCEL_FOLLOW_MOVIE_GET, id), CancalFollowMovieBean.class);
                 }
-                if (listHotCallBack!=null){
-                    listHotCallBack.callBack();
-                }
+
             }
 
             @Override
@@ -109,6 +124,10 @@ public class ScreenFilmFragment extends BaseFragment {
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
             }else if (followMovieBean != null && followMovieBean.isSuccess()) {
                 movieHotAdapter.setAttentionScccess(postion);
+                /*if (listHotCallBack!=null){
+                    listHotCallBack.callBack();
+                }*/
+                EventBus.getDefault().post(new MessageBean("screenfilm",null));
             }
             ToastUtil.showToast(followMovieBean.getMessage());
         } else if (data instanceof CancalFollowMovieBean) {
@@ -117,6 +136,10 @@ public class ScreenFilmFragment extends BaseFragment {
                 IntentUtils.getInstence().intent(getContext(),LoginActivity.class);
             }else if (cancalFollowMovieBean != null && cancalFollowMovieBean.isSuccess()) {
                 movieHotAdapter.setCancelAttention(postion);
+                /*if (listHotCallBack!=null){
+                    listHotCallBack.callBack();
+                }*/
+                EventBus.getDefault().post(new MessageBean("screenfilm",null));
             }
             ToastUtil.showToast(cancalFollowMovieBean.getMessage());
         }
@@ -135,6 +158,7 @@ public class ScreenFilmFragment extends BaseFragment {
         if (unbinder!=null) {
             unbinder.unbind();
         }
+        EventBus.getDefault().unregister(this);
     }
     ListHotCallBack listHotCallBack;
     public interface ListHotCallBack{
